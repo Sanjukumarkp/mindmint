@@ -111,7 +111,6 @@ ol.path{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
 .stop.next{border-color:var(--glow)}
 .stop-name{display:block;font:700 1.15rem var(--font-display)}
 .stop-sub{display:block;color:var(--moon-soft);font-size:.95rem}
-.stop.lit .stop-name::after{content:" \00b7  done";color:var(--mint);font:700 .9rem var(--font-body)}
 .lantern{color:#8d89c4;flex:none}
 .lantern .body{fill:var(--night);stroke:#8d89c4;stroke-width:2}
 .lantern.on{color:var(--glow)}
@@ -322,6 +321,108 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .garden{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:14px;background:radial-gradient(ellipse at 50% 120%,rgba(127,220,192,.18),transparent 70%);border-radius:24px;padding:16px}
 .friend{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font:700 1.05rem var(--font-display)}
 .friend small{display:block;font:400 .78rem var(--font-body);color:var(--moon-soft)}
+/* v4: picture-first */
+.icon-row{gap:8px}
+.icon-btn{appearance:none;border:2px solid rgba(236,233,255,.3);background:transparent;color:inherit;border-radius:999px;min-width:48px;height:48px;padding:0 12px;font-size:1.3rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.icon-btn b{font:800 1rem var(--font-display)}
+.meter{display:inline-flex;gap:3px;vertical-align:middle}
+.meter i{width:12px;height:12px;border-radius:50%;background:rgba(236,233,255,.18)}
+.meter i.on{background:var(--glow);box-shadow:0 0 6px rgba(255,207,92,.6)}
+.game-ico{font-size:2.2rem;line-height:1;width:56px;height:56px;border-radius:16px;background:rgba(236,233,255,.08);display:grid;place-items:center;flex:none}
+.game-ico.xl{font-size:3.6rem;width:96px;height:96px;border-radius:26px}
+.stop{gap:14px}
+.stop-main{flex:1;display:flex;flex-direction:column;gap:6px}
+.stop-state{font-size:1.5rem}
+.btn.play{font-size:1.5rem;min-width:220px;min-height:68px}
+.intro{display:flex;flex-direction:column;align-items:center;gap:22px;padding:10px 0}
+.intro-ico{font-size:5rem;line-height:1}
+.howto{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.step{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--night-raised);border-radius:18px;padding:12px 14px;min-width:110px;font:700 1rem var(--font-display);text-align:center}
+.step-ico{font-size:2.4rem;line-height:1}
+.arrow{font:800 1.6rem var(--font-display);color:var(--glow)}
+.flash{position:fixed;left:50%;top:45%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:50%;display:grid;place-items:center;font:800 4rem var(--font-display);z-index:15;pointer-events:none;animation:pop .75s ease-out forwards}
+.flash.ok{background:rgba(127,220,192,.92);color:var(--night)}
+.flash.no{background:rgba(255,154,143,.85);color:var(--night)}
+@keyframes pop{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}25%{transform:translate(-50%,-50%) scale(1.08);opacity:1}70%{opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+.result-hero{align-items:center;text-align:center}
+.stars{display:flex;gap:6px;font-size:3rem;line-height:1}
+.stars span{color:rgba(236,233,255,.2)}
+.stars span.on{color:var(--glow);text-shadow:0 0 14px rgba(255,207,92,.7)}
+.lvl-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.lvl-badge{font:800 1.1rem var(--font-display);padding:4px 12px;border-radius:999px;background:rgba(236,233,255,.1)}
+.lvl-badge.up{background:var(--mint);color:var(--night)}
+.pick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pick-col{display:flex;flex-direction:column;gap:8px}
+.pick{appearance:none;border:2px solid rgba(236,233,255,.25);background:var(--night);color:var(--moon);border-radius:18px;padding:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;font:700 .95rem var(--font-body);text-align:center}
+.pick.wide{flex-direction:row;justify-content:center}
+.pick-ico{font-size:2rem;line-height:1}
+.pick[aria-pressed="true"]{border-color:var(--mint);background:rgba(127,220,192,.16)}
+.big-feedback{font:800 1.3rem var(--font-display)}
+.faces{display:flex;gap:10px;flex-wrap:wrap}
+.face{appearance:none;border:3px solid transparent;background:rgba(236,233,255,.08);border-radius:20px;width:76px;height:76px;font-size:2.6rem;cursor:pointer;line-height:1}
+.face.sm{width:56px;height:56px;font-size:1.8rem;border-radius:16px}
+.face[aria-pressed="true"]{border-color:var(--glow);background:rgba(255,207,92,.18);transform:scale(1.06)}
+body.grownup .face{background:#efedf8}
+body.grownup .face[aria-pressed="true"]{border-color:var(--violet);background:#e6e0ff}
+.quest-row{display:flex;align-items:center;gap:14px}
+.quest-ico{font-size:3rem;line-height:1;flex:none}
+.pillar{flex-direction:row;align-items:center;gap:12px}
+.pillar-ico{font-size:2rem;line-height:1}
+.pillar h3{color:var(--moon)}
+.say{font-weight:700;font-size:1.05rem}
+.skrow-static,.skrow summary{display:grid;grid-template-columns:40px minmax(70px,auto) 1fr 28px 40px;align-items:center;gap:10px}
+.sk-badge{width:38px;height:38px;border-radius:12px;background:var(--c);color:#1f1c3f;display:grid;place-items:center}
+.sk-name{font:700 1rem var(--font-display)}
+.bar{height:14px;border-radius:999px;background:#e8e5f3;overflow:hidden;display:block}
+.bar span{display:block;height:100%;border-radius:999px}
+.preview .bar{background:#e8e5f3}
+.lv-num{font:800 1.2rem var(--font-display);text-align:right;font-variant-numeric:tabular-nums}
+.chg{font:800 .95rem var(--font-body);text-align:center;color:var(--ink-soft)}
+.chg.up{color:var(--good)}
+.chg.down{color:var(--warn)}
+.skrows{display:flex;flex-direction:column;gap:4px}
+.skrow{border-radius:14px;padding:6px 6px}
+.skrow[open]{background:var(--paper)}
+.skrow summary{cursor:pointer;list-style:none;padding:4px 0}
+.skrow summary::-webkit-details-marker{display:none}
+.sk-detail{padding:10px 4px 6px 50px;display:flex;flex-direction:column;gap:10px}
+.means li{font-weight:600}
+.hint{font-size:.88rem}
+.card-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.hero-card h1{font-size:clamp(1.8rem,5vw,2.4rem)}
+.weekstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;max-width:420px}
+.day{display:flex;flex-direction:column;align-items:center;gap:4px;font:700 .8rem var(--font-body);color:var(--ink-soft)}
+.day i{width:30px;height:30px;border-radius:50%;background:#e8e5f3;display:block}
+.day.on i{background:var(--violet);box-shadow:0 0 0 3px rgba(91,67,201,.18)}
+.day.today i{outline:2px dashed var(--violet);outline-offset:2px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tiles div{background:var(--paper);border-radius:14px;padding:10px;display:flex;flex-direction:column;align-items:center}
+.tiles b{font:800 1.45rem var(--font-display);font-variant-numeric:tabular-nums}
+.tiles span{font-size:.82rem;color:var(--ink-soft)}
+@media (max-width:420px){.tiles{grid-template-columns:repeat(2,1fr)}.skrow-static,.skrow summary{grid-template-columns:38px 1fr 26px 36px}.skrow-static .bar,.skrow summary .bar{grid-column:2/3;grid-row:2}.sk-detail{padding-left:4px}}
+.note h2{font-size:1.35rem}
+.why summary,.lifetile summary{cursor:pointer;color:var(--violet);font-weight:700;font-size:.9rem}
+.favs{display:flex;flex-wrap:wrap;gap:10px}
+.fav{display:flex;align-items:center;gap:8px;background:var(--paper);border-radius:999px;padding:6px 14px 6px 8px;font-weight:700}
+.fav b{font-size:1.6rem;line-height:1}
+.lifegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.lifetile{background:var(--paper);border:2px solid transparent;border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.lifetile.done{border-color:var(--good);background:#e4f6ee}
+.tile-top{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;cursor:pointer}
+.tile-ico{font-size:1.8rem;line-height:1}
+.tile-name{font:700 .95rem var(--font-display);line-height:1.15}
+.tile-top input{width:22px;height:22px;accent-color:var(--good)}
+.lifetile details p{font-size:.88rem;margin-top:4px}
+.fold summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.fold summary::-webkit-details-marker{display:none}
+.fold summary::after{content:"+";font:800 1.4rem var(--font-display);color:var(--violet)}
+.fold[open] summary::after{content:"–"}
+.fold-body{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.rules-pic{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font:800 1.2rem var(--font-display)}
+.rules-pic .rp{background:var(--paper);border-radius:10px;padding:4px 10px}
+.rules-pic .chg{font-size:1.05rem;margin-right:14px}
+body.grownup .chip[data-act="add-kid"]{border-style:dashed}
+body.grownup .arrow{color:var(--violet)}
 @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}.fly{display:none}}
 </style>
 </head>
@@ -612,38 +713,76 @@ const lanternSvg = lit => `<svg class="lantern ${lit ? 'on' : ''}" width="40" he
 const brand = extra => `<div class="brand">${pipSvg(30)} Mindmint ${extra ? `<small>${extra}</small>` : ''}</div>`;
 
 /* ---------- Views ---------- */
+/* ---------- Visual vocabulary (v4): icons first, words second ---------- */
+const GAME_ICON = { trail: '✨', picnic: '🧺', lily: '🔢', frogs: '🐸', berry: '🍓', more: '⚖️', odd: '🏮', mirror: '🦋', next: '🧩', sort: '🔀', cat: '🎣', word: '🔤' };
+const HOWTO = {
+  trail: [['👀', 'Watch'], ['👆', 'Tap the same path']],
+  picnic: [['👀', 'Look'], ['❓', 'What went missing?']],
+  lily: [['1️⃣', 'Tap 1'], ['2️⃣', 'then 2'], ['🔁', 'keep going']],
+  frogs: [['🟢', 'Tap green'], ['✋', 'Not red']],
+  berry: [['🎯', 'See the number'], ['🍓', 'Pick berries to make it']],
+  more: [['⚖️', 'Which is more?'], ['👆', 'Tap it']],
+  odd: [['🔍', 'Find the different one'], ['👆', 'Tap it']],
+  mirror: [['🦋', 'Copy it like a mirror'], ['✅', 'Tap Done']],
+  next: [['🧩', 'Find the rule'], ['❓', 'Pick what comes next']],
+  sort: [['👀', 'Check the rule'], ['📦', 'Pick the box']],
+  cat: [['🔍', 'Find the group'], ['👆', 'Tap them all']],
+  word: [['🖼️', 'See the picture'], ['🔤', 'Tap the letters']]
+};
+const STRAT_ICON = {
+  trail: { shape: '🔷', say: '🗣️', watch: '👀' }, picnic: { story: '📖', names: '🗣️', look: '👀' },
+  lily: { rows: '↔️', remember: '🧠', everywhere: '🌀' }, frogs: { check: '✋', say: '🗣️', fast: '⚡' },
+  berry: { big: '🍓', count: '🔢', guess: '🎲' }, more: { work: '🧮', estimate: '🤔', quick: '⚡' },
+  odd: { rows: '↔️', pop: '✨', compare: '👯' }, mirror: { steps: '📏', row: '↔️', look: '👀' },
+  next: { rule: '🧩', say: '🗣️', guess: '🎲' }, sort: { check: '✅', say: '🗣️', fast: '⚡' },
+  cat: { each: '🔍', name: '🗣️', quick: '⚡' }, word: { sound: '🗣️', look: '👀', guess: '🎲' }
+};
+const LIFE_META = { memory: [['🛒', 'Shopping-list game'], ['🍽️', 'Tray game']], focus: [['🚗', 'Number hunt'], ['🚦', 'Red light, green light']], numbers: [['🏷️', 'Price check'], ['🍇', 'Which is more?']], noticing: [['🔎', 'What changed?'], ['🦋', 'Mirror drawing']], logic: [['🧶', 'Pattern hunt'], ['🧦', 'Sort and switch']], words: [['🗣️', 'Category game'], ['🔤', 'Sign reader']] };
+const SKILL_COLOR = { memory: '#f5b82e', focus: '#3fbf9a', numbers: '#f0698f', noticing: '#4c9be8', logic: '#9b7be0', words: '#f08a3c' };
+const SKILL_SVG = {
+  memory: '<circle cx="5" cy="18" r="2"/><circle cx="12" cy="7" r="2"/><circle cx="19" cy="15" r="2"/><path d="M6.3 16.3l4.4-7.6M13.6 8.4l4 5"/>',
+  focus: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/>',
+  numbers: '<path d="M4 12h7M7.5 8.5v7M14 10h6M14 14h6"/>',
+  noticing: '<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  logic: '<rect x="2.5" y="9" width="6" height="6" rx="1"/><circle cx="12" cy="12" r="3"/><path d="M18.5 8.5l3.5 7h-7z"/>',
+  words: '<text x="12" y="16.5" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor" stroke="none" font-family="sans-serif">Aa</text>'
+};
+const skillIcon = (s, size) => `<svg width="${size || 22}" height="${size || 22}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SKILL_SVG[s]}</svg>`;
+const meter = level => `<span class="meter" role="img" aria-label="Level ${level} of 10">${Array.from({ length: 10 }, (_, i) => `<i class="${i < level ? 'on' : ''}"></i>`).join('')}</span>`;
+const starsFor = e => { const r = e.correct / e.trials; return r >= 0.8 ? 3 : r >= 0.5 ? 2 : 1; };
+const fold = (title, inner, open) => `<details class="card fold" ${open ? 'open' : ''}><summary><h3>${title}</h3></summary><div class="fold-body">${inner}</div></details>`;
+
 function vWelcome() {
   const kids = profileList();
-  const who = kids.length ? `<section class="block"><h2>Who's playing?</h2><div class="who">${kids.map(p => `<button class="who-btn" data-act="playas" data-id="${p.id}">${pipSvg(44, true)}<span>${esc(p.child.name)}<small>Ages ${p.child.band.replace('-', ' to ')}</small></span></button>`).join('')}</div></section>` : '';
+  const who = kids.length ? `<section class="block"><h2>Who's playing?</h2><div class="who">${kids.map(p => `<button class="who-btn" data-act="playas" data-id="${p.id}">${pipSvg(52, true)}<span>${esc(p.child.name)}<small>🌼 ${(p.friends || []).length}</small></span></button>`).join('')}</div></section>` : '';
+  const demoBars = [['memory', 4, 2], ['numbers', 3, 1], ['words', 5, 0]];
   return `
-  <header class="topbar">${brand('Prototype')}${kids.length ? '<button class="btn ghost small" data-act="gate">Grown-ups</button>' : ''}</header>
+  <header class="topbar">${brand('Prototype')}${kids.length ? '<button class="icon-btn" data-act="gate" aria-label="Grown-ups area">🔒</button>' : ''}</header>
   ${who}
   <section class="hero">
     <div class="stack">
-      <p class="eyebrow">Daily practice for ages 4 to 13</p>
-      <h1>Short, safe practice. Progress you can actually read.</h1>
-      <p class="lede">Twelve short games across six skills for your child, a plain-language note for you after every session, and an everyday activity that uses the same skill.</p>
+      <p class="eyebrow">Ages 4 to 13 · 10 minutes a day</p>
+      <h1>Little games. Clear progress.</h1>
+      <p class="lede">12 short games for your child. A picture of their progress for you.</p>
       <div class="row">
-        ${kids.length ? '' : '<button class="btn" data-act="setup">Set up for my child</button>'}
-        <button class="btn ghost" data-act="demo">See an example parent view</button></div>
+        ${kids.length ? '' : '<button class="btn big" data-act="setup">▶ Start</button>'}
+        <button class="btn ghost" data-act="demo">👀 See a parent view</button></div>
     </div>
     <div class="hero-pip">${pipSvg(160, true)}</div>
   </section>
   <section class="pillars" aria-label="What Mindmint gives you">
-    <article class="pillar"><h3>Progress you can read</h3><p>Every level is a plain sentence, like "remembers a 5-step path", with the exact reason it went up or down.</p></article>
-    <article class="pillar"><h3>Guidance for you</h3><p>After each session: what went well, what to say, and one thing to model next time. A weekly summary you can share.</p></article>
-    <article class="pillar"><h3>Practice that leaves the screen</h3><p>Every game comes with an everyday activity for the shop, a walk or the kitchen.</p></article>
+    <article class="pillar"><span class="pillar-ico" aria-hidden="true">📊</span><h3>See progress at a glance</h3></article>
+    <article class="pillar"><span class="pillar-ico" aria-hidden="true">💬</span><h3>Know what to say</h3></article>
+    <article class="pillar"><span class="pillar-ico" aria-hidden="true">🏡</span><h3>Play off-screen too</h3></article>
   </section>
-  <section class="promise" aria-label="Child safety">
-    <span class="tag">No ads, ever</span><span class="tag">No chat or strangers</span><span class="tag">A nickname is all we ask</span><span class="tag">Stops after a few minutes</span><span class="tag">Read-aloud for younger children</span><span class="tag">This prototype keeps data in your browser</span>
-  </section>
+  <section class="promise" aria-label="Child safety"><span class="tag">🚫 No ads</span><span class="tag">🙅 No chat</span><span class="tag">⏱️ Short sessions</span><span class="tag">🔊 Read-aloud</span></section>
   <section class="preview" aria-label="Example of the parent view">
-    <p class="eyebrow">Example parent note</p>
-    <div class="preview-row"><span class="lv">4</span><strong>Memory: remembers a 5-step path on a 4×4 grid</strong><span class="soft">Moved up from 3 after two right in a row. She said she "saw the path as a shape".</span></div>
-    <p><strong>Try asking:</strong> "What trick helped you on Firefly Trail?"</p>
-    <p><strong>This week, off screen:</strong> the tray game. Look at 5 things for 20 seconds, then spot what went missing.</p>
+    <p class="eyebrow">Example parent view</p>
+    ${demoBars.map(([s, lv, d]) => `<div class="skrow-static"><span class="sk-badge" style="--c:${SKILL_COLOR[s]}">${skillIcon(s)}</span><span class="sk-name">${SKILL_NAME[s]}</span><span class="bar"><span style="width:${lv * 10}%;background:${SKILL_COLOR[s]}"></span></span><span class="lv-num">${lv}</span><span class="chg ${d ? 'up' : ''}">${d ? '▲' + d : '–'}</span></div>`).join('')}
+    <p class="say">💬 Try asking: "What trick helped you?"</p>
   </section>`;
 }
+
 
 function vSetup() {
   const d = S.draft;
@@ -667,18 +806,23 @@ function vSetup() {
 function vHome() {
   const p = P(), t = ensureToday(p), name = esc(p.child.name);
   const next = t.plan.find(k => !t.done.includes(k));
-  const w = t.warm;
-  const showWarm = w && !w.answer && !t.done.length;
-  const msg = showWarm ? `Hi ${name}! First, a quick memory check.` : next ? (t.done.length ? `Nice work, ${name}! On to the next one.` : `Hi ${name}! ${cap(countWord(t.plan.length))} short games today. Ready?`) : `All done for today, ${name}! Your lanterns are glowing.`;
-  const warmCard = (w && !t.done.length) ? `<section class="card warm"><p class="eyebrow">Warm-up · 20 seconds</p><h3 id="warm-q">Last time you played ${GAMES[w.game].name}, Pip shared a trick. Which one was it?</h3>
-    <div class="chips" role="group" aria-labelledby="warm-q">${w.opts.map((o, i) => `<button class="chip" data-act="warm" data-i="${i}" aria-pressed="${w.answer === o}" ${w.answer ? 'disabled' : ''}>${o}</button>`).join('')}</div>
-    ${w.answer ? `<p>${w.answer === w.correct ? 'Yes! You remembered the trick. Try using it today.' : `Close! It was: "${w.correct}". Try it today.`}</p>` : ''}</section>` : '';
+  const w = t.warm, showWarm = w && !w.answer && !t.done.length;
+  const msg = showWarm ? `Hi ${name}! Quick memory check first.` : next ? (t.done.length ? 'Great! On to the next one.' : `Hi ${name}! ${t.plan.length} games today.`) : `All done, ${name}! 🎉`;
+  const warmCard = (w && !t.done.length) ? `<section class="card warm"><p class="eyebrow">🧠 Warm-up</p><h3 id="warm-q"><span aria-hidden="true">${GAME_ICON[w.game]}</span> Which trick did Pip teach you?</h3>
+    <div class="pick-col" role="group" aria-labelledby="warm-q">${w.opts.map((o, i) => `<button class="pick wide" data-act="warm" data-i="${i}" aria-pressed="${w.answer === o}" ${w.answer ? 'disabled' : ''}>${o}</button>`).join('')}</div>
+    ${w.answer ? `<p class="big-feedback">${w.answer === w.correct ? '✅ Yes! Use it today.' : `💡 It was: ${w.correct}`}</p>` : ''}</section>` : '';
   return `
-  <header class="topbar">${brand()}<div class="row"><button class="btn ghost small" data-act="garden">My garden · ${p.friends.length}</button><button class="btn ghost small" data-act="switch">Switch child</button><button class="btn ghost small" data-act="gate">Grown-ups</button></div></header>
+  <header class="topbar">${brand()}<div class="row icon-row">
+    <button class="icon-btn" data-act="garden" aria-label="My garden, ${p.friends.length} friends">🌼<b>${p.friends.length}</b></button>
+    <button class="icon-btn" data-act="switch" aria-label="Switch child">👥</button>
+    <button class="icon-btn" data-act="gate" aria-label="Grown-ups area">🔒</button></div></header>
   <section class="pip-say">${pipSvg(88, true)}<div class="bubble">${msg}</div></section>
   ${warmCard}
-  <ol class="path" aria-label="Today's games, in order">${t.plan.map(k => `<li class="stop ${t.done.includes(k) ? 'lit' : ''} ${k === next ? 'next' : ''}">${lanternSvg(t.done.includes(k))}<div><span class="stop-name">${GAMES[k].name}</span><span class="stop-sub">${SKILL_NAME[GAMES[k].skill]} · ${GAMES[k].kid(p.skills[GAMES[k].skill].level)}</span></div></li>`).join('')}</ol>
-  ${showWarm ? '' : next ? `<button class="btn big" data-act="play" data-key="${next}">Start ${GAMES[next].name}</button>` : `<button class="btn big" data-act="finish">See today's real-life quest</button>`}`;
+  <ol class="path" aria-label="Today's games, in order">${t.plan.map(k => {
+    const g = GAMES[k], done = t.done.includes(k);
+    return `<li class="stop ${done ? 'lit' : ''} ${k === next ? 'next' : ''}"><span class="game-ico" aria-hidden="true">${GAME_ICON[k]}</span><div class="stop-main"><span class="stop-name">${g.name}</span>${meter(p.skills[g.skill].level)}</div><span class="stop-state">${done ? '<span role="img" aria-label="done">✅</span>' : lanternSvg(false)}</span></li>`;
+  }).join('')}</ol>
+  ${showWarm ? '' : next ? `<button class="btn big play" data-act="play" data-key="${next}">▶ Play</button>` : '<button class="btn big play" data-act="finish">🌟 Finish</button>'}`;
 }
 
 function vGameShell(k) {
@@ -691,47 +835,42 @@ function vGameShell(k) {
 }
 
 function vResult() {
-  const p = P(), e = S.current, g = GAMES[e.game], st = STRATS[e.game];
-  const delta = e.levelEnd - e.levelStart;
-  const lvl = delta > 0 ? `Level ${e.levelStart} → ${e.levelEnd}. You moved up!` : delta < 0 ? `Level ${e.levelStart} → ${e.levelEnd}. Practising here makes the next step easier.` : `Level ${e.levelEnd}. Steady!`;
+  const p = P(), e = S.current, g = GAMES[e.game], st = STRATS[e.game], stars = starsFor(e);
+  const up = e.levelEnd > e.levelStart, down = e.levelEnd < e.levelStart;
   const remaining = p.today.plan.some(k => !p.today.done.includes(k));
   return `
   <header class="topbar">${brand()}</header>
-  <section class="card">
-    <p class="eyebrow">${SKILL_NAME[g.skill]}</p>
+  <section class="card result-hero">
+    <span class="game-ico xl" aria-hidden="true">${GAME_ICON[e.game]}</span>
     <h2>${g.name}</h2>
-    <p class="soft">You practised ${g.what}.</p>
-    <div class="score"><span class="big">${e.correct}</span><span>of ${e.trials} right</span></div>
-    <div class="trialbar" style="justify-content:flex-start" aria-hidden="true">${e.results.map(r => `<span class="tdot ${r ? 'ok' : 'no'}"></span>`).join('')}</div>
-    <p class="lvl">${lvl}</p>
-    <p>Now playing: ${g.kid(e.levelEnd)}</p>
+    <div class="stars" role="img" aria-label="${stars} of 3 stars">${[1, 2, 3].map(i => `<span class="${i <= stars ? 'on' : ''}">★</span>`).join('')}</div>
+    <div class="trialbar" role="img" aria-label="${e.correct} of ${e.trials} right">${e.results.map(r => `<span class="tdot ${r ? 'ok' : 'no'}"></span>`).join('')}</div>
+    <div class="lvl-row">${meter(e.levelEnd)}<span class="lvl-badge ${up ? 'up' : down ? 'down' : ''}">${up ? '⬆ ' : ''}Level ${e.levelEnd}</span></div>
   </section>
   <section class="card">
-    <h3 id="strat-q">${st.q}</h3>
-    <div class="chips" role="group" aria-labelledby="strat-q">${st.opts.map(([v, t]) => `<button class="chip" data-act="strat" data-v="${v}" aria-pressed="${e.strategy === v}">${t}</button>`).join('')}<button class="chip" data-act="strat" data-v="none" aria-pressed="${e.strategy === 'none'}">Not sure</button></div>
-    <div class="pip-say compact">${pipSvg(48, true)}<div class="bubble" id="tip" role="status" aria-live="polite">${e.strategy ? st.tip[e.strategy] : 'Pick one. There are no wrong answers.'}</div></div>
+    <h3 id="strat-q">🤔 ${st.q}</h3>
+    <div class="pick-grid" role="group" aria-labelledby="strat-q">${[...st.opts, ['none', 'Not sure']].map(([v, tx]) => `<button class="pick" data-act="strat" data-v="${v}" aria-pressed="${e.strategy === v}"><span class="pick-ico" aria-hidden="true">${(STRAT_ICON[e.game] || {})[v] || '🤷'}</span>${tx}</button>`).join('')}</div>
+    <div class="pip-say compact">${pipSvg(48, true)}<div class="bubble" id="tip" role="status" aria-live="polite">${e.strategy ? st.tip[e.strategy] : 'Tap one!'}</div></div>
   </section>
-  <section class="card">
-    <h3 id="fun-q">Was it fun?</h3>
-    <div class="chips" role="group" aria-labelledby="fun-q">${[[2, '😀 Loved it'], [1, '🙂 It was OK'], [0, '🙁 Not really']].map(([v, t]) => `<button class="chip" data-act="fun" data-v="${v}" aria-pressed="${e.fun === v}">${t}</button>`).join('')}</div>
-  </section>
-  <button class="btn big" data-act="next">${remaining ? 'Next game' : 'Finish'}</button>`;
+  <section class="card"><h3 id="fun-q">Was it fun?</h3><div class="faces" role="group" aria-labelledby="fun-q">${[[2, '😀', 'Loved it'], [1, '🙂', 'It was OK'], [0, '🙁', 'Not really']].map(([v, f, l]) => `<button class="face" data-act="fun" data-v="${v}" aria-pressed="${e.fun === v}" aria-label="${l}">${f}</button>`).join('')}</div></section>
+  <button class="btn big play" data-act="next">${remaining ? '▶ Next game' : '🌟 Finish'}</button>`;
 }
 
 function questFor(p) {
   const t = ensureToday(p), g = t.plan[0], skill = GAMES[g].skill;
-  return LIFE[skill].find(a => a.game === g) || LIFE[skill][0];
+  let i = LIFE[skill].findIndex(a => a.game === g); if (i < 0) i = 0;
+  return Object.assign({ icon: LIFE_META[skill][i][0] }, LIFE[skill][i]);
 }
 function vDone() {
-  const p = P(), t = ensureToday(p), q = questFor(p), g = GAMES[q.game];
+  const p = P(), t = ensureToday(p), q = questFor(p);
+  const f = t.awarded ? (p.friends.find(x => x.name === t.awarded) || p.friends[p.friends.length - 1]) : null;
   return `
   <header class="topbar">${brand()}</header>
-  <section class="pip-say">${pipSvg(96, true)}<div class="bubble">Practice done, ${esc(p.child.name)}! Every lantern is glowing.</div></section>
+  <section class="pip-say">${pipSvg(96, true)}<div class="bubble">All done, ${esc(p.child.name)}! 🎉</div></section>
   <div class="lantern-row">${t.plan.map(() => lanternSvg(true)).join('')}</div>
-  ${t.awarded ? (() => { const f = p.friends.find(x => x.name === t.awarded) || p.friends[p.friends.length - 1]; return `<section class="card award">${pipSvg(84, true, f.hue)}<div><p class="eyebrow">New firefly friend</p><h2>${esc(f.name)} joined your glow garden!</h2><button class="btn small ghost" data-act="garden">See my garden</button></div></section>`; })() : ''}
-  <section class="card quest"><p class="eyebrow">Your real-life quest · ${SKILL_NAME[g.skill]}</p><h2>${q.kid}</h2><p class="soft">Do it with a grown-up today or tomorrow. It uses the same skill as ${g.name}.</p></section>
-  <div class="row" style="justify-content:center"><button class="btn ghost" data-act="calm">Calm Corner with Pip (30 seconds)</button><button class="btn" data-act="gate">Hand to a grown-up</button></div>
-  <p class="soft" style="text-align:center">That's enough screen time for today. See you tomorrow!</p>`;
+  ${f ? `<section class="card award">${pipSvg(84, true, f.hue)}<div><p class="eyebrow">New friend!</p><h2>${esc(f.name)}</h2><button class="btn small ghost" data-act="garden">🌼 My garden</button></div></section>` : ''}
+  <section class="card quest"><p class="eyebrow">Real-life quest</p><div class="quest-row"><span class="quest-ico" aria-hidden="true">${q.icon}</span><h2>${q.kid}</h2></div></section>
+  <div class="row" style="justify-content:center"><button class="btn ghost" data-act="calm">🧘 Calm</button><button class="btn" data-act="gate">🔒 Grown-ups</button></div>`;
 }
 
 function vGarden() {
@@ -749,33 +888,6 @@ function vCalm() {
 }
 
 /* ---------- Parent view ---------- */
-function noteCard(p, todays) {
-  const name = esc(p.child.name);
-  const up = todays.filter(e => e.levelEnd > e.levelStart);
-  const hard = todays.filter(e => e.correct / e.trials < 0.6);
-  const weak = todays.find(e => e.strategy && isWeak(e.game, e.strategy));
-  let head, body, label, say;
-  if (up.length) {
-    const e = up[0], g = GAMES[e.game];
-    head = `${SKILL_NAME[g.skill]} moved up to level ${e.levelEnd}`;
-    body = `In ${g.name}, ${name} now ${g.meaning(e.levelEnd)}.` + (e.strategy && e.strategy !== 'none' ? ` They said they ${STRATS[e.game].name[e.strategy]}.` : '');
-    label = 'Try asking'; say = `"What trick helped you on ${g.name}?" Naming the trick makes it easier to use again.`;
-  } else if (hard.length) {
-    const e = hard[0], g = GAMES[e.game];
-    head = `${g.name} was a stretch`;
-    body = `${e.correct} of ${e.trials} right, so the game eased off to level ${e.levelEnd}. That is the plan working: practice should feel winnable.`;
-    label = 'Try saying'; say = '"I liked how you kept going on the hard ones." Praise the effort, not the score.';
-  } else {
-    const e = todays[0], a = LIFE[e.skill].find(x => x.game === e.game) || LIFE[e.skill][0];
-    head = 'A steady session';
-    body = 'Levels held where they were. Steady days are how the next step gets built.';
-    label = 'Try asking'; say = a.ask;
-  }
-  const model = weak ? `<p><strong>One thing to model:</strong> in ${GAMES[weak.game].name}, ${name} ${STRATS[weak.game].name[weak.strategy]}. Show them the stronger trick: "${STRATS[weak.game].best}".</p>` : '';
-  const t = p.today && p.today.date === dk(todays[0].ts) ? p.today : null;
-  const warm = t && t.warm && t.warm.answer ? `<p><strong>Warm-up:</strong> ${t.warm.answer === t.warm.correct ? `remembered the trick from ${GAMES[t.warm.game].name}. Remembering a trick a day later helps it stick.` : `didn't recall the trick from ${GAMES[t.warm.game].name} ("${t.warm.correct}"). Mention it before tomorrow's session.`}</p>` : '';
-  return `<section class="card note"><p class="eyebrow">Your note from this session</p><h2>${head}</h2><p>${body}</p><p><strong>${label}:</strong> ${say}</p>${model}${warm}</section>`;
-}
 
 function spark(pts) {
   const W = 280, H = 64, n = pts.length;
@@ -887,69 +999,141 @@ function feedbackText(p) {
   if (f.text && f.text.trim()) lines.push('', `Comments: ${f.text.trim()}`);
   return lines.join('\n');
 }
+
+function noteCard(p, todays) {
+  const name = esc(p.child.name);
+  const up = todays.filter(e => e.levelEnd > e.levelStart);
+  const hard = todays.filter(e => e.correct / e.trials < 0.6);
+  const weak = todays.find(e => e.strategy && isWeak(e.game, e.strategy));
+  let head, body, say;
+  if (up.length) {
+    const e = up[0], g = GAMES[e.game];
+    head = `${GAME_ICON[e.game]} ${SKILL_NAME[g.skill]} went up to level ${e.levelEnd}`;
+    body = `In ${g.name}, ${name} now ${g.meaning(e.levelEnd)}.` + (e.strategy && e.strategy !== 'none' ? ` They said they ${STRATS[e.game].name[e.strategy]}.` : '') + ' Naming the trick helps them use it again.';
+    say = `"What trick helped you on ${g.name.replace(/\?$/, '')}?"`;
+  } else if (hard.length) {
+    const e = hard[0], g = GAMES[e.game];
+    head = `${GAME_ICON[e.game]} ${g.name} was a stretch`;
+    body = `${e.correct} of ${e.trials} right, so the game eased off to level ${e.levelEnd}. That's the plan working: practice should feel winnable.`;
+    say = '"I liked how you kept going on the hard ones."';
+  } else {
+    const e = todays[0], a = LIFE[e.skill].find(x => x.game === e.game) || LIFE[e.skill][0];
+    head = '🌱 A steady session';
+    body = 'Levels held where they were. Steady days are how the next step gets built.';
+    say = a.ask;
+  }
+  const model = weak ? `<p><strong>One thing to model:</strong> in ${GAMES[weak.game].name}, ${name} ${STRATS[weak.game].name[weak.strategy]}. Show them: "${STRATS[weak.game].best}".</p>` : '';
+  const t = p.today && p.today.date === dk(todays[0].ts) ? p.today : null;
+  const warm = t && t.warm && t.warm.answer ? `<p><strong>Warm-up:</strong> ${t.warm.answer === t.warm.correct ? '✅ remembered yesterday\'s trick.' : `💡 didn't recall "${t.warm.correct}". Mention it before tomorrow.`}</p>` : '';
+  return `<section class="card note"><p class="eyebrow">💬 Tonight</p><h2>${head}</h2><p class="say">Say: ${say}</p><details class="why"><summary>Why?</summary>${`<p>${body}</p>`}${model}${warm}</details></section>`;
+}
+
+function weekStrip(p) {
+  const ws = weekStart(), names = ['M', 'T', 'W', 'T', 'F', 'S', 'S'], played = new Set(p.log.map(e => dk(e.ts)));
+  return `<div class="weekstrip" role="img" aria-label="Days practised this week: ${weekData(p).days} of 7">${names.map((d, i) => {
+    const day = new Date(ws); day.setDate(day.getDate() + i); const k = dk(day.getTime());
+    return `<span class="day ${played.has(k) ? 'on' : ''} ${k === todayKey() ? 'today' : ''}"><i></i>${d}</span>`;
+  }).join('')}</div>`;
+}
+
+function skillRow(p, s, wk) {
+  const lv = p.skills[s].level, w = wk.skills.find(x => x.s === s), delta = w.played ? w.to - w.from : 0;
+  const hist = p.log.filter(e => e.skill === s), last = hist[hist.length - 1], recent = hist.slice(-12);
+  const pts = recent.length ? [recent[0].levelStart, ...recent.map(e => e.levelEnd)] : [];
+  const inToday = p.today && p.today.date === todayKey() && p.today.plan.some(g => GAMES[g].skill === s);
+  const due = inToday ? { label: "in today's plan" } : nextDue(p, s);
+  return `<details class="skrow"><summary>
+      <span class="sk-badge" style="--c:${SKILL_COLOR[s]}">${skillIcon(s)}</span><span class="sk-name">${SKILL_NAME[s]}</span>
+      <span class="bar" role="img" aria-label="Level ${lv} of 10"><span style="width:${lv * 10}%;background:${SKILL_COLOR[s]}"></span></span>
+      <span class="lv-num">${lv}</span><span class="chg ${delta > 0 ? 'up' : delta < 0 ? 'down' : ''}" aria-label="${delta > 0 ? 'up ' + delta + ' this week' : delta < 0 ? 'down ' + (-delta) + ' this week' : 'no change this week'}">${delta > 0 ? '▲' + delta : delta < 0 ? '▼' + (-delta) : '–'}</span></summary>
+    <div class="sk-detail">
+      <ul class="means">${SKILL_GAMES[s].map(g => `<li><span aria-hidden="true">${GAME_ICON[g]}</span> ${esc(p.child.name)} ${GAMES[g].meaning(lv)}</li>`).join('')}</ul>
+      ${pts.length > 2 ? spark(pts) : ''}
+      <dl>
+        ${last ? `<div><dt>Why it changed</dt><dd>${changesText(last)}</dd></div><div><dt>Trick used</dt><dd>${last.strategy ? STRATS[last.game].name[last.strategy] : 'not answered'}</dd></div>` : '<div><dt>Status</dt><dd>Not played yet</dd></div>'}
+        <div><dt>Comes back</dt><dd>${due.label}</dd></div>
+      </dl></div></details>`;
+}
+
+function favRow(p) {
+  const f = funSummary(p); if (!f.length) return '';
+  const loved = f.filter(x => x.avg >= 1.5).slice(0, 4), meh = f.filter(x => x.avg < 1);
+  return `<section class="card"><p class="eyebrow">❤️ What ${esc(p.child.name)} enjoys</p>
+    <div class="favs">${loved.map(x => `<span class="fav"><b aria-hidden="true">${GAME_ICON[x.g]}</b>${GAMES[x.g].name}</span>`).join('') || '<span class="soft">No favourites yet</span>'}</div>
+    ${meh.length ? `<p class="soft">😐 Less keen: ${meh.map(x => `${GAME_ICON[x.g]} ${GAMES[x.g].name}`).join(', ')}</p>` : ''}</section>`;
+}
+
+function lifeGrid(p) {
+  const q = p.quests[weekKey()] || {};
+  return `<div class="lifegrid">${SKILLS.map(s => LIFE[s].map((a, i) => {
+    const id = `${s}-${i}`, [ic, short] = LIFE_META[s][i];
+    return `<div class="lifetile ${q[id] ? 'done' : ''}"><label class="tile-top" for="q-${id}"><span class="tile-ico" aria-hidden="true">${ic}</span><span class="tile-name">${short}</span><input type="checkbox" id="q-${id}" data-act="quest" data-k="${id}" ${q[id] ? 'checked' : ''}></label>
+      <details><summary>How</summary><p>${a.parent}</p><p><strong>Ask:</strong> ${a.ask}</p></details></div>`;
+  }).join('')).join('')}</div>`;
+}
+
 function feedbackCard(p) {
   const f = S.fb || (S.fb = { enjoy: null, useful: null, tried: null, pay: null, text: '' });
-  const chip = (k, v, label) => `<button type="button" class="chip" data-act="fb" data-k="${k}" data-v="${v}" aria-pressed="${f[k] === v}">${label}</button>`;
-  const scale = (k, q) => `<div class="setrow"><span id="fb-${k}-l"><strong>${q}</strong></span><div class="chips" role="group" aria-labelledby="fb-${k}-l">${[1, 2, 3, 4, 5].map(n => chip(k, n, n)).join('')}</div><p class="soft">1 means not at all, 5 means a lot.</p></div>`;
-  const fun = funLine(p);
-  return `<section class="card" id="feedback"><p class="eyebrow">Helping us test Mindmint</p><h2>Tell us what you think</h2>
-    <p class="soft">It takes a minute. You send it yourself, by WhatsApp or by copying it. Your child's name is not included.</p>
-    ${scale('enjoy', 'How much did your child enjoy it?')}
-    ${scale('useful', 'How useful were the levels and notes for you?')}
-    <div class="setrow"><span id="fb-tried-l"><strong>Did you try an everyday activity?</strong></span><div class="chips" role="group" aria-labelledby="fb-tried-l">${chip('tried', 'yes', 'Yes')}${chip('tried', 'notyet', 'Not yet')}</div></div>
-    <div class="setrow"><span id="fb-pay-l"><strong>Would you pay about ₹199 a month for this?</strong></span><div class="chips" role="group" aria-labelledby="fb-pay-l">${chip('pay', 'yes', 'Yes')}${chip('pay', 'maybe', 'Maybe')}${chip('pay', 'no', 'No')}</div></div>
-    <div class="setrow"><label for="fb-text"><strong>What did your child love? What was confusing or missing?</strong></label><textarea id="fb-text" maxlength="800" placeholder="For example: loved the frogs, found Word Builder too hard at first.">${esc(f.text)}</textarea></div>
-    ${fun ? `<p class="soft">Added automatically from your child's own ratings: ${esc(fun.trim())}</p>` : ''}
-    <div class="row"><a class="btn" id="fb-wa" href="${waLink(feedbackText(p))}" target="_blank" rel="noopener">Send on WhatsApp</a><button class="btn ghost small" data-act="fb-copy">Copy text</button><span class="soft" id="fb-status" role="status"></span></div>
-    ${S.fbCopy ? `<label for="fb-box" class="soft">Your browser blocked copying. Select the text below and copy it yourself.</label><textarea id="fb-box" readonly>${esc(S.fbCopy)}</textarea>` : ''}
+  const btn = (k, v, face, label) => `<button type="button" class="face sm" data-act="fb" data-k="${k}" data-v="${v}" aria-pressed="${f[k] === v}" aria-label="${label}">${face}</button>`;
+  const faces = (k, q) => `<div class="setrow"><span id="fb-${k}-l"><strong>${q}</strong></span><div class="faces" role="group" aria-labelledby="fb-${k}-l">${[[1, '😞'], [2, '🙁'], [3, '😐'], [4, '🙂'], [5, '😀']].map(([v, e]) => btn(k, v, e, v + ' out of 5')).join('')}</div></div>`;
+  return `<section class="card" id="feedback"><p class="eyebrow">📮 Helping us test</p><h2>What do you think?</h2>
+    ${faces('enjoy', 'Did your child enjoy it?')}
+    ${faces('useful', 'Was this page useful to you?')}
+    <div class="setrow"><span id="fb-tried-l"><strong>Tried an off-screen activity?</strong></span><div class="faces" role="group" aria-labelledby="fb-tried-l">${btn('tried', 'yes', '✅', 'Yes')}${btn('tried', 'notyet', '⏳', 'Not yet')}</div></div>
+    <div class="setrow"><span id="fb-pay-l"><strong>Would you pay ₹199 a month?</strong></span><div class="faces" role="group" aria-labelledby="fb-pay-l">${btn('pay', 'yes', '👍', 'Yes')}${btn('pay', 'maybe', '🤔', 'Maybe')}${btn('pay', 'no', '👎', 'No')}</div></div>
+    <div class="setrow"><label for="fb-text"><strong>Anything else?</strong></label><textarea id="fb-text" maxlength="800" placeholder="Loved, confusing, missing…">${esc(f.text)}</textarea></div>
+    <div class="row"><a class="btn" id="fb-wa" href="${waLink(feedbackText(p))}" target="_blank" rel="noopener">Send on WhatsApp</a><button class="btn ghost small" data-act="fb-copy">Copy</button><span class="soft" id="fb-status" role="status"></span></div>
+    <p class="soft">Your child's name is never included.</p>
+    ${S.fbCopy ? `<label for="fb-box" class="soft">Copying was blocked. Select this text and copy it.</label><textarea id="fb-box" readonly>${esc(S.fbCopy)}</textarea>` : ''}
   </section>`;
 }
+
 function settingsCard(p) {
   const c = p.child;
   const chip = (act, v, label, on) => `<button type="button" class="chip" data-act="${act}" data-v="${v}" aria-pressed="${on}">${label}</button>`;
-  return `<section class="card" id="settings"><h2>Settings for ${esc(c.name)}</h2>
-    <div class="setrow"><span class="label" id="s-focus"><strong>Focus skills (up to 2)</strong></span><div class="chips" role="group" aria-labelledby="s-focus">${SKILLS.map(k => chip('set-focus', k, SKILL_NAME[k], c.focus.includes(k))).join('')}</div></div>
-    <div class="setrow"><span id="s-min"><strong>Daily limit</strong></span><div class="chips" role="group" aria-labelledby="s-min">${chip('set-min', 5, '5 min · 2 games', c.minutes === 5)}${chip('set-min', 10, '10 min · 3 games', c.minutes === 10)}${chip('set-min', 15, '15 min · 4 games', c.minutes === 15)}</div><p class="soft">Changes apply from tomorrow's plan.</p></div>
-    <div class="setrow"><span id="s-help"><strong>Help and comfort</strong></span><div class="chips" role="group" aria-labelledby="s-help">${chip('set-read', 1, 'Pip reads aloud', !!c.readAloud)}${chip('set-timer', 1, 'No time limits', !!c.noTimer)}${chip('set-sound', 1, 'Sounds', c.sounds !== false)}</div><p class="soft">Read-aloud uses your device's voice. No time limits makes timed games relaxed; levels then measure accuracy only.</p></div>
-  </section>`;
+  return fold('⚙️ Settings', `
+    <div class="setrow"><span id="s-focus"><strong>Focus skills (up to 2)</strong></span><div class="chips" role="group" aria-labelledby="s-focus">${SKILLS.map(k => chip('set-focus', k, SKILL_NAME[k], c.focus.includes(k))).join('')}</div></div>
+    <div class="setrow"><span id="s-min"><strong>Daily limit</strong></span><div class="chips" role="group" aria-labelledby="s-min">${chip('set-min', 5, '5 min', c.minutes === 5)}${chip('set-min', 10, '10 min', c.minutes === 10)}${chip('set-min', 15, '15 min', c.minutes === 15)}</div></div>
+    <div class="setrow"><span id="s-help"><strong>Help</strong></span><div class="chips" role="group" aria-labelledby="s-help">${chip('set-read', 1, '🔊 Read aloud', !!c.readAloud)}${chip('set-timer', 1, '⏱️ No time limits', !!c.noTimer)}${chip('set-sound', 1, '🎵 Sounds', c.sounds !== false)}</div></div>`);
 }
 
 function vParent() {
   const p = P(), name = esc(p.child.name), kids = profileList();
   ensureToday(p);
-  const last = p.log[p.log.length - 1];
+  const last = p.log[p.log.length - 1], wk = weekData(p);
   const todays = last ? p.log.filter(e => dk(e.ts) === dk(last.ts)) : [];
-  const right = todays.reduce((a, e) => a + e.correct, 0), total = todays.reduce((a, e) => a + e.trials, 0);
-  const mins = Math.max(1, Math.round(todays.reduce((a, e) => a + durOf(e), 0) / 60000));
+  const triedCount = Object.values(p.quests[weekKey()] || {}).filter(Boolean).length;
   const rows = p.log.slice(-20).reverse().map(e => {
     const d = e.levelEnd - e.levelStart;
-    return `<tr><td>${fmtDate(e.ts)}</td><td>${GAMES[e.game].name}</td><td>${e.correct} of ${e.trials}</td><td class="${d > 0 ? 'up-t' : d < 0 ? 'down-t' : ''}">${e.levelStart} → ${e.levelEnd}</td><td>${e.strategy ? STRATS[e.game].name[e.strategy] : '–'}</td><td>${e.fun === 2 ? 'Loved it' : e.fun === 1 ? 'OK' : e.fun === 0 ? 'Not really' : '–'}</td></tr>`;
+    return `<tr><td>${fmtDate(e.ts)}</td><td>${GAME_ICON[e.game]} ${GAMES[e.game].name}</td><td>${e.correct}/${e.trials}</td><td class="${d > 0 ? 'up-t' : d < 0 ? 'down-t' : ''}">${e.levelStart} → ${e.levelEnd}</td><td>${e.fun === 2 ? '😀' : e.fun === 1 ? '🙂' : e.fun === 0 ? '🙁' : '–'}</td></tr>`;
   }).join('');
   return `
-  <header class="topbar">${brand('Parent area')}<button class="btn ghost small" data-act="child">Back to ${name}</button></header>
-  ${p.demo ? `<div class="banner" role="note">Example data: a made-up two-week history so you can see how progress looks. <button class="linkbtn" data-act="clear-demo">Remove the example</button></div>` : ''}
-  <nav class="kids" aria-label="Children">${kids.map(k => `<button class="chip" data-act="view-kid" data-id="${k.id}" aria-pressed="${k.id === p.id}">${esc(k.child.name)}</button>`).join('')}${kids.length < MAX_KIDS ? '<button class="btn ghost small" data-act="add-kid">Add a child</button>' : ''}</nav>
-  <section class="card">
-    <p class="eyebrow">${last ? 'Latest session · ' + fmtDate(last.ts) : 'No sessions yet'}</p>
-    <h1>${name}'s practice</h1>
-    ${last ? `<div class="stats">
-      <div><b>${todays.length}</b><span>games played</span></div>
-      <div><b>${right} of ${total}</b><span>answers right</span></div>
-      <div><b>about ${mins} min</b><span>on screen</span></div></div>` : `<p class="soft">Once ${name} plays, you will see what they practised and exactly why each level changed.</p>`}
+  <header class="topbar">${brand('Parents')}<button class="btn ghost small" data-act="child">▶ ${name}</button></header>
+  ${p.demo ? `<div class="banner" role="note">Example data, made up to show how it looks. <button class="linkbtn" data-act="clear-demo">Remove it</button></div>` : ''}
+  <nav class="kids" aria-label="Children">${kids.map(k => `<button class="chip" data-act="view-kid" data-id="${k.id}" aria-pressed="${k.id === p.id}">${esc(k.child.name)}</button>`).join('')}${kids.length < MAX_KIDS ? '<button class="chip" data-act="add-kid">＋ Add child</button>' : ''}</nav>
+  <section class="card hero-card">
+    <h1>${name}'s week</h1>
+    ${weekStrip(p)}
+    <div class="tiles">
+      <div><b>${wk.days}/7</b><span>days</span></div>
+      <div><b>${wk.mins}</b><span>minutes</span></div>
+      <div><b>${wk.entries.length}</b><span>games</span></div>
+      <div><b>🌼 ${p.friends.length}</b><span>friends</span></div>
+    </div>
   </section>
-  ${last ? noteCard(p, todays) : ''}
-  ${last ? weekCard(p) : ''}
-  <section class="block"><h2>Skills, in plain words</h2><p class="soft">Each skill has one level from 1 to 10, shared by its two games. Each line says exactly what ${name} can do at that level.</p><div class="skills">${SKILLS.map(s => skillCard(p, s)).join('')}</div></section>
-  <section class="card rules"><h3>How levels change</h3>
-    <ul><li>Two right in a row: the next one is one step harder.</li><li>One miss: the next one is one step easier.</li><li>That keeps practice at roughly 7 right out of 10, which is challenging but winnable.</li><li>Skills that aren't a focus come back after growing gaps (1, 2, 4, then 7 days). Spacing practice out helps it stick.</li></ul>
-    <h3>What levels do and don't tell you</h3>
-    <p>They show how ${name} does on these exact activities. They are not an IQ score or a school grade, and they don't diagnose anything. If you're worried about attention or learning, talk to a teacher or doctor.</p></section>
-  <section class="block"><h2>Take it off the screen</h2><p class="soft">Two everyday activities per skill, each matched to a game. Tick what you tried this week.</p><div class="life">${SKILLS.map(s => lifeCard(p, s)).join('')}</div></section>
-  ${rows ? `<section class="block"><h2>Every session</h2><div class="tablewrap"><table><thead><tr><th scope="col">Date</th><th scope="col">Game</th><th scope="col">Right</th><th scope="col">Level</th><th scope="col">Trick used</th><th scope="col">Fun</th></tr></thead><tbody>${rows}</tbody></table></div></section>` : ''}
+  ${last ? noteCard(p, todays) : `<section class="card"><p>▶ Hand the phone to ${name} to start. Progress shows up here.</p></section>`}
+  <section class="card"><div class="card-head"><h2>Skills</h2><span class="soft">Level 1–10 · ▲ this week</span></div>
+    <div class="skrows">${SKILLS.map(s => skillRow(p, s, wk)).join('')}</div>
+    <p class="soft hint">Tap a skill to see exactly what the level means and why it changed.</p></section>
+  ${favRow(p)}
+  <section class="card"><div class="card-head"><h2>Off-screen</h2><span class="soft">${triedCount} of ${SKILLS.length * 2} tried this week</span></div>${lifeGrid(p)}</section>
+  ${last ? `<section class="card share"><h3>📤 Share this week</h3><div class="row"><a class="btn small" href="${waLink(weekText(p))}" target="_blank" rel="noopener">Send on WhatsApp</a><button class="btn small ghost" data-act="copy-week">Copy</button><span class="soft" id="copy-status" role="status"></span></div>${S.copyText ? `<label for="copy-box" class="soft">Copying was blocked. Select this text and copy it.</label><textarea id="copy-box" readonly>${esc(S.copyText)}</textarea>` : ''}</section>` : ''}
   ${feedbackCard(p)}
+  ${fold('📏 How levels work', `<div class="rules-pic"><span class="rp">✓ ✓</span><span class="arrow">→</span><span class="chg up">⬆ harder</span><span class="rp">✗</span><span class="arrow">→</span><span class="chg down">⬇ easier</span></div>
+    <p class="soft">That keeps practice at about 7 right out of 10. Skills that aren't a focus come back after 1, 2, 4, then 7 days. Levels describe these games only. They are not an IQ score or a school grade, and they don't diagnose anything.</p>`)}
+  ${rows ? fold('🗓️ All sessions', `<div class="tablewrap"><table><thead><tr><th scope="col">Date</th><th scope="col">Game</th><th scope="col">Right</th><th scope="col">Level</th><th scope="col">Fun</th></tr></thead><tbody>${rows}</tbody></table></div>`) : ''}
   ${settingsCard(p)}
-  <section class="card"><h3>Data and safety</h3><p>This prototype keeps everything in this browser only. No ads, no chat, no sharing. A nickname and age band are all it asks for.</p>
-    <div class="row" id="del-row"><button class="btn ghost small" data-act="delete">Delete ${name}'s data</button></div></section>`;
+  ${fold('🔐 Data and safety', `<p>Everything stays in this browser. No ads, no chat, no sharing.</p><div class="row" id="del-row"><button class="btn ghost small" data-act="delete">Delete ${name}'s data</button></div>`)}`;
 }
 
 /* ---------- Render ---------- */
@@ -1360,30 +1544,45 @@ function wordTrial(board, l, ui) {
 }
 const TRIALS = { trail: trailTrial, picnic: picnicTrial, lily: lilyTrial, frogs: frogsTrial, berry: numbersTrial, more: moreTrial, odd: oddTrial, mirror: mirrorTrial, next: nextTrial, sort: sortTrial, cat: catTrial, word: wordTrial };
 
+function showIntro(k, board, ui) {
+  const steps = HOWTO[k];
+  board.innerHTML = `<div class="intro"><div class="intro-ico" aria-hidden="true">${GAME_ICON[k]}</div><div class="howto">${steps.map(([ic, tx]) => `<div class="step"><span class="step-ico" aria-hidden="true">${ic}</span><span>${tx}</span></div>`).join('<span class="arrow" aria-hidden="true">→</span>')}</div><button class="btn big play" id="go">▶ Go</button></div>`;
+  ui.say(steps.map(x => x[1].replace(/[.?]$/, '')).join('. ') + (/\?$/.test(steps[steps.length - 1][1]) ? '?' : '.'));
+  const go = board.querySelector('#go'); go.focus();
+  return new Promise(res => { go.onclick = () => res(); });
+}
+function flash(ok) {
+  if (reduced) return;
+  const el = document.createElement('div'); el.className = 'flash ' + (ok ? 'ok' : 'no'); el.textContent = ok ? '✓' : '↻'; el.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(el); setTimeout(() => el.remove(), 750);
+}
 async function play(k) {
   const my = ++token, p = P();
   S.playing = k; S.screen = 'game'; render();
   const g = GAMES[k], sk = p.skills[g.skill], start = sk.level, changes = [], times = [], results = [], began = Date.now();
   const board = $('#board');
   const ui = { say: t => { const el = $('#say'); if (el) el.textContent = t; speak(t); }, alive: () => my === token };
+  $('#levelnote').innerHTML = meter(sk.level);
+  await showIntro(k, board, ui);
+  if (!ui.alive()) return;
   for (let i = 0; i < g.trials; i++) {
     if (!ui.alive()) return;
     dots(g.trials, results);
-    $('#levelnote').textContent = `Level ${sk.level} · ${g.kid(sk.level)}`;
+    $('#levelnote').innerHTML = meter(sk.level);
     const r = await TRIALS[k](board, sk.level, ui);
     if (!ui.alive()) return;
     results.push(r.correct); times.push(r.ms);
     let line;
     if (r.correct) {
       sk.streak++;
-      line = pick(['Yes! Nice one.', 'Great!', 'You got it!', 'Lovely work!']); sfx('ok');
-      if (sk.streak >= 2) { sk.streak = 0; if (sk.level < 10) { sk.level++; changes.push({ dir: 'up', to: sk.level }); line = `Level up! You're on level ${sk.level} now.`; setTimeout(() => { sfx('up'); celebrate(); }, 250); } }
+      line = pick(['Yes!', 'Great!', 'Nice!', 'You got it!']); sfx('ok');
+      if (sk.streak >= 2) { sk.streak = 0; if (sk.level < 10) { sk.level++; changes.push({ dir: 'up', to: sk.level }); line = `⬆ Level up! Level ${sk.level}`; setTimeout(() => { sfx('up'); celebrate(); }, 250); } }
     } else {
       sk.streak = 0;
-      line = r.note || pick(['Good try. That was a tricky one.', 'Nearly! Here comes another.']); sfx('miss');
-      if (sk.level > 1) { sk.level--; changes.push({ dir: 'down', to: sk.level }); line += ' The next one is a bit easier.'; }
+      line = r.note || pick(['Good try!', 'Nearly!']); sfx('miss');
+      if (sk.level > 1) { sk.level--; changes.push({ dir: 'down', to: sk.level }); line += ' ⬇ Easier next.'; }
     }
-    ui.say(line); dots(g.trials, results);
+    ui.say(line); flash(r.correct); dots(g.trials, results); $('#levelnote').innerHTML = meter(sk.level);
     await wait(1400);
   }
   const entry = { ts: Date.now(), game: k, skill: g.skill, trials: g.trials, correct: results.filter(Boolean).length, results, levelStart: start, levelEnd: sk.level, changes, avgMs: Math.round(times.reduce((a, b) => a + b, 0) / times.length), durMs: Date.now() - began, strategy: null, fun: null };
@@ -1477,7 +1676,7 @@ function loadDemo() {
 }
 
 /* ---------- Events ---------- */
-function setChipGroup(t, pressedFn) { t.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(pressedFn(c)))); }
+function setChipGroup(t, pressedFn) { t.parentElement.querySelectorAll('button[data-act]').forEach(c => c.setAttribute('aria-pressed', String(pressedFn(c)))); }
 app.addEventListener('click', e => {
   const t = e.target.closest('[data-act]'); if (!t) return;
   const act = t.dataset.act, p = P();
@@ -1548,6 +1747,8 @@ app.addEventListener('click', e => {
 app.addEventListener('change', e => {
   const t = e.target; if (t.dataset.act !== 'quest') return;
   const p = P(), wk = weekKey(); p.quests[wk] = p.quests[wk] || {}; p.quests[wk][t.dataset.k] = t.checked; save();
+  const tile = t.closest('.lifetile'); if (tile) tile.classList.toggle('done', t.checked);
+  if (t.checked) sfx('ok');
 });
 app.addEventListener('input', e => {
   if (e.target.id === 'child-name' && S.draft) S.draft.name = e.target.value;
