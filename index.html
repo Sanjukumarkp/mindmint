@@ -6,7 +6,7 @@
 <title>Mindmint Prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   /* Layout: one centred app column (phone to tablet). Child screens sit in a night garden lit by fireflies; the grown-up area is a clear paper report. */
@@ -26,7 +26,7 @@
   --good:#1f7a5e;
   --warn:#9a5b06;
   --font-display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
-  --font-body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  --font-body:"Lexend","Segoe UI",system-ui,sans-serif;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -471,6 +471,77 @@ body.grownup .arrow{color:var(--violet)}
 .demo-ok{position:absolute;right:12px;top:10px;width:40px;height:40px;border-radius:50%;background:var(--mint);color:var(--night);display:grid;place-items:center;font:800 1.5rem var(--font-display);opacity:0;transform:scale(.5);transition:all .3s}
 .demo-ok.show{opacity:1;transform:scale(1)}
 .pcard{width:100%;max-width:420px;border-radius:18px;box-shadow:0 10px 30px rgba(31,28,63,.25);align-self:center}
+/* v6: polished parent rows, history bars, activity tiles */
+.legend-line{display:inline-flex;align-items:center;gap:8px;color:var(--ink-soft);font-size:.88rem}
+.skrows{gap:10px}
+.skrow{border:1px solid var(--line);border-radius:18px;padding:0;background:#fff;transition:box-shadow .2s,border-color .2s}
+.skrow:hover{border-color:color-mix(in srgb,var(--c) 55%,var(--line));box-shadow:0 6px 18px rgba(31,28,63,.06)}
+.skrow[open]{background:#fff;border-color:var(--c);box-shadow:0 8px 24px rgba(31,28,63,.08)}
+.skrow summary{display:flex !important;align-items:center;gap:14px;padding:14px 16px;grid-template-columns:none}
+.skrow summary:focus{outline:none}
+.skrow summary:focus-visible{outline:3px solid var(--violet);outline-offset:2px;border-radius:16px}
+.skrow .sk-badge{width:46px;height:46px;border-radius:14px;background:color-mix(in srgb,var(--c) 22%,#fff);color:color-mix(in srgb,var(--c) 70%,#1f1c3f);flex:none}
+.sk-main{flex:1;display:flex;flex-direction:column;gap:8px;min-width:0}
+.sk-top{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;min-width:0}
+.sk-top .lv-pill,.sk-top .chg-pill{flex:none}
+.sk-top .sk-name{font:700 1.1rem var(--font-display);margin-right:auto}
+.lv-pill{font:600 .82rem var(--font-body);padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--c) 18%,#fff);color:color-mix(in srgb,var(--c) 65%,#1f1c3f);font-variant-numeric:tabular-nums}
+.chg-pill{font:600 .78rem var(--font-body);padding:3px 9px;border-radius:999px;white-space:nowrap}
+.chg-pill.up{background:#dff5ec;color:var(--good)}
+.chg-pill.down{background:#fff0d9;color:var(--warn)}
+.chg-pill.flat{background:#efedf6;color:var(--ink-soft)}
+.segbar{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+.segbar i{height:10px;border-radius:4px;background:#ebe8f4}
+.segbar i.on{background:var(--c)}
+.segbar.mini{display:inline-grid;grid-template-columns:repeat(3,10px);gap:2px}
+.segbar.mini i{height:8px;border-radius:2px}
+.segbar.mini i.on{background:var(--violet)}
+.chev{width:12px;height:12px;border-right:2.5px solid var(--ink-soft);border-bottom:2.5px solid var(--ink-soft);transform:rotate(45deg);transition:transform .2s;flex:none;margin:0 4px 4px}
+.skrow[open] .chev{transform:rotate(225deg);margin-top:6px}
+.sk-detail{padding:2px 16px 18px 76px;gap:16px}
+.gamecards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.gamecard{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border-radius:14px;padding:12px}
+.gc-ico{font-size:1.6rem;line-height:1;width:42px;height:42px;border-radius:12px;background:#fff;display:grid;place-items:center;flex:none}
+.gc-name{font:600 .78rem var(--font-body);text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
+.gc-what{font-weight:600;line-height:1.35}
+.hist{margin:0;display:flex;flex-direction:column;gap:6px}
+.hist-plot{display:grid;grid-template-columns:22px 1fr;gap:8px;height:110px}
+.hist-y{display:flex;flex-direction:column;justify-content:space-between;font:500 .72rem var(--font-body);color:var(--ink-soft);text-align:right;padding:0 0 0}
+.hist-bars{display:flex;align-items:flex-end;gap:5px;border-bottom:2px solid var(--line);background:repeating-linear-gradient(to top,transparent 0,transparent calc(50% - 1px),var(--line) calc(50% - 1px),var(--line) 50%)}
+.hb{flex:1;max-width:34px;min-height:6px;border-radius:6px 6px 2px 2px;background:color-mix(in srgb,var(--c) 40%,#fff);position:relative}
+.hb.last{background:var(--c)}
+.hb b{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font:700 .8rem var(--font-body);color:var(--ink)}
+.hist figcaption{font-size:.78rem;color:var(--ink-soft);padding-left:30px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.fact{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.fact-ico{font-size:1.3rem;line-height:1.2}
+.fact-k{display:block;font:600 .72rem var(--font-body);text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
+.fact-v{display:block;font-size:.92rem;line-height:1.35}
+@media (max-width:560px){.sk-detail{padding:2px 12px 16px 12px}.skrow summary{padding:12px}}
+.tried-meter{display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:.88rem;color:var(--ink-soft)}
+.tried-meter b{color:var(--ink);font-size:1rem}
+.minibar{width:160px;height:8px;border-radius:999px;background:#ebe8f4;overflow:hidden;display:block}
+.minibar span{display:block;height:100%;background:var(--good);border-radius:999px;transition:width .3s}
+.lifegrid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+@media (max-width:560px){.lifegrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.lifetile{padding:10px;gap:8px}.lifetile .tile-ico{width:40px;height:40px;font-size:1.4rem}.lt-skill{font-size:0;padding:4px}.lt-skill svg{width:14px;height:14px}.lifetile .tile-name{font-size:.95rem}.tried span{padding:5px 10px;font-size:.78rem}.lt-how summary{font-size:.76rem}.tried-meter{align-items:flex-start}}
+.lifetile{background:#fff;border:1px solid var(--line);border-top:5px solid var(--c);border-radius:18px;padding:14px;gap:10px;transition:box-shadow .2s,border-color .2s}
+.lifetile:hover{box-shadow:0 6px 18px rgba(31,28,63,.07)}
+.lifetile.done{background:#f2fbf7;border-color:#bfe8d6;border-top-color:var(--good)}
+.lt-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lifetile .tile-ico{font-size:1.7rem;width:48px;height:48px;border-radius:14px;background:color-mix(in srgb,var(--c) 18%,#fff);display:grid;place-items:center}
+.lt-skill{display:inline-flex;align-items:center;gap:4px;font:600 .72rem var(--font-body);color:color-mix(in srgb,var(--c) 65%,#1f1c3f);background:color-mix(in srgb,var(--c) 14%,#fff);padding:3px 8px;border-radius:999px}
+.lifetile .tile-name{font:700 1.05rem/1.2 var(--font-display);margin:0;min-height:2.4em}
+.lt-foot{display:flex}
+.tried{position:relative;cursor:pointer}
+.tried input{position:absolute;opacity:0;width:1px;height:1px}
+.tried span{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:999px;padding:6px 14px;font:600 .85rem var(--font-body);color:var(--ink-soft);background:#fff;transition:all .2s}
+.tried input:checked + span{background:var(--good);border-color:var(--good);color:#fff}
+.tried input:focus-visible + span{outline:3px solid var(--violet);outline-offset:2px}
+.lt-how summary{list-style:none;font:600 .82rem var(--font-body);color:var(--violet);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.lt-how summary::-webkit-details-marker{display:none}
+.lt-how summary::before{content:"i";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1.5px solid currentColor;font:700 .7rem var(--font-body)}
+.lt-how[open] summary{margin-bottom:6px}
+.lt-how p{font-size:.86rem;line-height:1.4;color:var(--ink)}
 @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}.fly{display:none}}
 </style>
 </head>
@@ -1093,23 +1164,34 @@ function weekStrip(p) {
   }).join('')}</div>`;
 }
 
+function histBars(levels) {
+  return `<figure class="hist"><div class="hist-plot"><div class="hist-y" aria-hidden="true"><span>10</span><span>5</span><span>0</span></div>
+    <div class="hist-bars" role="img" aria-label="Level after each of the last ${levels.length} sessions: ${levels.join(', ')}">${levels.map((v, i) => `<span class="hb ${i === levels.length - 1 ? 'last' : ''}" style="height:${v * 10}%">${i === levels.length - 1 ? `<b>${v}</b>` : ''}</span>`).join('')}</div></div>
+    <figcaption>Level after each of the last ${levels.length} session${levels.length === 1 ? '' : 's'}</figcaption></figure>`;
+}
 function skillRow(p, s, wk) {
   const lv = p.skills[s].level, w = wk.skills.find(x => x.s === s), delta = w.played ? w.to - w.from : 0;
   const hist = p.log.filter(e => e.skill === s), last = hist[hist.length - 1], recent = hist.slice(-12);
-  const pts = recent.length ? [recent[0].levelStart, ...recent.map(e => e.levelEnd)] : [];
   const inToday = p.today && p.today.date === todayKey() && p.today.plan.some(g => GAMES[g].skill === s);
-  const due = inToday ? { label: "in today's plan" } : nextDue(p, s);
-  return `<details class="skrow"><summary>
-      <span class="sk-badge" style="--c:${SKILL_COLOR[s]}">${skillIcon(s)}</span><span class="sk-name">${SKILL_NAME[s]}</span>
-      <span class="bar" role="img" aria-label="Level ${lv} of 10"><span style="width:${lv * 10}%;background:${SKILL_COLOR[s]}"></span></span>
-      <span class="lv-num">${lv}</span><span class="chg ${delta > 0 ? 'up' : delta < 0 ? 'down' : ''}" aria-label="${delta > 0 ? 'up ' + delta + ' this week' : delta < 0 ? 'down ' + (-delta) + ' this week' : 'no change this week'}">${delta > 0 ? '▲' + delta : delta < 0 ? '▼' + (-delta) : '–'}</span></summary>
+  const due = inToday ? { label: "In today's plan" } : nextDue(p, s);
+  const chg = delta > 0 ? `<span class="chg-pill up" title="This week">▲ ${delta}</span>` : delta < 0 ? `<span class="chg-pill down" title="This week">▼ ${-delta}</span>` : '<span class="chg-pill flat" title="No change this week">same</span>';
+  const lastIco = last ? (last.levelEnd > last.levelStart ? '📈' : last.levelEnd < last.levelStart ? '📉' : '➖') : '';
+  return `<details class="skrow" style="--c:${SKILL_COLOR[s]}"><summary>
+      <span class="sk-badge">${skillIcon(s, 24)}</span>
+      <span class="sk-main">
+        <span class="sk-top"><span class="sk-name">${SKILL_NAME[s]}</span><span class="lv-pill">Level ${lv}</span>${chg}</span>
+        <span class="segbar" role="img" aria-label="Level ${lv} of 10">${Array.from({ length: 10 }, (_, i) => `<i class="${i < lv ? 'on' : ''}"></i>`).join('')}</span>
+      </span>
+      <span class="chev" aria-hidden="true"></span></summary>
     <div class="sk-detail">
-      <ul class="means">${SKILL_GAMES[s].map(g => `<li><span aria-hidden="true">${GAME_ICON[g]}</span> ${esc(p.child.name)} ${GAMES[g].meaning(lv)}</li>`).join('')}</ul>
-      ${pts.length > 2 ? spark(pts) : ''}
-      <dl>
-        ${last ? `<div><dt>Why it changed</dt><dd>${changesText(last)}</dd></div><div><dt>Trick used</dt><dd>${last.strategy ? STRATS[last.game].name[last.strategy] : 'not answered'}</dd></div>` : '<div><dt>Status</dt><dd>Not played yet</dd></div>'}
-        <div><dt>Comes back</dt><dd>${due.label}</dd></div>
-      </dl></div></details>`;
+      <div class="gamecards">${SKILL_GAMES[s].map(g => `<div class="gamecard"><span class="gc-ico" aria-hidden="true">${GAME_ICON[g]}</span><div><p class="gc-name">${GAMES[g].name}</p><p class="gc-what">${esc(p.child.name)} ${GAMES[g].meaning(lv)}</p></div></div>`).join('')}</div>
+      ${recent.length ? histBars(recent.map(e => e.levelEnd)) : ''}
+      <div class="facts">
+        ${last ? `<div class="fact"><span class="fact-ico" aria-hidden="true">${lastIco}</span><div><span class="fact-k">Last session</span><span class="fact-v">${changesText(last)}</span></div></div>
+        <div class="fact"><span class="fact-ico" aria-hidden="true">💡</span><div><span class="fact-k">Trick used</span><span class="fact-v">${last.strategy ? cap(STRATS[last.game].name[last.strategy]) : 'Not answered'}</span></div></div>` : '<div class="fact"><span class="fact-ico" aria-hidden="true">🌱</span><div><span class="fact-k">Status</span><span class="fact-v">Not played yet</span></div></div>'}
+        <div class="fact"><span class="fact-ico" aria-hidden="true">📅</span><div><span class="fact-k">Comes back</span><span class="fact-v">${cap(due.label)}</span></div></div>
+      </div>
+    </div></details>`;
 }
 
 function favRow(p) {
@@ -1124,8 +1206,11 @@ function lifeGrid(p) {
   const q = p.quests[weekKey()] || {};
   return `<div class="lifegrid">${SKILLS.map(s => LIFE[s].map((a, i) => {
     const id = `${s}-${i}`, [ic, short] = LIFE_META[s][i];
-    return `<div class="lifetile ${q[id] ? 'done' : ''}"><label class="tile-top" for="q-${id}"><span class="tile-ico" aria-hidden="true">${ic}</span><span class="tile-name">${short}</span><input type="checkbox" id="q-${id}" data-act="quest" data-k="${id}" ${q[id] ? 'checked' : ''}></label>
-      <details><summary>How</summary><p>${a.parent}</p><p><strong>Ask:</strong> ${a.ask}</p></details></div>`;
+    return `<div class="lifetile ${q[id] ? 'done' : ''}" style="--c:${SKILL_COLOR[s]}">
+      <div class="lt-head"><span class="tile-ico" aria-hidden="true">${ic}</span><span class="lt-skill">${skillIcon(s, 14)}${SKILL_NAME[s]}</span></div>
+      <p class="tile-name">${short}</p>
+      <div class="lt-foot"><label class="tried" for="q-${id}"><input type="checkbox" id="q-${id}" data-act="quest" data-k="${id}" ${q[id] ? 'checked' : ''}><span>${q[id] ? '✓ Tried' : 'Mark tried'}</span></label></div>
+      <details class="lt-how"><summary>How to play</summary><p>${a.parent}</p><p><strong>Ask:</strong> ${a.ask}</p></details></div>`;
   }).join('')).join('')}</div>`;
 }
 
@@ -1180,11 +1265,12 @@ function vParent() {
     </div>
   </section>
   ${last ? noteCard(p, todays) : `<section class="card"><p>▶ Hand the phone to ${name} to start. Progress shows up here.</p></section>`}
-  <section class="card"><div class="card-head"><h2>Skills</h2><span class="soft">Level 1–10 · ▲ this week</span></div>
+  <section class="card"><div class="card-head"><h2>Skills</h2><span class="legend-line"><span class="segbar mini" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>Levels 1 to 10 <span class="chg-pill up">▲</span> this week</span></div>
     <div class="skrows">${SKILLS.map(s => skillRow(p, s, wk)).join('')}</div>
-    <p class="soft hint">Tap a skill to see exactly what the level means and why it changed.</p></section>
+    <p class="soft hint">Tap a skill to see what its level means and why it changed.</p></section>
   ${favRow(p)}
-  <section class="card"><div class="card-head"><h2>Off-screen</h2><span class="soft">${triedCount} of ${SKILLS.length * 2} tried this week</span></div>${lifeGrid(p)}</section>
+  <section class="card"><div class="card-head"><div><h2>Off-screen play</h2><p class="soft">Everyday games that use the same skills.</p></div>
+    <div class="tried-meter"><span id="tried-count"><b>${triedCount}</b> of ${SKILLS.length * 2} tried this week</span><span class="minibar"><span id="tried-bar" style="width:${Math.round(triedCount / (SKILLS.length * 2) * 100)}%"></span></span></div></div>${lifeGrid(p)}</section>
   ${last ? `<section class="card share" id="share-card"><h3>📤 Share this week</h3><div class="row"><button class="btn small" data-act="card-make">🖼️ Picture card</button><a class="btn small ghost" href="${waLink(weekText(p))}" target="_blank" rel="noopener">Send as text</a><button class="btn small ghost" data-act="copy-week">Copy</button><span class="soft" id="copy-status" role="status"></span></div>
     ${S.cardImg ? `<img class="pcard" src="${S.cardImg}" alt="Weekly progress card for ${name}"><div class="row"><button class="btn small" data-act="card-share">Share picture</button><a class="btn small ghost" href="${S.cardImg}" download="mindmint-${esc(p.child.name)}-week.png">Download</a><span class="soft" id="card-status" role="status"></span></div><p class="soft">On a phone, you can also press and hold the picture to save or forward it.</p>` : ''}${S.copyText ? `<label for="copy-box" class="soft">Copying was blocked. Select this text and copy it.</label><textarea id="copy-box" readonly>${esc(S.copyText)}</textarea>` : ''}</section>` : ''}
   ${feedbackCard(p)}
@@ -1691,7 +1777,7 @@ async function makeCard(p) {
   try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) { /* fonts optional */ }
   const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
   const g = c.getContext('2d'), wk = weekData(p);
-  const D = (w, s) => `${w} ${s}px "Baloo 2", "Trebuchet MS", sans-serif`, B = (w, s) => `${w} ${s}px "Atkinson Hyperlegible", "Segoe UI", sans-serif`;
+  const D = (w, s) => `${w} ${s}px "Baloo 2", "Trebuchet MS", sans-serif`, B = (w, s) => `${w} ${s}px "Lexend", "Segoe UI", sans-serif`;
   const bg = g.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#1b1938'); bg.addColorStop(1, '#2d2960'); g.fillStyle = bg; g.fillRect(0, 0, W, H);
   [[120, 80], [930, 140], [980, 620], [60, 900], [880, 1240], [420, 60], [640, 1290]].forEach(([x, y], i) => { const r = 5 + (i % 3) * 2; const gl = g.createRadialGradient(x, y, 0, x, y, r * 5); gl.addColorStop(0, 'rgba(255,207,92,.9)'); gl.addColorStop(1, 'rgba(255,207,92,0)'); g.fillStyle = gl; g.beginPath(); g.arc(x, y, r * 5, 0, Math.PI * 2); g.fill(); });
   g.fillStyle = '#ffcf5c'; g.font = B(700, 32); g.fillText('MINDMINT · THIS WEEK', 80, 120);
@@ -1936,7 +2022,9 @@ app.addEventListener('click', e => {
 app.addEventListener('change', e => {
   const t = e.target; if (t.dataset.act !== 'quest') return;
   const p = P(), wk = weekKey(); p.quests[wk] = p.quests[wk] || {}; p.quests[wk][t.dataset.k] = t.checked; save();
-  const tile = t.closest('.lifetile'); if (tile) tile.classList.toggle('done', t.checked);
+  const tile = t.closest('.lifetile'); if (tile) { tile.classList.toggle('done', t.checked); const lab = tile.querySelector('.tried span'); if (lab) lab.textContent = t.checked ? '✓ Tried' : 'Mark tried'; }
+  const n = Object.values(p.quests[wk]).filter(Boolean).length, tot = SKILLS.length * 2, tc = $('#tried-count'), tb = $('#tried-bar');
+  if (tc) tc.innerHTML = `<b>${n}</b> of ${tot} tried this week`; if (tb) tb.style.width = Math.round(n / tot * 100) + '%';
   if (t.checked) sfx('ok');
 });
 app.addEventListener('input', e => {
