@@ -6,7 +6,7 @@ Its advantage is transparent progress, useful parent guidance, and activities th
 
 ## What's inside
 
-- 12 short games across 6 skills: Memory, Focus, Numbers, Noticing, Logic, Words
+- 18 short games, 3 per skill: Memory, Focus, Numbers, Noticing, Logic, Words
 - Adaptive levels (two right in a row: harder; one miss: easier), each written as a plain sentence
 - Spaced review with a daily trick warm-up, family profiles (up to 4 children), glow garden rewards
 - Parent area behind a simple maths gate: session notes, weekly summary, everyday activities, settings

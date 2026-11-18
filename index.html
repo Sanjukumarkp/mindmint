@@ -542,6 +542,52 @@ body.grownup .arrow{color:var(--violet)}
 .lt-how summary::before{content:"i";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1.5px solid currentColor;font:700 .7rem var(--font-body)}
 .lt-how[open] summary{margin-bottom:6px}
 .lt-how p{font-size:.86rem;line-height:1.4;color:var(--ink)}
+/* v7: new games */
+.pairs{gap:8px}
+.pc{aspect-ratio:1;border:0;border-radius:16px;background:linear-gradient(145deg,#3b3780,#2a2754);cursor:pointer;position:relative;font-size:2rem;box-shadow:inset 0 0 0 2px rgba(255,207,92,.25)}
+.pc .back{color:var(--glow);font-size:1.4rem}
+.pc .front{display:none}
+.pc.up{background:var(--moon)}
+.pc.up .back{display:none}
+.pc.up .front{display:inline}
+.pc.matched{background:rgba(127,220,192,.25);box-shadow:inset 0 0 0 3px var(--mint)}
+.arena{position:relative;width:min(88vw,440px);height:300px;border-radius:24px;background:radial-gradient(ellipse at 50% 110%,rgba(127,220,192,.12),transparent 60%),var(--night-raised);overflow:hidden}
+.fly-btn{position:absolute;left:0;top:0;width:44px;height:44px;border:0;border-radius:50%;background:radial-gradient(circle,#d8d4ff 0%,#8d89c4 60%,rgba(141,137,196,0) 72%);cursor:pointer;will-change:transform}
+.fly-btn.gold{background:radial-gradient(circle,#fff6c9 0%,var(--glow) 55%,rgba(255,207,92,0) 72%);box-shadow:0 0 18px rgba(255,207,92,.7)}
+.fly-btn.picked{outline:3px solid var(--mint);outline-offset:-2px}
+.fly-btn.wrong{outline:3px solid var(--rose);outline-offset:-2px}
+.flashbox{position:relative;width:min(88vw,420px);aspect-ratio:3/2;border-radius:22px;background:var(--night-raised);transition:opacity .2s}
+.flashbox i{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:var(--glow);box-shadow:0 0 10px rgba(255,207,92,.6)}
+.flashbox.hidden i{opacity:0}
+.num-opt{font:800 1.8rem var(--font-display)}
+.shadow-src{font-size:4.5rem;line-height:1}
+.opt.sil{background:var(--moon)}
+.opt.sil span{display:inline-block;font-size:2.3rem;filter:brightness(0);opacity:.85;transition:filter .3s}
+.opt.sil.reveal span{filter:none;opacity:1}
+.pgrid{display:grid;gap:5px}
+.pcell{aspect-ratio:1;border-radius:12px;background:var(--night-raised);display:grid;place-items:center;font-size:1.6rem;position:relative}
+.pcell.wall{background:rgba(127,220,192,.12)}
+.pcell.goal{box-shadow:inset 0 0 0 2px rgba(255,157,181,.6)}
+.pcell.trail{background:rgba(255,207,92,.25)}
+.pcell.sol{background:rgba(127,220,192,.35)}
+.pcell.bump{background:rgba(255,154,143,.5)}
+.pip-tok{position:absolute;inset:0;display:grid;place-items:center}
+.seq-chips{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;min-height:36px;font-size:1.4rem;align-items:center}
+.arrows{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.arrow-btn{width:60px;height:60px;border-radius:18px;border:2px solid rgba(236,233,255,.3);background:var(--night-raised);font-size:1.8rem;cursor:pointer}
+.arrow-btn.undo{color:var(--moon);font-size:1.4rem}
+.letter-tile{font:800 3.2rem/1 var(--font-display);color:var(--night);background:var(--glow);border-radius:20px;padding:10px 22px;letter-spacing:.04em}
+.catitem.big{font-size:2.6rem}
+.dcard{width:52px;height:52px;border-radius:12px;background:#3b3780;color:var(--glow);display:grid;place-items:center;font-size:1.6rem;border:3px solid transparent;transition:all .2s}
+.dcard.hit{background:var(--moon);border-color:var(--mint)}
+.dfly{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle,#d8d4ff 0%,#8d89c4 60%,rgba(141,137,196,0) 72%);border:3px solid transparent}
+.dfly.lit{background:radial-gradient(circle,#fff6c9 0%,#ffcf5c 55%,rgba(255,207,92,0) 72%)}
+.dfly.hit{border-color:var(--mint)}
+.dbox{display:flex;gap:8px;padding:12px;border-radius:14px;background:var(--night-raised);transition:all .35s}
+.dbox i{width:16px;height:16px;border-radius:50%;background:var(--glow)}
+.dopt.sil{background:var(--moon)}
+.dopt.sil b{filter:brightness(0);font-weight:400}
+.dopt.sil.hit b{filter:none}
 @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}.fly{display:none}}
 </style>
 </head>
@@ -784,7 +830,7 @@ function nextDue(p, skill) {
   const left = gap - daysBetween(entries[entries.length - 1].ts, Date.now());
   return { due: left <= 0, overdue: -left, gap, label: left <= 0 ? `due now (review gap: ${gap} day${gap > 1 ? 's' : ''})` : `in ${left} day${left > 1 ? 's' : ''} (review gap: ${gap} day${gap > 1 ? 's' : ''})` };
 }
-function pickGame(p, s) { const [a, b] = SKILL_GAMES[s]; return lastPlayedGame(p, a) <= lastPlayedGame(p, b) ? a : b; }
+function pickGame(p, s) { return SKILL_GAMES[s].slice().sort((a, b) => lastPlayedGame(p, a) - lastPlayedGame(p, b))[0]; }
 function buildPlan(p) {
   const count = { 5: 2, 10: 3, 15: 4 }[p.child.minutes] || 3;
   const skills = p.child.focus.slice(0, 2).slice(0, count);
@@ -890,7 +936,7 @@ function vWelcome() {
     <div class="stack">
       <p class="eyebrow">Ages 4 to 13 · 10 minutes a day</p>
       <h1>Little games. Clear progress.</h1>
-      <p class="lede">12 short games for your child. A picture of their progress for you.</p>
+      <p class="lede">18 short games for your child. A picture of their progress for you.</p>
       <div class="row">
         ${kids.length ? '' : '<button class="btn big" data-act="setup">▶ Start</button>'}
         <button class="btn ghost" data-act="demo">👀 See a parent view</button></div>
@@ -1687,7 +1733,270 @@ function wordTrial(board, l, ui) {
     };
   });
 }
-const TRIALS = { trail: trailTrial, picnic: picnicTrial, lily: lilyTrial, frogs: frogsTrial, berry: numbersTrial, more: moreTrial, odd: oddTrial, mirror: mirrorTrial, next: nextTrial, sort: sortTrial, cat: catTrial, word: wordTrial };
+/* ---------- v7: six more games (one per skill) ---------- */
+const PAIRS = l => ({ pairs: [3, 4, 4, 5, 6, 6, 7, 8, 8, 10][l - 1], peek: l <= 2 });
+const TRACK = l => ({ total: [4, 5, 6, 6, 7, 8, 8, 9, 10, 10][l - 1], targets: [1, 1, 1, 2, 2, 2, 3, 3, 3, 4][l - 1], speed: 70 + l * 14, time: 4000 + l * 250 });
+const FLASH = l => ({ max: [3, 4, 5, 6, 7, 8, 9, 10, 12, 15][l - 1], ms: [2000, 1800, 1500, 1300, 1100, 1000, 900, 800, 700, 600][l - 1], grouped: l >= 8 });
+const SHADOW = l => ({ opts: [3, 3, 4, 4, 5, 5, 6, 6, 6, 6][l - 1], flip: l >= 5, turn: l >= 7, similar: l >= 3 });
+const PATH = l => ({ n: [3, 4, 4, 5, 5, 5, 6, 6, 6, 6][l - 1], walls: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9][l - 1], minLen: [2, 3, 3, 4, 4, 5, 5, 6, 6, 7][l - 1] });
+const LETTER = l => [{ n: 4, k: 1, mode: 'first' }, { n: 6, k: 2, mode: 'first' }, { n: 6, k: 2, mode: 'first' }, { n: 8, k: 3, mode: 'first' }, { n: 8, k: 2, mode: 'last' }, { n: 9, k: 3, mode: 'last' }, { n: 8, k: 2, mode: 'blend' }, { n: 9, k: 3, mode: 'blend' }, { n: 12, k: 3, mode: 'blend' }, { n: 12, k: 3, mode: 'last' }][l - 1];
+const LETTER_DESC = { first: 'finds pictures that start with a given sound', last: 'finds pictures that end with a given sound', blend: 'hears two-letter starts like "sh" and "tr"' };
+Object.assign(GAMES, {
+  pairs: { name: 'Lantern Pairs', skill: 'memory', trials: 2, what: 'remembering where things are',
+    meaning: l => { const c = PAIRS(l); return `finds ${c.pairs} matching pairs without many extra tries${c.peek ? ' (after a quick peek)' : ''}`; }, kid: l => `${PAIRS(l).pairs} pairs` },
+  track: { name: 'Firefly Watch', skill: 'focus', trials: 4, what: 'keeping your eyes on moving things',
+    meaning: l => { const c = TRACK(l); return `keeps track of ${c.targets} moving firefl${c.targets > 1 ? 'ies' : 'y'} among ${c.total}${noTimer() ? ' (slower speed)' : ''}`; }, kid: l => { const c = TRACK(l); return `${c.targets} of ${c.total} fireflies`; } },
+  flash: { name: 'Flash Count', skill: 'numbers', trials: 6, what: 'seeing how many without counting one by one',
+    meaning: l => { const c = FLASH(l); return `says how many dots (up to ${c.max}) after a ${(c.ms * (noTimer() ? 2 : 1) / 1000).toFixed(1)}-second look`; }, kid: l => `up to ${FLASH(l).max} dots` },
+  shadow: { name: 'Shadow Match', skill: 'noticing', trials: 6, what: 'matching a picture to its shape',
+    meaning: l => { const c = SHADOW(l); return `finds the right shadow among ${c.opts}${c.turn ? ', even when it is turned' : c.flip ? ', even when it is flipped' : ''}`; }, kid: l => `${SHADOW(l).opts} shadows` },
+  path: { name: "Pip's Path", skill: 'logic', trials: 4, what: 'planning steps before acting',
+    meaning: l => { const c = PATH(l); return `plans a route of ${c.minLen} or more steps on a ${c.n}×${c.n} map${c.walls ? ` around ${c.walls} tree${c.walls > 1 ? 's' : ''}` : ''}`; }, kid: l => `${PATH(l).n}×${PATH(l).n} maps` },
+  letter: { name: 'Letter Sounds', skill: 'words', trials: 4, what: 'hearing the sounds inside words',
+    meaning: l => { const c = LETTER(l); return `${LETTER_DESC[c.mode]} (${c.n} pictures)`; }, kid: l => ({ first: 'first sounds', last: 'last sounds', blend: 'sound pairs' })[LETTER(l).mode] }
+});
+Object.assign(STRATS, {
+  pairs: { q: 'How did you find the pairs?', best: 'Remember where each card was', opts: [['where', 'I remembered where cards were'], ['say', 'I said the names'], ['luck', 'I flipped and hoped']],
+    tip: { where: 'Remembering places is a super memory skill!', say: 'Saying names helps. Add "where" too: "mango, top corner".', luck: 'Try saying each card and its place: "mango, top corner". Then you will remember.', none: 'A trick to try: say each card and where it is, like "mango, top corner".' },
+    name: { where: 'remembered card positions', say: 'said the names', luck: 'flipped and hoped', none: 'was not sure which trick they used' } },
+  track: { q: 'How did you keep track?', best: 'Keep your eyes on the gold ones only', opts: [['eyes', 'I kept my eyes on them'], ['shape', 'I imagined a shape between them'], ['guess', 'I lost them and guessed']],
+    tip: { eyes: 'Steady eyes win! That is real focus.', shape: 'Imagining a shape between them is an expert trick!', guess: 'Try picking one firefly and never letting your eyes leave it.', none: 'A trick to try: keep your eyes glued to the gold ones and ignore the rest.' },
+    name: { eyes: 'kept eyes on the targets', shape: 'imagined a shape between targets', guess: 'lost track and guessed', none: 'was not sure which trick they used' } },
+  flash: { q: 'How did you count so fast?', best: 'See small groups, then add them', opts: [['groups', 'I saw small groups'], ['count', 'I counted one by one'], ['guess', 'I guessed']],
+    tip: { groups: 'Seeing groups, like 3 and 2, is how fast counters do it!', count: 'Counting works when there is time. Try spotting groups of 2 or 3.', guess: 'Next time, look for little groups, like pairs or triangles.', none: 'A trick to try: look for small groups of 2 or 3, then add them.' },
+    name: { groups: 'saw small groups', count: 'counted one by one', guess: 'guessed', none: 'was not sure which trick they used' } },
+  shadow: { q: 'How did you match the shadow?', best: 'Look at the outline, like ears or tails', opts: [['outline', 'I looked at the outline'], ['size', 'I looked at the size'], ['guess', 'I guessed']],
+    tip: { outline: 'Outlines tell you everything. Great noticing!', size: 'Size helps a little. Outlines help more: look for ears, tails and corners.', guess: 'Look for one special part, like a trunk or a tail, in each shadow.', none: 'A trick to try: find one special part, like ears or a tail, then look for it in the shadows.' },
+    name: { outline: 'looked at the outline', size: 'compared sizes', guess: 'guessed', none: 'was not sure which trick they used' } },
+  path: { q: 'How did you plan the route?', best: 'Trace the path with your finger first', opts: [['trace', 'I traced it first'], ['step', 'I went one step at a time'], ['guess', 'I just tried']],
+    tip: { trace: 'Planning before moving is what clever explorers do!', step: 'One step at a time works. Tracing the whole way first is even better.', guess: 'Try tracing the way with your finger before you pick arrows.', none: 'A trick to try: trace the whole route with your finger, then pick the arrows.' },
+    name: { trace: 'traced the route first', step: 'planned step by step', guess: 'just tried', none: 'was not sure which trick they used' } },
+  letter: { q: 'How did you find the sound?', best: "Say each picture's name slowly", opts: [['say', 'I said the names'], ['look', 'I looked at the pictures'], ['guess', 'I guessed']],
+    tip: { say: 'Saying names out loud is exactly how readers hear sounds!', look: 'Looking helps. Saying the name slowly helps more: "b-a-ll".', guess: 'Try saying each name slowly and listen to the first sound.', none: "A trick to try: say each picture's name slowly and listen." },
+    name: { say: 'said the names aloud', look: 'looked at the pictures', guess: 'guessed', none: 'was not sure which trick they used' } }
+});
+Object.assign(GAME_ICON, { pairs: '🃏', track: '💫', flash: '⚡', shadow: '🌗', path: '🗺️', letter: '🔡' });
+Object.assign(HOWTO, {
+  pairs: [['👆', 'Flip two cards'], ['🃏', 'Find the pairs']], track: [['👀', 'Watch the gold ones'], ['💫', 'Follow them'], ['👆', 'Tap them']],
+  flash: [['⚡', 'Quick look'], ['🔢', 'How many?']], shadow: [['🖼️', 'See the picture'], ['🌗', 'Find its shadow']],
+  path: [['⬆️', 'Pick arrows'], ['▶️', 'Run Pip to the flower']], letter: [['🔡', 'Hear the sound'], ['👆', 'Tap the pictures']]
+});
+Object.assign(STRAT_ICON, { pairs: { where: '🧠', say: '🗣️', luck: '🎲' }, track: { eyes: '👀', shape: '🔺', guess: '🎲' }, flash: { groups: '🧩', count: '🔢', guess: '🎲' }, shadow: { outline: '✏️', size: '📏', guess: '🎲' }, path: { trace: '☝️', step: '👣', guess: '🎲' }, letter: { say: '🗣️', look: '👀', guess: '🎲' } });
+SKILL_GAMES.memory.push('pairs'); SKILL_GAMES.focus.push('track'); SKILL_GAMES.numbers.push('flash'); SKILL_GAMES.noticing.push('shadow'); SKILL_GAMES.logic.push('path'); SKILL_GAMES.words.push('letter');
+
+function pairsTrial(board, l, ui) {
+  const c = PAIRS(l), pool = shuffle(ITEMS.slice()).slice(0, c.pairs), deck = shuffle([...pool, ...pool]);
+  const cols = deck.length <= 6 ? 3 : deck.length <= 12 ? 4 : 5, allow = c.pairs * 2;
+  board.innerHTML = `<div class="grid pairs" style="grid-template-columns:repeat(${cols},1fr);width:min(90vw,${cols * 92}px)">${deck.map((it, i) => `<button class="pc" data-i="${i}" aria-label="Card ${i + 1}"><span class="back" aria-hidden="true">✦</span><span class="front">${it[0]}</span></button>`).join('')}</div><p class="soft" id="pair-count">Pairs: 0 of ${c.pairs}</p>`;
+  const btns = [...board.querySelectorAll('.pc')];
+  ui.say(c.peek ? 'Quick peek! Then flip two cards to find the pairs.' : 'Flip two cards. Find the pairs!');
+  return new Promise(async resolve => {
+    if (c.peek) { btns.forEach(b => b.classList.add('up')); await wait(1800); btns.forEach(b => b.classList.remove('up')); }
+    const t0 = performance.now(); let open = [], found = 0, tries = 0, busy = false;
+    board.onclick = async e => {
+      const b = e.target.closest('.pc'); if (!b || busy || b.classList.contains('up') || !ui.alive()) return;
+      b.classList.add('up'); sfx('tap'); open.push(b);
+      if (open.length < 2) return;
+      tries++; busy = true; const [x, y] = open; open = [];
+      if (deck[+x.dataset.i] === deck[+y.dataset.i]) {
+        x.classList.add('matched'); y.classList.add('matched'); found++; busy = false;
+        board.querySelector('#pair-count').textContent = `Pairs: ${found} of ${c.pairs}`;
+        if (found === c.pairs) resolve({ correct: tries <= allow, ms: performance.now() - t0, note: tries <= allow ? null : 'All pairs found! A few extra tries on that one.' });
+      } else { await wait(800); x.classList.remove('up'); y.classList.remove('up'); busy = false; }
+    };
+  });
+}
+
+async function trackTrial(board, l, ui) {
+  const c = TRACK(l), speed = noTimer() ? c.speed * 0.6 : c.speed;
+  board.innerHTML = '<div class="arena" id="arena"></div>';
+  const arena = board.querySelector('#arena'), W = arena.clientWidth || 320, H = arena.clientHeight || 280, R = 22;
+  const flies = Array.from({ length: c.total }, (_, i) => {
+    const b = document.createElement('button'); b.className = 'fly-btn'; b.disabled = true; b.setAttribute('aria-label', 'Firefly ' + (i + 1)); arena.appendChild(b);
+    const a = Math.random() * Math.PI * 2;
+    return { b, x: R + Math.random() * (W - 2 * R), y: R + Math.random() * (H - 2 * R), vx: Math.cos(a) * speed, vy: Math.sin(a) * speed, target: i < c.targets };
+  });
+  const place = () => flies.forEach(f => { f.b.style.transform = `translate(${(f.x - R).toFixed(1)}px,${(f.y - R).toFixed(1)}px)`; });
+  place(); flies.forEach(f => { if (f.target) f.b.classList.add('gold'); });
+  ui.say(c.targets > 1 ? `Watch the ${c.targets} gold fireflies!` : 'Watch the gold firefly!');
+  await wait(2000); if (!ui.alive()) return { correct: false, ms: 0 };
+  flies.forEach(f => f.b.classList.remove('gold'));
+  ui.say('Keep your eyes on them…');
+  await new Promise(res => {
+    let last = performance.now(); const end = last + c.time;
+    const step = now => {
+      if (!ui.alive()) { res(); return; }
+      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      flies.forEach(f => {
+        f.x += f.vx * dt; f.y += f.vy * dt;
+        if (f.x < R || f.x > W - R) { f.vx *= -1; f.x = Math.max(R, Math.min(W - R, f.x)); }
+        if (f.y < R || f.y > H - R) { f.vy *= -1; f.y = Math.max(R, Math.min(H - R, f.y)); }
+        if (Math.random() < 0.012) { const a = Math.random() * Math.PI * 2; f.vx = Math.cos(a) * speed; f.vy = Math.sin(a) * speed; }
+      });
+      place();
+      if (now < end) requestAnimationFrame(step); else res();
+    };
+    requestAnimationFrame(step);
+  });
+  if (!ui.alive()) return { correct: false, ms: 0 };
+  ui.say(c.targets > 1 ? `Tap the ${c.targets} gold ones!` : 'Tap the gold one!');
+  flies.forEach(f => { f.b.disabled = false; });
+  const t0 = performance.now();
+  return new Promise(resolve => {
+    const picked = new Set();
+    arena.onclick = async e => {
+      const b = e.target.closest('.fly-btn'); if (!b || b.disabled) return;
+      const f = flies.find(x => x.b === b); if (picked.has(f)) return;
+      picked.add(f); b.classList.add('picked'); sfx('tap');
+      if (picked.size < c.targets) return;
+      flies.forEach(x => { x.b.disabled = true; });
+      const ok = [...picked].every(x => x.target);
+      flies.forEach(x => { if (x.target) x.b.classList.add('gold'); if (picked.has(x) && !x.target) x.b.classList.add('wrong'); });
+      if (!ok) ui.say('The gold ones were here.');
+      await wait(ok ? 600 : 1700);
+      resolve({ correct: ok, ms: performance.now() - t0 });
+    };
+  });
+}
+
+async function flashTrial(board, l, ui) {
+  const c = FLASH(l), show = noTimer() ? c.ms * 2 : c.ms, n = rand(Math.max(1, Math.ceil(c.max / 2)), c.max);
+  let pos;
+  if (c.grouped && n >= 6) { const a = rand(2, n - 2); pos = [...shuffle([0, 1, 2, 6, 7, 8, 12, 13, 14, 18, 19, 20]).slice(0, a), ...shuffle([3, 4, 5, 9, 10, 11, 15, 16, 17, 21, 22, 23]).slice(0, n - a)]; }
+  else pos = shuffle([...Array(24).keys()]).slice(0, n);
+  const dots = pos.map(i => { const col = i % 6, row = Math.floor(i / 6); return `<i style="left:${((col + 0.5) / 6 * 100 + (Math.random() - 0.5) * 5).toFixed(1)}%;top:${((row + 0.5) / 4 * 100 + (Math.random() - 0.5) * 8).toFixed(1)}%"></i>`; }).join('');
+  board.innerHTML = `<div class="flashbox" id="fbox" role="img" aria-label="Dots">${dots}</div><div class="opts" id="fopts"></div>`;
+  ui.say('Quick! Look…');
+  await wait(show); if (!ui.alive()) return { correct: false, ms: 0 };
+  const box = board.querySelector('#fbox'); box.classList.add('hidden');
+  const set = new Set([n]); [n - 1, n + 1, n + 2, n - 2].forEach(v => { if (v > 0 && set.size < 4) set.add(v); });
+  const opts = shuffle([...set]), wrap = board.querySelector('#fopts');
+  wrap.innerHTML = opts.map(v => `<button class="opt num-opt" data-v="${v}">${v}</button>`).join('');
+  ui.say('How many dots?');
+  const t0 = performance.now();
+  return new Promise(resolve => {
+    let over = false;
+    wrap.onclick = async e => {
+      const b = e.target.closest('.opt'); if (!b || over) return; over = true;
+      wrap.querySelectorAll('.opt').forEach(x => { x.disabled = true; });
+      if (+b.dataset.v === n) { b.classList.add('right'); await wait(500); resolve({ correct: true, ms: performance.now() - t0 }); }
+      else { b.classList.add('wrong'); wrap.querySelector(`[data-v="${n}"]`).classList.add('right'); box.classList.remove('hidden'); ui.say(`There were ${n}.`); await wait(1800); resolve({ correct: false, ms: performance.now() - t0 }); }
+    };
+  });
+}
+
+function shadowTrial(board, l, ui) {
+  const c = SHADOW(l), pool = TAGGED.filter(it => !it.n.includes(' ')), target = pick(pool);
+  let others = c.similar ? shuffle(pool.filter(it => it !== target && it.tags[0] === target.tags[0])) : shuffle(pool.filter(it => it.tags[0] !== target.tags[0]));
+  if (others.length < c.opts - 1) others = others.concat(shuffle(pool.filter(it => it !== target && !others.includes(it))));
+  const options = shuffle([target, ...others.slice(0, c.opts - 1)]);
+  const tf = () => { const p = []; if (c.flip && Math.random() < 0.5) p.push('scaleX(-1)'); if (c.turn) p.push(`rotate(${pick([0, 90, 180, 270])}deg)`); return p.join(' ') || 'none'; };
+  board.innerHTML = `<div class="shadow-src" role="img" aria-label="${target.n}">${target.e}</div><p class="q">Which shadow is it?</p><div class="opts">${options.map((o, i) => `<button class="opt sil" data-i="${i}" aria-label="Shadow ${i + 1}"><span style="transform:${tf()}">${o.e}</span></button>`).join('')}</div>`;
+  ui.say('Which shadow is it?');
+  const t0 = performance.now(), btns = [...board.querySelectorAll('.opt')], ans = options.indexOf(target);
+  return new Promise(resolve => {
+    let over = false;
+    board.onclick = async e => {
+      const b = e.target.closest('.opt'); if (!b || over) return; over = true;
+      btns.forEach(x => { x.disabled = true; }); btns[ans].classList.add('right', 'reveal');
+      if (+b.dataset.i === ans) { await wait(600); resolve({ correct: true, ms: performance.now() - t0 }); }
+      else { b.classList.add('wrong'); ui.say(`This one is the ${target.n}.`); await wait(1700); resolve({ correct: false, ms: performance.now() - t0 }); }
+    };
+  });
+}
+
+function bfsPath(n, walls, s, g) {
+  const q = [[s, []]], seen = new Set([s]);
+  while (q.length) {
+    const [cur, path] = q.shift(); if (cur === g) return path;
+    const r = Math.floor(cur / n), cc = cur % n;
+    for (const [d, dr, dc] of [['U', -1, 0], ['D', 1, 0], ['L', 0, -1], ['R', 0, 1]]) {
+      const nr = r + dr, nc = cc + dc; if (nr < 0 || nc < 0 || nr >= n || nc >= n) continue;
+      const ni = nr * n + nc; if (walls.has(ni) || seen.has(ni)) continue;
+      seen.add(ni); q.push([ni, [...path, d]]);
+    }
+  }
+  return null;
+}
+function pathTrial(board, l, ui) {
+  const c = PATH(l), N = c.n * c.n; let walls = new Set(), s = 0, g = N - 1, sol = null;
+  for (let t = 0; t < 300 && !sol; t++) { const cells = shuffle([...Array(N).keys()]); s = cells[0]; g = cells[1]; walls = new Set(cells.slice(2, 2 + c.walls)); const p = bfsPath(c.n, walls, s, g); if (p && p.length >= c.minLen) sol = p; }
+  if (!sol) { walls = new Set(); s = 0; g = N - 1; sol = bfsPath(c.n, walls, s, g); }
+  const maxLen = sol.length + 4, ARW = { U: '⬆️', D: '⬇️', L: '⬅️', R: '➡️' }, NAME = { U: 'Up', D: 'Down', L: 'Left', R: 'Right' };
+  board.innerHTML = `<div class="pgrid" style="grid-template-columns:repeat(${c.n},1fr);width:min(88vw,${c.n * 62}px)">${Array.from({ length: N }, (_, i) => `<span class="pcell ${walls.has(i) ? 'wall' : ''} ${i === g ? 'goal' : ''}">${walls.has(i) ? '🌳' : i === g ? '🌸' : ''}</span>`).join('')}</div>
+    <div class="seq-chips" id="seqc" aria-live="polite"></div>
+    <div class="arrows">${['L', 'U', 'D', 'R'].map(d => `<button class="arrow-btn" data-d="${d}" aria-label="${NAME[d]}">${ARW[d]}</button>`).join('')}<button class="arrow-btn undo" data-d="X" aria-label="Undo">⌫</button></div>
+    <button class="btn play" id="run">▶ Run</button>`;
+  const cells = [...board.querySelectorAll('.pcell')];
+  const setPip = i => { board.querySelectorAll('.pip-tok').forEach(x => x.remove()); cells[i].insertAdjacentHTML('beforeend', `<span class="pip-tok">${pipSvg(34)}</span>`); };
+  setPip(s);
+  ui.say(`Pick arrows to get Pip to the flower. The shortest way has ${sol.length} steps.`);
+  const seq = [], seqc = board.querySelector('#seqc');
+  const draw = () => { seqc.innerHTML = seq.length ? seq.map(d => `<span>${ARW[d]}</span>`).join('') : `<span class="soft">Shortest: ${sol.length} steps</span>`; };
+  draw();
+  const t0 = performance.now();
+  return new Promise(resolve => {
+    let over = false;
+    board.querySelector('.arrows').onclick = e => { const b = e.target.closest('.arrow-btn'); if (!b || over) return; if (b.dataset.d === 'X') seq.pop(); else if (seq.length < maxLen) seq.push(b.dataset.d); sfx('tap'); draw(); };
+    board.querySelector('#run').onclick = async () => {
+      if (over || !seq.length) return; over = true;
+      board.querySelectorAll('.arrow-btn, #run').forEach(x => { x.disabled = true; });
+      let cur = s, ok = false;
+      for (const d of seq) {
+        if (!ui.alive()) return;
+        const r = Math.floor(cur / c.n), cc = cur % c.n, nr = r + (d === 'U' ? -1 : d === 'D' ? 1 : 0), nc = cc + (d === 'L' ? -1 : d === 'R' ? 1 : 0), ni = nr * c.n + nc;
+        if (nr < 0 || nc < 0 || nr >= c.n || nc >= c.n || walls.has(ni)) { cells[cur].classList.add('bump'); break; }
+        cur = ni; cells[cur].classList.add('trail'); setPip(cur); sfx('tap'); await wait(340);
+        if (cur === g) { ok = true; break; }
+      }
+      if (ok) { resolve({ correct: true, ms: performance.now() - t0 }); return; }
+      ui.say('Not quite. Here is one way.');
+      await wait(700); cells.forEach(x => x.classList.remove('trail', 'bump')); setPip(s);
+      let p = s;
+      for (const d of sol) { const r = Math.floor(p / c.n), cc = p % c.n; p = (r + (d === 'U' ? -1 : d === 'D' ? 1 : 0)) * c.n + cc + (d === 'L' ? -1 : d === 'R' ? 1 : 0); cells[p].classList.add('sol'); await wait(220); }
+      await wait(1400); resolve({ correct: false, ms: performance.now() - t0 });
+    };
+  });
+}
+
+const PICS = (() => { const m = new Map(); TAGGED.forEach(it => { if (!it.n.includes(' ')) m.set(it.n, it.e); }); Object.values(WORDS).forEach(list => list.forEach(([w, e]) => m.set(w, e))); return [...m.entries()].map(([n, e]) => ({ n, e })); })();
+function letterQuestion(c) {
+  const key = w => c.mode === 'first' ? (/^(sh|ch|th)/.test(w) ? w.slice(0, 2) : w[0]) : c.mode === 'last' ? w[w.length - 1] : w.slice(0, 2);
+  const groups = {}; PICS.forEach(p => { const k = key(p.n); (groups[k] = groups[k] || []).push(p); });
+  const okKey = { first: /^[bcdfhlmprst]$/, last: /^[tgnrlmdpx]$/, blend: /^(sh|ch|tr|br|cr|st|sn|pl|fl|gr|cl|dr)$/ }[c.mode];
+  let cands = Object.keys(groups).filter(k => okKey.test(k) && groups[k].length >= c.k);
+  if (!cands.length) cands = Object.keys(groups).filter(k => groups[k].length >= c.k);
+  const letter = pick(cands), targets = shuffle(groups[letter].slice()).slice(0, c.k);
+  let pool = PICS.filter(p => key(p.n) !== letter && !(c.mode === 'last' && p.n.endsWith('e')));
+  pool = c.mode === 'blend' ? [...shuffle(pool.filter(p => p.n[0] === letter[0])), ...shuffle(pool.filter(p => p.n[0] !== letter[0]))] : shuffle(pool);
+  return { letter, targets, items: shuffle([...targets, ...pool.slice(0, c.n - c.k)]) };
+}
+function letterTrial(board, l, ui) {
+  const c = LETTER(l), q = letterQuestion(c), verb = c.mode === 'last' ? 'end' : 'start';
+  const shown = q.letter.length > 1 ? cap(q.letter) + ' ' + q.letter : q.letter.toUpperCase() + ' ' + q.letter;
+  const cols = c.n <= 6 ? 3 : 4;
+  board.innerHTML = `<div class="letter-tile" aria-hidden="true">${shown}</div><p class="q">Tap pictures that ${verb} with <strong>${q.letter}</strong></p><div class="grid catgrid" style="grid-template-columns:repeat(${cols},1fr)">${q.items.map((it, i) => `<button class="catitem big" data-i="${i}" aria-pressed="false" aria-label="${it.n}">${it.e}</button>`).join('')}</div><div class="row" style="justify-content:center"><span class="soft" id="let-count">Found 0 of ${c.k}</span><button class="btn small ghost" id="let-done">I'm done</button></div>`;
+  ui.say(`Tap the pictures that ${verb} with ${q.letter}. There ${c.k > 1 ? 'are' : 'is'} ${c.k}.`);
+  const t0 = performance.now(), btns = [...board.querySelectorAll('.catitem')], isT = i => q.targets.includes(q.items[i]);
+  let found = 0, errors = 0;
+  return new Promise(resolve => {
+    let over = false;
+    const finish = async ok => {
+      if (over) return; over = true; btns.forEach(b => { b.disabled = true; }); board.querySelector('#let-done').disabled = true;
+      if (!ok) { btns.forEach((b, i) => { if (isT(i) && b.getAttribute('aria-pressed') !== 'true') b.classList.add('missed'); }); ui.say(`The dashed ones ${verb} with ${q.letter} too.`); await wait(1900); }
+      resolve({ correct: ok, ms: performance.now() - t0 });
+    };
+    board.querySelector('.catgrid').onclick = e => {
+      const b = e.target.closest('.catitem'); if (!b || over || b.getAttribute('aria-pressed') === 'true' || b.classList.contains('nope')) return;
+      const i = +b.dataset.i, it = q.items[i];
+      if (isT(i)) { b.setAttribute('aria-pressed', 'true'); found++; sfx('tap'); speak(it.n); board.querySelector('#let-count').textContent = `Found ${found} of ${c.k}`; if (found === c.k) finish(errors <= 1); }
+      else { errors++; b.classList.add('nope', 'shake'); setTimeout(() => b.classList.remove('shake'), 400); ui.say(`${cap(it.n)} ${verb}s with ${c.mode === 'last' ? it.n[it.n.length - 1] : c.mode === 'blend' ? it.n.slice(0, 2) : it.n[0]}.`); }
+    };
+    board.querySelector('#let-done').onclick = () => finish(false);
+  });
+}
+
+const TRIALS = { pairs: pairsTrial, track: trackTrial, flash: flashTrial, shadow: shadowTrial, path: pathTrial, letter: letterTrial, trail: trailTrial, picnic: picnicTrial, lily: lilyTrial, frogs: frogsTrial, berry: numbersTrial, more: moreTrial, odd: oddTrial, mirror: mirrorTrial, next: nextTrial, sort: sortTrial, cat: catTrial, word: wordTrial };
 
 /* ---------- v5: language (English / Hindi) ---------- */
 const isHi = () => !!(P() && P().child.lang === 'hi');
@@ -1805,6 +2114,19 @@ async function makeCard(p) {
   return c.toDataURL('image/png');
 }
 function dataUrlToFile(url, name) { const [h, b] = url.split(','); const bin = atob(b), arr = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i); return new File([arr], name, { type: h.split(':')[1].split(';')[0] }); }
+
+/* v7: demos, Hindi and phrases for the new games */
+Object.assign(DEMOS, {
+  pairs: { html: '<div class="dgrid g2"><span class="dcard" data-d="c0">✦</span><span class="dcard" data-d="c1">✦</span><span class="dcard" data-d="c2">✦</span><span class="dcard" data-d="c3">✦</span></div>', steps: [['tap', 'c0'], ['set', 'c0', '🍎'], ['tap', 'c3'], ['set', 'c3', '🍎'], ['ok']] },
+  track: { html: '<div class="dgrid g3"><span class="dfly"></span><span class="dfly" data-d="f"></span><span class="dfly"></span></div>', steps: [['light', 'f'], ['light', 'f'], ['wait', 500], ['tap', 'f'], ['ok']] },
+  flash: { html: '<div class="dbox" data-d="box"><i></i><i></i><i></i><i></i></div><div class="drow gone" data-d="opts"><span class="dopt">3</span><span class="dopt" data-d="o4">4</span><span class="dopt">5</span></div>', steps: [['wait', 900], ['hide', 'box'], ['show', 'opts'], ['tap', 'o4'], ['ok']] },
+  shadow: { html: '<div class="ditem big">🐘</div><div class="drow"><span class="dopt sil"><b>🐄</b></span><span class="dopt sil" data-d="o"><b>🐘</b></span><span class="dopt sil"><b>🐒</b></span></div>', steps: [['wait', 700], ['tap', 'o'], ['ok']] },
+  path: { html: '<div class="dgrid g3"><span class="dc" data-d="p0">✨</span><span class="dc" data-d="p1"></span><span class="dc">🌸</span><span class="dc"></span><span class="dc">🌳</span><span class="dc"></span><span class="dc"></span><span class="dc"></span><span class="dc"></span></div><div class="drow"><span class="dopt" data-d="r">➡️</span><span class="dopt" data-d="run">▶️</span></div>', steps: [['tap', 'r'], ['tap', 'r'], ['tap', 'run'], ['set', 'p0', ''], ['set', 'p1', '✨'], ['wait', 300], ['set', 'p1', ''], ['ok']] },
+  letter: { html: '<div class="dtarget">B b</div><div class="drow"><span class="ditem" data-d="a">⚽</span><span class="ditem">🐱</span><span class="ditem" data-d="c">🍌</span></div>', steps: [['wait', 500], ['tap', 'a'], ['tap', 'c'], ['ok']] }
+});
+Object.assign(HOWTO_HI, { pairs: ['दो कार्ड पलटो', 'जोड़ी ढूँढो'], track: ['सुनहरे देखो', 'उनका पीछा करो', 'उन्हें छुओ'], flash: ['जल्दी देखो', 'कितने थे?'], shadow: ['तस्वीर देखो', 'परछाईं ढूँढो'], path: ['तीर चुनो', 'पिप को फूल तक ले जाओ'], letter: ['आवाज़ सुनो', 'तस्वीरें छुओ'] });
+Object.assign(BEST_HI, { pairs: 'हर कार्ड की जगह याद रखो', track: 'सिर्फ़ सुनहरे वालों पर नज़र रखो', flash: 'छोटे समूह देखो, फिर जोड़ो', shadow: 'किनारे देखो, जैसे कान या पूँछ', path: 'पहले उँगली से रास्ता बनाओ', letter: 'हर तस्वीर का नाम धीरे बोलो' });
+Object.assign(TR, { 'Flip two cards. Find the pairs!': 'दो कार्ड पलटो। जोड़ियाँ ढूँढो!', 'Quick peek! Then flip two cards to find the pairs.': 'जल्दी देखो! फिर दो कार्ड पलटकर जोड़ियाँ ढूँढो।', 'Watch the gold firefly!': 'सुनहरे जुगनू को देखो!', 'Keep your eyes on them…': 'उन पर नज़र रखो…', 'Tap the gold one!': 'सुनहरे वाले को छुओ!', 'The gold ones were here.': 'सुनहरे वाले यहाँ थे।', 'Quick! Look…': 'जल्दी! देखो…', 'How many dots?': 'कितने बिंदु थे?', 'Which shadow is it?': 'इसकी परछाईं कौन सी है?', 'Not quite. Here is one way.': 'ठीक नहीं। एक रास्ता ये है।' });
 
 function showIntro(k, board, ui) {
   const hi = isHi(), steps = HOWTO[k].map(([ic, tx], i) => [ic, hi ? HOWTO_HI[k][i] : tx]);
