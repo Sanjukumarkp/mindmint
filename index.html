@@ -322,7 +322,10 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .friend{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font:700 1.05rem var(--font-display)}
 .friend small{display:block;font:400 .78rem var(--font-body);color:var(--moon-soft)}
 /* v4: picture-first */
-.icon-row{gap:8px}
+.icon-row{gap:6px;flex-wrap:nowrap}
+.icon-row .icon-btn{min-width:44px;height:44px;padding:0 9px;font-size:1.2rem}
+@media (max-width:400px){.topbar .brand{font-size:1.15rem}.icon-row .icon-btn{min-width:42px;height:42px;padding:0 7px}}
+@media (max-width:370px){.topbar{gap:6px}.topbar .brand{font-size:1rem;gap:4px}.icon-row{gap:4px}.icon-row .icon-btn{min-width:40px;height:40px;padding:0 5px;font-size:1.05rem}}
 .icon-btn{appearance:none;border:2px solid rgba(236,233,255,.3);background:transparent;color:inherit;border-radius:999px;min-width:48px;height:48px;padding:0 12px;font-size:1.3rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .icon-btn b{font:800 1rem var(--font-display)}
 .meter{display:inline-flex;gap:3px;vertical-align:middle}
@@ -332,6 +335,24 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .game-ico.xl{font-size:3.6rem;width:96px;height:96px;border-radius:26px}
 .stop{gap:14px}
 .stop-main{flex:1;display:flex;flex-direction:column;gap:6px}
+/* v8 games library */
+.lib-open{align-self:center;min-height:52px;font-size:1.1rem}
+.lib-skill{margin-top:18px}
+.lib-head{display:flex;align-items:center;gap:10px;margin:0 0 10px;font:800 1.3rem var(--font-display)}
+.lib-head .sk-badge{background:var(--c)}
+.lib-name{flex:1}
+.lib-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.lib-tile{position:relative;appearance:none;border:2px solid transparent;border-top:5px solid var(--c);background:var(--night-raised);color:inherit;border-radius:18px;padding:14px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;min-height:132px;font:inherit;transition:transform .12s}
+.lib-tile:hover,.lib-tile:focus-visible{border-color:var(--c);transform:translateY(-2px)}
+.lib-tile:active{transform:scale(.96)}
+.lib-ico{font-size:2.6rem;line-height:1}
+.lib-title{font:700 .95rem/1.15 var(--font-display);text-align:center}
+.lib-stars{display:flex;gap:2px;font-size:1rem}
+.lib-stars i{font-style:normal;color:rgba(236,233,255,.2)}
+.lib-stars i.on{color:var(--glow);text-shadow:0 0 6px rgba(255,207,92,.6)}
+.lib-badge{position:absolute;top:-9px;right:-4px;background:var(--c);color:#1f1c3f;font:800 .7rem var(--font-display);padding:2px 7px;border-radius:999px;letter-spacing:.04em}
+.lib-badge.today{background:var(--glow)}
+@media (max-width:360px){.lib-title{font-size:.85rem}.lib-ico{font-size:2.2rem}}
 .stop-state{font-size:1.5rem}
 .btn.play{font-size:1.5rem;min-width:220px;min-height:68px}
 .intro{display:flex;flex-direction:column;align-items:center;gap:22px;padding:10px 0}
@@ -987,6 +1008,7 @@ function vHome() {
     ${w.answer ? `<p class="big-feedback">${w.answer === w.correct ? L('yes') : `${L('itwas')} ${bestTxt(w.correct)}`}</p>` : ''}</section>` : '';
   return `
   <header class="topbar">${brand()}<div class="row icon-row">
+    <button class="icon-btn" data-act="games" aria-label="All games">🎮</button>
     <button class="icon-btn" data-act="garden" aria-label="My garden, ${p.friends.length} friends">🌼<b>${p.friends.length}</b></button>
     <button class="icon-btn" data-act="switch" aria-label="Switch child">👥</button>
     <button class="icon-btn" data-act="gate" aria-label="Grown-ups area">🔒</button></div></header>
@@ -996,7 +1018,27 @@ function vHome() {
     const g = GAMES[k], done = t.done.includes(k);
     return `<li class="stop ${done ? 'lit' : ''} ${k === next ? 'next' : ''}"><span class="game-ico" aria-hidden="true">${GAME_ICON[k]}</span><div class="stop-main"><span class="stop-name">${g.name}</span>${meter(p.skills[g.skill].level)}</div><span class="stop-state">${done ? '<span role="img" aria-label="done">✅</span>' : lanternSvg(false)}</span></li>`;
   }).join('')}</ol>
-  ${showWarm ? '' : next ? `<button class="btn big play" data-act="play" data-key="${next}">${L('play')}</button>` : `<button class="btn big play" data-act="finish">${L('finish')}</button>`}`;
+  ${showWarm ? '' : next ? `<button class="btn big play" data-act="play" data-key="${next}">${L('play')}</button>` : `<button class="btn big play" data-act="finish">${L('finish')}</button>`}
+  ${showWarm ? '' : `<button class="btn ghost lib-open" data-act="games">${L('games')}</button>`}`;
+}
+
+function vGames() {
+  const p = P(), t = ensureToday(p);
+  return `
+  <header class="topbar">${brand()}<button class="btn ghost small" data-act="games-back">${L('back')}</button></header>
+  <section class="pip-say compact">${pipSvg(60, true)}<div class="bubble">${L('pickany')}</div>${hearBtn()}</section>
+  ${SKILLS.map(s => {
+    const lv = p.skills[s].level;
+    return `<section class="lib-skill" style="--c:${SKILL_COLOR[s]}">
+      <h2 class="lib-head"><span class="sk-badge">${skillIcon(s)}</span><span class="lib-name">${skillKid(s)}</span>${meter(lv)}</h2>
+      <div class="lib-row">${SKILL_GAMES[s].map(k => {
+        const runs = p.log.filter(e => e.game === k), best = runs.length ? Math.max(...runs.map(starsFor)) : 0, plan = t.plan.includes(k) && !t.done.includes(k);
+        return `<button class="lib-tile" data-act="free" data-key="${k}" aria-label="${GAMES[k].name}${runs.length ? `, best ${best} of 3 stars` : ', new'}">
+          ${!runs.length ? `<span class="lib-badge">${L('newb')}</span>` : plan ? `<span class="lib-badge today">${L('today')}</span>` : ''}
+          <span class="lib-ico" aria-hidden="true">${GAME_ICON[k]}</span><span class="lib-title">${GAMES[k].name}</span>
+          <span class="lib-stars" aria-hidden="true">${[1, 2, 3].map(i => `<i class="${i <= best ? 'on' : ''}">★</i>`).join('')}</span></button>`;
+      }).join('')}</div></section>`;
+  }).join('')}`;
 }
 
 function vGameShell(k) {
@@ -1011,7 +1053,7 @@ function vGameShell(k) {
 function vResult() {
   const p = P(), e = S.current, g = GAMES[e.game], st = STRATS[e.game], stars = starsFor(e);
   const up = e.levelEnd > e.levelStart, down = e.levelEnd < e.levelStart;
-  const remaining = p.today.plan.some(k => !p.today.done.includes(k));
+  const remaining = p.today.plan.some(k => !p.today.done.includes(k)), free = S.free;
   return `
   <header class="topbar">${brand()}</header>
   <section class="card result-hero">
@@ -1027,7 +1069,7 @@ function vResult() {
     <div class="pip-say compact">${pipSvg(48, true)}<div class="bubble" id="tip" role="status" aria-live="polite">${e.strategy ? st.tip[e.strategy] : L('tapone')}</div>${hearBtn()}</div>
   </section>
   <section class="card"><h3 id="fun-q">${L('fun')}</h3><div class="faces" role="group" aria-labelledby="fun-q">${[[2, '😀', 'Loved it'], [1, '🙂', 'It was OK'], [0, '🙁', 'Not really']].map(([v, f, l]) => `<button class="face" data-act="fun" data-v="${v}" aria-pressed="${e.fun === v}" aria-label="${l}">${f}</button>`).join('')}</div></section>
-  <button class="btn big play" data-act="next">${remaining ? L('next') : L('finish')}</button>`;
+  <button class="btn big play" data-act="next">${free ? L('more') : remaining ? L('next') : L('finish')}</button>`;
 }
 
 function questFor(p) {
@@ -1044,7 +1086,7 @@ function vDone() {
   <div class="lantern-row">${t.plan.map(() => lanternSvg(true)).join('')}</div>
   ${f ? `<section class="card award">${pipSvg(84, true, f.hue)}<div><p class="eyebrow">${L('newfriend')}</p><h2>${esc(f.name)}</h2><button class="btn small ghost" data-act="garden">${L('garden')}</button></div></section>` : ''}
   <section class="card quest"><p class="eyebrow">${L('quest')}</p><div class="quest-row"><span class="quest-ico" aria-hidden="true">${q.icon}</span><h2>${isHi() ? q.kidHi : q.kid}</h2></div></section>
-  <div class="row" style="justify-content:center"><button class="btn ghost" data-act="calm">${L('calm')}</button><button class="btn" data-act="gate">${L('grown')}</button></div>`;
+  <div class="row" style="justify-content:center"><button class="btn ghost" data-act="games">${L('more')}</button><button class="btn ghost" data-act="calm">${L('calm')}</button><button class="btn" data-act="gate">${L('grown')}</button></div>`;
 }
 
 function vGarden() {
@@ -1330,10 +1372,10 @@ function vParent() {
 /* ---------- Render ---------- */
 function render() {
   document.body.classList.toggle('grownup', S.screen === 'parent');
-  const views = { welcome: vWelcome, setup: vSetup, home: vHome, game: () => vGameShell(S.playing), result: vResult, done: vDone, calm: vCalm, garden: vGarden, parent: vParent };
+  const views = { welcome: vWelcome, setup: vSetup, home: vHome, game: () => vGameShell(S.playing), result: vResult, done: vDone, calm: vCalm, garden: vGarden, games: vGames, parent: vParent };
   app.innerHTML = (views[S.screen] || vWelcome)();
   if (S.screen !== 'game') { try { window.scrollTo(0, 0); } catch (e) { /* ignore */ } }
-  if (['home', 'done'].includes(S.screen)) { const b = app.querySelector('.bubble'); if (b) speak(b.textContent); }
+  if (['home', 'done', 'games'].includes(S.screen)) { const b = app.querySelector('.bubble'); if (b) speak(b.textContent); }
 }
 
 /* ---------- Games ---------- */
@@ -2000,7 +2042,9 @@ const TRIALS = { pairs: pairsTrial, track: trackTrial, flash: flashTrial, shadow
 
 /* ---------- v5: language (English / Hindi) ---------- */
 const isHi = () => !!(P() && P().child.lang === 'hi');
-const UI = { go: ['▶ Go', '▶ चलो'], play: ['▶ Play', '▶ खेलो'], next: ['▶ Next game', '▶ अगला खेल'], finish: ['🌟 Finish', '🌟 पूरा करो'], fun: ['Was it fun?', 'मज़ा आया?'], tapone: ['Tap one!', 'एक चुनो!'], newfriend: ['New friend!', 'नया दोस्त!'], quest: ['Real-life quest', 'असली दुनिया का खेल'], warmq: ['Which trick did Pip teach you?', 'पिप ने कौन सी तरकीब सिखाई थी?'], warm: ['Warm-up', 'याद-खेल'], calm: ['🧘 Calm', '🧘 शांत'], grown: ['🔒 Grown-ups', '🔒 बड़ों के लिए'], garden: ['🌼 My garden', '🌼 मेरा बगीचा'], yes: ['✅ Yes! Use it today.', '✅ हाँ! आज इसे इस्तेमाल करो।'], itwas: ['💡 It was:', '💡 सही जवाब:'] };
+const UI = { go: ['▶ Go', '▶ चलो'], play: ['▶ Play', '▶ खेलो'], next: ['▶ Next game', '▶ अगला खेल'], finish: ['🌟 Finish', '🌟 पूरा करो'], fun: ['Was it fun?', 'मज़ा आया?'], tapone: ['Tap one!', 'एक चुनो!'], newfriend: ['New friend!', 'नया दोस्त!'], quest: ['Real-life quest', 'असली दुनिया का खेल'], warmq: ['Which trick did Pip teach you?', 'पिप ने कौन सी तरकीब सिखाई थी?'], warm: ['Warm-up', 'याद-खेल'], calm: ['🧘 Calm', '🧘 शांत'], grown: ['🔒 Grown-ups', '🔒 बड़ों के लिए'], garden: ['🌼 My garden', '🌼 मेरा बगीचा'], yes: ['✅ Yes! Use it today.', '✅ हाँ! आज इसे इस्तेमाल करो।'], itwas: ['💡 It was:', '💡 सही जवाब:'], games: ['🎮 All games', '🎮 सारे खेल'], pickany: ['Pick any game!', 'कोई भी खेल चुनो!'], more: ['🎮 More games', '🎮 और खेल'], back: ['Back', 'वापस'], newb: ['NEW', 'नया'], today: ['Today', 'आज'] };
+const SKILL_HI = { memory: 'याद', focus: 'ध्यान', numbers: 'गिनती', noticing: 'पहचान', logic: 'सोच', words: 'शब्द' };
+const skillKid = s => isHi() ? SKILL_HI[s] : SKILL_NAME[s];
 const L = k => UI[k][isHi() ? 1 : 0];
 const PRAISE = { en: ['Yes!', 'Great!', 'Nice!', 'You got it!'], hi: ['हाँ!', 'शाबाश!', 'बहुत अच्छे!', 'सही जवाब!'] };
 const TRYAGAIN = { en: ['Good try!', 'Nearly!'], hi: ['अच्छी कोशिश!', 'बस थोड़ा सा!'] };
@@ -2170,9 +2214,9 @@ async function play(k) {
     ui.say(line); flash(r.correct); dots(g.trials, results); $('#levelnote').innerHTML = meter(sk.level);
     await wait(1400);
   }
-  const entry = { ts: Date.now(), game: k, skill: g.skill, trials: g.trials, correct: results.filter(Boolean).length, results, levelStart: start, levelEnd: sk.level, changes, avgMs: Math.round(times.reduce((a, b) => a + b, 0) / times.length), durMs: Date.now() - began, strategy: null, fun: null };
+  const entry = { ts: Date.now(), game: k, skill: g.skill, trials: g.trials, correct: results.filter(Boolean).length, results, levelStart: start, levelEnd: sk.level, changes, avgMs: Math.round(times.reduce((a, b) => a + b, 0) / times.length), durMs: Date.now() - began, strategy: null, fun: null, free: !!S.free };
   p.log.push(entry);
-  const t = ensureToday(p); if (!t.done.includes(k)) t.done.push(k);
+  const t = ensureToday(p); if (t.plan.includes(k) && !t.done.includes(k)) t.done.push(k);
   S.current = entry; S.screen = 'result'; save(); render();
 }
 
@@ -2282,15 +2326,18 @@ app.addEventListener('click', e => {
       speak(w.answer === w.correct ? (isHi() ? 'हाँ! तुम्हें याद था।' : 'Yes! You remembered the trick.') : (isHi() ? `सही जवाब: ${bestTxt(w.correct)}` : `Close! It was: ${w.correct}`));
       break;
     }
-    case 'play': play(t.dataset.key); break;
-    case 'stop': token++; S.screen = 'home'; render(); break;
+    case 'play': S.free = false; play(t.dataset.key); break;
+    case 'free': S.free = true; play(t.dataset.key); break;
+    case 'games': token++; S.screen = 'games'; render(); break;
+    case 'games-back': S.free = false; S.screen = 'home'; render(); break;
+    case 'stop': token++; S.screen = S.free ? 'games' : 'home'; render(); break;
     case 'strat': {
       S.current.strategy = t.dataset.v; save();
       setChipGroup(t, c => c === t);
       const tip = STRATS[S.current.game].tip[t.dataset.v]; $('#tip').textContent = tip; speak(tip);
       break;
     }
-    case 'next': if (p.today.plan.some(k => !p.today.done.includes(k))) { S.screen = 'home'; render(); } else goDone(); break;
+    case 'next': if (S.free) { S.screen = 'games'; render(); } else if (p.today.plan.some(k => !p.today.done.includes(k))) { S.screen = 'home'; render(); } else goDone(); break;
     case 'finish': goDone(); break;
     case 'fun': S.current.fun = +t.dataset.v; save(); setChipGroup(t, c => c === t); if (+t.dataset.v === 2) sfx('ok'); break;
     case 'garden': S.gardenFrom = S.screen; S.screen = 'garden'; render(); break;
