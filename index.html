@@ -423,6 +423,54 @@ body.grownup .face[aria-pressed="true"]{border-color:var(--violet);background:#e
 .rules-pic .chg{font-size:1.05rem;margin-right:14px}
 body.grownup .chip[data-act="add-kid"]{border-style:dashed}
 body.grownup .arrow{color:var(--violet)}
+/* v5: demos, voice, card */
+.hear{flex:none;width:48px;padding:0;justify-content:center}
+.demo{position:relative;width:min(84vw,320px);min-height:190px;background:rgba(236,233,255,.06);border:2px dashed rgba(236,233,255,.18);border-radius:22px;padding:18px;display:grid;place-items:center;overflow:hidden}
+.demo-scene{display:flex;flex-direction:column;align-items:center;gap:12px}
+.dgrid{display:grid;gap:7px}
+.dgrid.g3{grid-template-columns:repeat(3,38px)}
+.dgrid.g2{grid-template-columns:repeat(2,52px)}
+.dgrid.g4{grid-template-columns:repeat(4,32px)}
+.dc{width:100%;aspect-ratio:1;border-radius:10px;background:var(--night-raised);display:block;transition:background .2s}
+.dc.lit,.dc.on{background:var(--glow);box-shadow:0 0 14px rgba(255,207,92,.7)}
+.dc.hit{background:var(--mint);box-shadow:0 0 14px rgba(127,220,192,.6)}
+.dc.edge{box-shadow:5px 0 0 -2px var(--mint)}
+.dc.on.edge{box-shadow:5px 0 0 -2px var(--mint),0 0 14px rgba(255,207,92,.7)}
+.drow{display:flex;gap:10px;align-items:center;justify-content:center;font-size:1.8rem;line-height:1}
+.ditem,.dopt{font-size:2rem;padding:6px;border-radius:14px;transition:all .3s;border:3px solid transparent}
+.ditem.big{font-size:3rem}
+.dopt{background:var(--night-raised)}
+.hit.ditem,.hit.dopt,.hit.dbin,.hit.dside,.hit.dlan,.hit.dbtn{border-color:var(--mint);box-shadow:0 0 0 3px var(--mint)}
+.gone{opacity:0;transform:scale(.5);transition:all .35s}
+.dpad{width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#4f8f7c,#2b5f53);color:#fff;display:grid;place-items:center;font:800 1.3rem var(--font-display);transition:opacity .2s}
+.dpad.hit{opacity:.3}
+.dspot{position:relative;width:96px;height:96px;border-radius:50%;background:radial-gradient(circle,#2f5d55,#22403f)}
+.dfrog{position:absolute;inset:14px;border-radius:50%;display:grid;place-items:center;font-size:2.2rem;transition:all .3s}
+.dfrog.go{background:radial-gradient(circle at 35% 30%,#b9f5c9,#2f9e5a)}
+.dfrog.stop{background:radial-gradient(circle at 35% 30%,#ffc2bb,#c9392f);border-radius:22%}
+.dfrog.hit{box-shadow:0 0 0 4px var(--mint)}
+.dtarget{font:800 1.6rem var(--font-display);color:var(--glow)}
+.dberry{width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff9db5,#c2456a);color:#fff;display:grid;place-items:center;font:800 1.4rem var(--font-display);transition:transform .2s}
+.dberry.hit{transform:translateY(-6px);box-shadow:0 0 0 4px var(--glow)}
+.dsum{font:800 1.3rem var(--font-display);color:var(--mint);min-height:1.4em}
+.dside{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;width:96px;min-height:70px;padding:10px;border-radius:16px;background:var(--night-raised);border:3px solid transparent;align-content:center}
+.dside i{width:14px;height:14px;border-radius:50%;background:var(--glow)}
+.dlan{width:52px;height:52px;border-radius:50%;background:hsl(200 78% 56%);border:3px solid transparent;box-shadow:0 0 14px -2px hsl(200 78% 56%)}
+.dlan.odd{background:hsl(200 78% 74%)}
+.dbtn{font-size:1.6rem;border:3px solid transparent;border-radius:12px;padding:2px 6px}
+.dq{border:2px dashed var(--glow);border-radius:10px;padding:2px 8px;color:var(--glow);font:800 1.4rem var(--font-display)}
+.drule{font-size:2.2rem}
+.dcardmini{width:62px;height:62px;border-radius:14px;background:var(--moon);display:grid;place-items:center}
+.dbin{width:64px;height:64px;border-radius:16px;background:var(--night-raised);display:grid;place-items:center;border:3px solid transparent}
+.dslot{width:34px;height:40px;border-bottom:3px solid var(--moon-soft);display:grid;place-items:center;font:800 1.5rem var(--font-display);color:var(--glow);text-transform:uppercase}
+.dtile{width:40px;height:40px;border-radius:10px;background:var(--moon);color:var(--night);display:grid;place-items:center;font:800 1.4rem var(--font-display);text-transform:uppercase;transition:opacity .2s}
+.dtile.hit{opacity:.25}
+.finger{position:absolute;left:50%;top:120%;font-size:2.2rem;line-height:1;opacity:0;transition:left .45s ease,top .45s ease,opacity .25s,transform .15s;pointer-events:none;z-index:2;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4))}
+.finger.show{opacity:1}
+.finger.press{transform:scale(.8) translateY(4px)}
+.demo-ok{position:absolute;right:12px;top:10px;width:40px;height:40px;border-radius:50%;background:var(--mint);color:var(--night);display:grid;place-items:center;font:800 1.5rem var(--font-display);opacity:0;transform:scale(.5);transition:all .3s}
+.demo-ok.show{opacity:1;transform:scale(1)}
+.pcard{width:100%;max-width:420px;border-radius:18px;box-shadow:0 10px 30px rgba(31,28,63,.25);align-self:center}
 @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}.fly{display:none}}
 </style>
 </head>
@@ -620,6 +668,7 @@ function normalize(p) {
   SKILLS.forEach(s => { if (!p.skills[s]) p.skills[s] = { level: start, streak: 0 }; });
   p.friends = p.friends || []; p.quests = p.quests || {}; p.log = p.log || [];
   if (p.child.sounds == null) p.child.sounds = true;
+  if (!p.child.lang) p.child.lang = 'en';
   return p;
 }
 let S = blank();
@@ -688,7 +737,14 @@ function ensureToday(p) {
 function speak(t) {
   const p = P();
   if (!p || !p.child.readAloud || !('speechSynthesis' in window)) return;
-  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(String(t).replace(/[^\p{L}\p{N}\s.,!?'-]/gu, ' ')); u.lang = 'en-IN'; u.rate = 0.95; u.pitch = 1.1; speechSynthesis.speak(u); } catch (e) { /* no voice available */ }
+  try {
+    speechSynthesis.cancel();
+    const text = String(t).replace(/[^\p{L}\p{M}\p{N}\s.,!?'।-]/gu, ' '), hi = /[\u0900-\u097F]/.test(text);
+    const u = new SpeechSynthesisUtterance(text); u.lang = hi ? 'hi-IN' : 'en-IN'; u.rate = hi ? 0.9 : 0.95; u.pitch = 1.1;
+    const v = (speechSynthesis.getVoices() || []).find(x => x.lang && x.lang.toLowerCase().replace('_', '-').startsWith(hi ? 'hi' : 'en-in')) || (!hi && (speechSynthesis.getVoices() || []).find(x => x.lang && x.lang.toLowerCase().startsWith('en')));
+    if (v) u.voice = v;
+    speechSynthesis.speak(u);
+  } catch (e) { /* no voice available */ }
 }
 
 /* ---------- Art: Pip the firefly and lanterns (original) ---------- */
@@ -807,29 +863,30 @@ function vHome() {
   const p = P(), t = ensureToday(p), name = esc(p.child.name);
   const next = t.plan.find(k => !t.done.includes(k));
   const w = t.warm, showWarm = w && !w.answer && !t.done.length;
-  const msg = showWarm ? `Hi ${name}! Quick memory check first.` : next ? (t.done.length ? 'Great! On to the next one.' : `Hi ${name}! ${t.plan.length} games today.`) : `All done, ${name}! 🎉`;
-  const warmCard = (w && !t.done.length) ? `<section class="card warm"><p class="eyebrow">🧠 Warm-up</p><h3 id="warm-q"><span aria-hidden="true">${GAME_ICON[w.game]}</span> Which trick did Pip teach you?</h3>
-    <div class="pick-col" role="group" aria-labelledby="warm-q">${w.opts.map((o, i) => `<button class="pick wide" data-act="warm" data-i="${i}" aria-pressed="${w.answer === o}" ${w.answer ? 'disabled' : ''}>${o}</button>`).join('')}</div>
-    ${w.answer ? `<p class="big-feedback">${w.answer === w.correct ? '✅ Yes! Use it today.' : `💡 It was: ${w.correct}`}</p>` : ''}</section>` : '';
+  const hi = isHi();
+  const msg = showWarm ? (hi ? `नमस्ते ${name}! पहले एक छोटा सा याद-खेल।` : `Hi ${name}! Quick memory check first.`) : next ? (t.done.length ? (hi ? 'बहुत बढ़िया! अब अगला खेल।' : 'Great! On to the next one.') : (hi ? `नमस्ते ${name}! आज ${t.plan.length} खेल हैं।` : `Hi ${name}! ${t.plan.length} games today.`)) : (hi ? `सब हो गया, ${name}! 🎉` : `All done, ${name}! 🎉`);
+  const warmCard = (w && !t.done.length) ? `<section class="card warm"><p class="eyebrow">🧠 ${L('warm')}</p><h3 id="warm-q"><span aria-hidden="true">${GAME_ICON[w.game]}</span> ${L('warmq')}</h3>
+    <div class="pick-col" role="group" aria-labelledby="warm-q">${w.opts.map((o, i) => `<button class="pick wide" data-act="warm" data-i="${i}" aria-pressed="${w.answer === o}" ${w.answer ? 'disabled' : ''}>${bestTxt(o)}</button>`).join('')}</div>
+    ${w.answer ? `<p class="big-feedback">${w.answer === w.correct ? L('yes') : `${L('itwas')} ${bestTxt(w.correct)}`}</p>` : ''}</section>` : '';
   return `
   <header class="topbar">${brand()}<div class="row icon-row">
     <button class="icon-btn" data-act="garden" aria-label="My garden, ${p.friends.length} friends">🌼<b>${p.friends.length}</b></button>
     <button class="icon-btn" data-act="switch" aria-label="Switch child">👥</button>
     <button class="icon-btn" data-act="gate" aria-label="Grown-ups area">🔒</button></div></header>
-  <section class="pip-say">${pipSvg(88, true)}<div class="bubble">${msg}</div></section>
+  <section class="pip-say">${pipSvg(88, true)}<div class="bubble">${msg}</div>${hearBtn()}</section>
   ${warmCard}
   <ol class="path" aria-label="Today's games, in order">${t.plan.map(k => {
     const g = GAMES[k], done = t.done.includes(k);
     return `<li class="stop ${done ? 'lit' : ''} ${k === next ? 'next' : ''}"><span class="game-ico" aria-hidden="true">${GAME_ICON[k]}</span><div class="stop-main"><span class="stop-name">${g.name}</span>${meter(p.skills[g.skill].level)}</div><span class="stop-state">${done ? '<span role="img" aria-label="done">✅</span>' : lanternSvg(false)}</span></li>`;
   }).join('')}</ol>
-  ${showWarm ? '' : next ? `<button class="btn big play" data-act="play" data-key="${next}">▶ Play</button>` : '<button class="btn big play" data-act="finish">🌟 Finish</button>'}`;
+  ${showWarm ? '' : next ? `<button class="btn big play" data-act="play" data-key="${next}">${L('play')}</button>` : `<button class="btn big play" data-act="finish">${L('finish')}</button>`}`;
 }
 
 function vGameShell(k) {
   return `
   <header class="topbar"><div class="brand">${GAMES[k].name}</div><button class="btn ghost small" data-act="stop">Stop</button></header>
   <div class="trialbar" id="dots" aria-hidden="true"></div>
-  <div class="pip-say compact">${pipSvg(52, true)}<div class="bubble" id="say" role="status" aria-live="polite">Get ready…</div></div>
+  <div class="pip-say compact">${pipSvg(52, true)}<div class="bubble" id="say" role="status" aria-live="polite">${tr('Get ready…')}</div>${hearBtn()}</div>
   <div id="board" class="board"></div>
   <p class="levelnote" id="levelnote"></p>`;
 }
@@ -850,27 +907,27 @@ function vResult() {
   <section class="card">
     <h3 id="strat-q">🤔 ${st.q}</h3>
     <div class="pick-grid" role="group" aria-labelledby="strat-q">${[...st.opts, ['none', 'Not sure']].map(([v, tx]) => `<button class="pick" data-act="strat" data-v="${v}" aria-pressed="${e.strategy === v}"><span class="pick-ico" aria-hidden="true">${(STRAT_ICON[e.game] || {})[v] || '🤷'}</span>${tx}</button>`).join('')}</div>
-    <div class="pip-say compact">${pipSvg(48, true)}<div class="bubble" id="tip" role="status" aria-live="polite">${e.strategy ? st.tip[e.strategy] : 'Tap one!'}</div></div>
+    <div class="pip-say compact">${pipSvg(48, true)}<div class="bubble" id="tip" role="status" aria-live="polite">${e.strategy ? st.tip[e.strategy] : L('tapone')}</div>${hearBtn()}</div>
   </section>
-  <section class="card"><h3 id="fun-q">Was it fun?</h3><div class="faces" role="group" aria-labelledby="fun-q">${[[2, '😀', 'Loved it'], [1, '🙂', 'It was OK'], [0, '🙁', 'Not really']].map(([v, f, l]) => `<button class="face" data-act="fun" data-v="${v}" aria-pressed="${e.fun === v}" aria-label="${l}">${f}</button>`).join('')}</div></section>
-  <button class="btn big play" data-act="next">${remaining ? '▶ Next game' : '🌟 Finish'}</button>`;
+  <section class="card"><h3 id="fun-q">${L('fun')}</h3><div class="faces" role="group" aria-labelledby="fun-q">${[[2, '😀', 'Loved it'], [1, '🙂', 'It was OK'], [0, '🙁', 'Not really']].map(([v, f, l]) => `<button class="face" data-act="fun" data-v="${v}" aria-pressed="${e.fun === v}" aria-label="${l}">${f}</button>`).join('')}</div></section>
+  <button class="btn big play" data-act="next">${remaining ? L('next') : L('finish')}</button>`;
 }
 
 function questFor(p) {
   const t = ensureToday(p), g = t.plan[0], skill = GAMES[g].skill;
   let i = LIFE[skill].findIndex(a => a.game === g); if (i < 0) i = 0;
-  return Object.assign({ icon: LIFE_META[skill][i][0] }, LIFE[skill][i]);
+  return Object.assign({ icon: LIFE_META[skill][i][0], kidHi: KID_HI[skill][i] }, LIFE[skill][i]);
 }
 function vDone() {
   const p = P(), t = ensureToday(p), q = questFor(p);
   const f = t.awarded ? (p.friends.find(x => x.name === t.awarded) || p.friends[p.friends.length - 1]) : null;
   return `
   <header class="topbar">${brand()}</header>
-  <section class="pip-say">${pipSvg(96, true)}<div class="bubble">All done, ${esc(p.child.name)}! 🎉</div></section>
+  <section class="pip-say">${pipSvg(96, true)}<div class="bubble">${isHi() ? `सब हो गया, ${esc(p.child.name)}! 🎉` : `All done, ${esc(p.child.name)}! 🎉`}</div>${hearBtn()}</section>
   <div class="lantern-row">${t.plan.map(() => lanternSvg(true)).join('')}</div>
-  ${f ? `<section class="card award">${pipSvg(84, true, f.hue)}<div><p class="eyebrow">New friend!</p><h2>${esc(f.name)}</h2><button class="btn small ghost" data-act="garden">🌼 My garden</button></div></section>` : ''}
-  <section class="card quest"><p class="eyebrow">Real-life quest</p><div class="quest-row"><span class="quest-ico" aria-hidden="true">${q.icon}</span><h2>${q.kid}</h2></div></section>
-  <div class="row" style="justify-content:center"><button class="btn ghost" data-act="calm">🧘 Calm</button><button class="btn" data-act="gate">🔒 Grown-ups</button></div>`;
+  ${f ? `<section class="card award">${pipSvg(84, true, f.hue)}<div><p class="eyebrow">${L('newfriend')}</p><h2>${esc(f.name)}</h2><button class="btn small ghost" data-act="garden">${L('garden')}</button></div></section>` : ''}
+  <section class="card quest"><p class="eyebrow">${L('quest')}</p><div class="quest-row"><span class="quest-ico" aria-hidden="true">${q.icon}</span><h2>${isHi() ? q.kidHi : q.kid}</h2></div></section>
+  <div class="row" style="justify-content:center"><button class="btn ghost" data-act="calm">${L('calm')}</button><button class="btn" data-act="gate">${L('grown')}</button></div>`;
 }
 
 function vGarden() {
@@ -883,7 +940,7 @@ function vGarden() {
 function vCalm() {
   return `
   <header class="topbar">${brand()}<button class="btn ghost small" data-act="calm-done">Done</button></header>
-  <section class="calm"><div class="breath" id="breath" aria-hidden="true"></div><p class="calm-text" id="calm-text" role="status" aria-live="polite">Sit comfy. Watch Pip's glow.</p></section>
+  <section class="calm"><div class="breath" id="breath" aria-hidden="true"></div><p class="calm-text" id="calm-text" role="status" aria-live="polite">${tr("Sit comfy. Watch Pip's glow.")}</p></section>
   <p class="soft" style="text-align:center">Breathe in as the glow grows. Breathe out as it shrinks.</p>`;
 }
 
@@ -1094,7 +1151,8 @@ function settingsCard(p) {
   return fold('⚙️ Settings', `
     <div class="setrow"><span id="s-focus"><strong>Focus skills (up to 2)</strong></span><div class="chips" role="group" aria-labelledby="s-focus">${SKILLS.map(k => chip('set-focus', k, SKILL_NAME[k], c.focus.includes(k))).join('')}</div></div>
     <div class="setrow"><span id="s-min"><strong>Daily limit</strong></span><div class="chips" role="group" aria-labelledby="s-min">${chip('set-min', 5, '5 min', c.minutes === 5)}${chip('set-min', 10, '10 min', c.minutes === 10)}${chip('set-min', 15, '15 min', c.minutes === 15)}</div></div>
-    <div class="setrow"><span id="s-help"><strong>Help</strong></span><div class="chips" role="group" aria-labelledby="s-help">${chip('set-read', 1, '🔊 Read aloud', !!c.readAloud)}${chip('set-timer', 1, '⏱️ No time limits', !!c.noTimer)}${chip('set-sound', 1, '🎵 Sounds', c.sounds !== false)}</div></div>`);
+    <div class="setrow"><span id="s-help"><strong>Help</strong></span><div class="chips" role="group" aria-labelledby="s-help">${chip('set-read', 1, '🔊 Pip speaks', !!c.readAloud)}${chip('set-timer', 1, '⏱️ No time limits', !!c.noTimer)}${chip('set-sound', 1, '🎵 Sounds', c.sounds !== false)}</div></div>
+    <div class="setrow"><span id="s-lang"><strong>Pip's language</strong></span><div class="chips" role="group" aria-labelledby="s-lang">${chip('set-lang', 'en', 'English', c.lang !== 'hi')}${chip('set-lang', 'hi', 'हिन्दी', c.lang === 'hi')}</div><p class="soft">Hindi covers Pip's voice, instructions and praise. Game names stay in English.</p></div>`);
 }
 
 function vParent() {
@@ -1127,7 +1185,8 @@ function vParent() {
     <p class="soft hint">Tap a skill to see exactly what the level means and why it changed.</p></section>
   ${favRow(p)}
   <section class="card"><div class="card-head"><h2>Off-screen</h2><span class="soft">${triedCount} of ${SKILLS.length * 2} tried this week</span></div>${lifeGrid(p)}</section>
-  ${last ? `<section class="card share"><h3>📤 Share this week</h3><div class="row"><a class="btn small" href="${waLink(weekText(p))}" target="_blank" rel="noopener">Send on WhatsApp</a><button class="btn small ghost" data-act="copy-week">Copy</button><span class="soft" id="copy-status" role="status"></span></div>${S.copyText ? `<label for="copy-box" class="soft">Copying was blocked. Select this text and copy it.</label><textarea id="copy-box" readonly>${esc(S.copyText)}</textarea>` : ''}</section>` : ''}
+  ${last ? `<section class="card share" id="share-card"><h3>📤 Share this week</h3><div class="row"><button class="btn small" data-act="card-make">🖼️ Picture card</button><a class="btn small ghost" href="${waLink(weekText(p))}" target="_blank" rel="noopener">Send as text</a><button class="btn small ghost" data-act="copy-week">Copy</button><span class="soft" id="copy-status" role="status"></span></div>
+    ${S.cardImg ? `<img class="pcard" src="${S.cardImg}" alt="Weekly progress card for ${name}"><div class="row"><button class="btn small" data-act="card-share">Share picture</button><a class="btn small ghost" href="${S.cardImg}" download="mindmint-${esc(p.child.name)}-week.png">Download</a><span class="soft" id="card-status" role="status"></span></div><p class="soft">On a phone, you can also press and hold the picture to save or forward it.</p>` : ''}${S.copyText ? `<label for="copy-box" class="soft">Copying was blocked. Select this text and copy it.</label><textarea id="copy-box" readonly>${esc(S.copyText)}</textarea>` : ''}</section>` : ''}
   ${feedbackCard(p)}
   ${fold('📏 How levels work', `<div class="rules-pic"><span class="rp">✓ ✓</span><span class="arrow">→</span><span class="chg up">⬆ harder</span><span class="rp">✗</span><span class="arrow">→</span><span class="chg down">⬇ easier</span></div>
     <p class="soft">That keeps practice at about 7 right out of 10. Skills that aren't a focus come back after 1, 2, 4, then 7 days. Levels describe these games only. They are not an IQ score or a school grade, and they don't diagnose anything.</p>`)}
@@ -1544,12 +1603,130 @@ function wordTrial(board, l, ui) {
 }
 const TRIALS = { trail: trailTrial, picnic: picnicTrial, lily: lilyTrial, frogs: frogsTrial, berry: numbersTrial, more: moreTrial, odd: oddTrial, mirror: mirrorTrial, next: nextTrial, sort: sortTrial, cat: catTrial, word: wordTrial };
 
+/* ---------- v5: language (English / Hindi) ---------- */
+const isHi = () => !!(P() && P().child.lang === 'hi');
+const UI = { go: ['▶ Go', '▶ चलो'], play: ['▶ Play', '▶ खेलो'], next: ['▶ Next game', '▶ अगला खेल'], finish: ['🌟 Finish', '🌟 पूरा करो'], fun: ['Was it fun?', 'मज़ा आया?'], tapone: ['Tap one!', 'एक चुनो!'], newfriend: ['New friend!', 'नया दोस्त!'], quest: ['Real-life quest', 'असली दुनिया का खेल'], warmq: ['Which trick did Pip teach you?', 'पिप ने कौन सी तरकीब सिखाई थी?'], warm: ['Warm-up', 'याद-खेल'], calm: ['🧘 Calm', '🧘 शांत'], grown: ['🔒 Grown-ups', '🔒 बड़ों के लिए'], garden: ['🌼 My garden', '🌼 मेरा बगीचा'], yes: ['✅ Yes! Use it today.', '✅ हाँ! आज इसे इस्तेमाल करो।'], itwas: ['💡 It was:', '💡 सही जवाब:'] };
+const L = k => UI[k][isHi() ? 1 : 0];
+const PRAISE = { en: ['Yes!', 'Great!', 'Nice!', 'You got it!'], hi: ['हाँ!', 'शाबाश!', 'बहुत अच्छे!', 'सही जवाब!'] };
+const TRYAGAIN = { en: ['Good try!', 'Nearly!'], hi: ['अच्छी कोशिश!', 'बस थोड़ा सा!'] };
+const HOWTO_HI = {
+  trail: ['देखो', 'वही रास्ता छुओ'], picnic: ['देखो', 'क्या गायब हुआ?'], lily: ['1 छुओ', 'फिर 2', 'ऐसे ही आगे'], frogs: ['हरा छुओ', 'लाल नहीं'],
+  berry: ['संख्या देखो', 'बेरी चुनकर बनाओ'], more: ['ज़्यादा कौन?', 'उसे छुओ'], odd: ['अलग वाला ढूँढो', 'उसे छुओ'], mirror: ['शीशे जैसा बनाओ', 'हो गया दबाओ'],
+  next: ['नियम ढूँढो', 'आगे क्या आएगा?'], sort: ['नियम देखो', 'डिब्बा चुनो'], cat: ['समूह ढूँढो', 'सबको छुओ'], word: ['तस्वीर देखो', 'अक्षर छुओ']
+};
+const KID_HI = {
+  memory: ['खरीदारी खेल: बिना लिखे 4 चीज़ें याद रखो।', 'ट्रे खेल: 5 चीज़ें देखो, आँखें बंद करो। क्या हटाया गया?'],
+  focus: ['नंबर खोज: रास्ते में 1, फिर 2, फिर 3 ढूँढो।', 'लाल बत्ती, हरी बत्ती: हरे पर दौड़ो, लाल पर रुको!'],
+  numbers: ['दुकान सहायक: दो चीज़ों के दाम जोड़ो।', 'ज़्यादा कौन? फलों की दो प्लेट देखो। कितने ज़्यादा?'],
+  noticing: ['क्या बदला? बड़े एक चीज़ बदलेंगे। ढूँढ सकते हो?', 'शीशा चित्र: आधी तितली बनी है, बाकी आधी तुम बनाओ!'],
+  logic: ['पैटर्न खोज: घर में कोई पैटर्न ढूँढो। आगे क्या आएगा?', 'मोज़े छाँटो: पहले रंग से, फिर किसके हैं उससे!'],
+  words: ['समूह खेल: उड़ने वाली 5 चीज़ों के नाम बताओ!', 'बोर्ड पढ़ो: रास्ते में छोटे शब्द पढ़ो।']
+};
+const TR = {
+  'Get ready…': 'तैयार हो जाओ…', 'Watch the fireflies…': 'जुगनुओं को देखो…', 'Your turn. Tap the same path.': 'अब तुम्हारी बारी। वही रास्ता छुओ।', "Let's watch it again, slowly.": 'चलो, फिर से धीरे-धीरे देखते हैं।',
+  'Look at the picnic! Remember everything.': 'पिकनिक को देखो! सब कुछ याद रखो।', 'Everything got mixed up! What went missing?': 'सब मिल गया! क्या गायब हुआ?', 'What went missing?': 'क्या गायब हुआ?',
+  'Tap the green frogs. Hold still for the red ones!': 'हरे मेंढक छुओ। लाल वाले पर रुको!', 'Missed a green one. Keep watching!': 'एक हरा छूट गया। ध्यान से देखो!', 'Oops, that frog was red. Check the colour first.': 'अरे, वो मेंढक लाल था। पहले रंग देखो।',
+  'Which side has more? Tap it.': 'किस तरफ़ ज़्यादा है? उसे छुओ।', 'One lantern glows differently. Can you find it?': 'एक लालटेन अलग चमक रही है। ढूँढ सकते हो?', "Time's up. This was the different one.": 'समय खत्म। ये वाली अलग थी।', 'Not that one. Look, this was the different one.': 'वो नहीं। देखो, ये वाली अलग थी।',
+  'Copy the flowers onto the right side, like a mirror.': 'फूलों को दाईं तरफ़ शीशे की तरह बनाओ।', 'Dashed squares show where flowers should go. Count from the middle line.': 'बिंदु वाले खाने बताते हैं फूल कहाँ आने थे। बीच की लाइन से गिनो।',
+  'What comes next? Find the rule.': 'आगे क्या आएगा? नियम ढूँढो।', 'Here is what comes next. Can you see the rule?': 'आगे ये आता है। क्या नियम दिखा?', 'Put each card in the box that matches the rule.': 'हर कार्ड को नियम वाले डिब्बे में डालो।',
+  'Spell the word for this picture.': 'इस तस्वीर का शब्द बनाओ।', 'Not that letter. Say the word slowly. Which sound comes next?': 'वो अक्षर नहीं। शब्द धीरे बोलो। अगली आवाज़ कौन सी है?',
+  'Breathe in…': 'साँस अंदर लो…', 'Breathe out…': 'साँस बाहर छोड़ो…', 'Well done. Your glow is calm and bright.': 'शाबाश। तुम्हारी रोशनी शांत और चमकदार है।', "Sit comfy. Watch Pip's glow.": 'आराम से बैठो। पिप की रोशनी देखो।'
+};
+const tr = t => (isHi() && TR[t]) || t;
+const BEST_HI = { trail: 'रास्ते को एक आकार की तरह देखो', picnic: 'चीज़ों से एक मज़ेदार कहानी बनाओ', lily: 'पढ़ने की तरह, लाइन से लाइन देखो', frogs: 'छूने से पहले रंग देखो', berry: 'सबसे बड़ी बेरी से शुरू करो', more: 'चुनने से पहले दोनों तरफ़ हिसाब लगाओ', odd: 'लाइन से लाइन देखो, कोई न छूटे', mirror: 'बीच की लाइन से कदम गिनो', next: 'नियम ढूँढो, फिर ज़ोर से बोलो', sort: 'हर कार्ड से पहले नियम देखो', cat: 'हर तस्वीर एक-एक करके देखो', word: 'शब्द धीरे बोलो, हर आवाज़ सुनो' };
+const bestTxt = en => { if (!isHi()) return en; const g = Object.keys(STRATS).find(k => STRATS[k].best === en); return (g && BEST_HI[g]) || en; };
+const hearBtn = () => (P() && P().child.readAloud ? '<button class="icon-btn hear" data-act="hear" aria-label="Hear it again">🔊</button>' : '');
+
+/* ---------- v5: animated demos (a finger plays each game) ---------- */
+const DEMOS = {
+  trail: { html: `<div class="dgrid g3">${Array.from({ length: 9 }, (_, i) => `<span class="dc" data-d="c${i}"></span>`).join('')}</div>`, steps: [['light', 'c0'], ['light', 'c4'], ['light', 'c5'], ['wait', 300], ['tap', 'c0'], ['tap', 'c4'], ['tap', 'c5'], ['ok']] },
+  picnic: { html: '<div class="drow"><span class="ditem">🍎</span><span class="ditem" data-d="b">🍌</span><span class="ditem">🧀</span></div><div class="drow gone" data-d="opts"><span class="dopt">🍇</span><span class="dopt" data-d="o2">🍌</span></div>', steps: [['wait', 900], ['hide', 'b'], ['show', 'opts'], ['tap', 'o2'], ['ok']] },
+  lily: { html: '<div class="dgrid g2"><span class="dpad" data-d="n3">3</span><span class="dpad" data-d="n1">1</span><span class="dpad" data-d="n4">4</span><span class="dpad" data-d="n2">2</span></div>', steps: [['tap', 'n1'], ['tap', 'n2'], ['tap', 'n3'], ['tap', 'n4'], ['ok']] },
+  frogs: { html: '<div class="dspot"><span class="dfrog go gone" data-d="g">🐸</span><span class="dfrog stop gone" data-d="r">✋</span></div>', steps: [['show', 'g'], ['tap', 'g'], ['hide', 'g'], ['away'], ['show', 'r'], ['wait', 1100], ['hide', 'r'], ['ok']] },
+  berry: { html: '<div class="dtarget">🎯 <b>5</b></div><div class="drow"><span class="dberry" data-d="b2">2</span><span class="dberry" data-d="b4">4</span><span class="dberry" data-d="b3">3</span></div><div class="dsum" data-d="sum">&nbsp;</div>', steps: [['tap', 'b2'], ['set', 'sum', '2'], ['tap', 'b3'], ['set', 'sum', '2 + 3 = 5'], ['ok']] },
+  more: { html: '<div class="drow"><span class="dside"><i></i><i></i><i></i></span><span class="dside" data-d="r"><i></i><i></i><i></i><i></i><i></i></span></div>', steps: [['wait', 600], ['tap', 'r'], ['ok']] },
+  odd: { html: '<div class="dgrid g2"><span class="dlan"></span><span class="dlan"></span><span class="dlan odd" data-d="c"></span><span class="dlan"></span></div>', steps: [['wait', 700], ['tap', 'c'], ['ok']] },
+  mirror: { html: `<div class="dgrid g4">${Array.from({ length: 8 }, (_, i) => `<span class="dc ${i === 0 || i === 5 ? 'on' : ''} ${i % 4 === 1 ? 'edge' : ''}" data-d="m${i}"></span>`).join('')}</div><span class="dbtn" data-d="done">✅</span>`, steps: [['wait', 500], ['tap', 'm3'], ['tap', 'm6'], ['tap', 'done'], ['ok']] },
+  next: { html: '<div class="drow"><span>🔴</span><span>🔵</span><span>🔴</span><span>🔵</span><span class="dq" data-d="q">?</span></div><div class="drow"><span class="dopt">🔵</span><span class="dopt" data-d="o2">🔴</span></div>', steps: [['wait', 700], ['tap', 'o2'], ['set', 'q', '🔴'], ['ok']] },
+  sort: { html: `<div class="drule">🎨</div><div class="dcardmini">${'<svg width="40" height="40" viewBox="0 0 40 40"><path d="M20 4l4.7 9.6 10.6 1.5-7.7 7.4 1.8 10.5L20 28l-9.4 5 1.8-10.5-7.7-7.4 10.6-1.5z" fill="#ff7b72"/></svg>'}</div><div class="drow"><span class="dbin" data-d="b1"><svg width="34" height="34" viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="#ff7b72"/></svg></span><span class="dbin"><svg width="34" height="34" viewBox="0 0 40 40"><path d="M20 4l4.7 9.6 10.6 1.5-7.7 7.4 1.8 10.5L20 28l-9.4 5 1.8-10.5-7.7-7.4 10.6-1.5z" fill="#6cb6ff"/></svg></span></div>`, steps: [['wait', 700], ['tap', 'b1'], ['ok']] },
+  cat: { html: '<div class="drule">🐾</div><div class="drow"><span class="ditem" data-d="a">🐶</span><span class="ditem">🍎</span><span class="ditem" data-d="c">🐱</span><span class="ditem">🚗</span></div>', steps: [['wait', 500], ['tap', 'a'], ['tap', 'c'], ['ok']] },
+  word: { html: '<div class="ditem big">🐱</div><div class="drow"><span class="dslot" data-d="s0"></span><span class="dslot" data-d="s1"></span><span class="dslot" data-d="s2"></span></div><div class="drow"><span class="dtile" data-d="t">t</span><span class="dtile" data-d="a">a</span><span class="dtile" data-d="c">c</span></div>', steps: [['tap', 'c'], ['set', 's0', 'c'], ['tap', 'a'], ['set', 's1', 'a'], ['tap', 't'], ['set', 's2', 't'], ['ok']] }
+};
+function runDemo(box, k, alive) {
+  const D = DEMOS[k]; if (!D || !box) return () => {};
+  let stopped = false;
+  (async () => {
+    while (!stopped && alive()) {
+      box.innerHTML = `<div class="demo-scene">${D.html}</div><span class="finger">👆</span><span class="demo-ok">✓</span>`;
+      const finger = box.querySelector('.finger'), okEl = box.querySelector('.demo-ok');
+      const el = id => (typeof id === 'string' ? box.querySelector(`[data-d="${id}"]`) : null);
+      if (reduced) {
+        D.steps.forEach(([a, id, v]) => { const n = el(id); if (!n) return; if (a === 'tap') n.classList.add('hit'); if (a === 'set') n.textContent = v; if (a === 'hide') n.classList.add('gone'); if (a === 'show') n.classList.remove('gone'); });
+        okEl.classList.add('show'); return;
+      }
+      const moveTo = n => { const b = box.getBoundingClientRect(), r = n.getBoundingClientRect(); finger.style.left = (r.left - b.left + r.width / 2 - 12) + 'px'; finger.style.top = (r.top - b.top + r.height / 2 - 4) + 'px'; finger.classList.add('show'); };
+      await wait(600);
+      for (const [a, id, v] of D.steps) {
+        if (stopped || !alive()) return;
+        const n = el(id);
+        if (a === 'wait') await wait(id);
+        else if (a === 'light') { n.classList.add('lit'); await wait(520); n.classList.remove('lit'); await wait(150); }
+        else if (a === 'tap') { moveTo(n); await wait(500); finger.classList.add('press'); n.classList.add('hit'); await wait(240); finger.classList.remove('press'); await wait(220); }
+        else if (a === 'set') { n.textContent = v; await wait(150); }
+        else if (a === 'hide') { n.classList.add('gone'); await wait(450); }
+        else if (a === 'show') { n.classList.remove('gone'); await wait(350); }
+        else if (a === 'away') { finger.classList.remove('show'); await wait(300); }
+        else if (a === 'ok') { finger.classList.remove('show'); okEl.classList.add('show'); await wait(1400); }
+      }
+      await wait(500);
+    }
+  })();
+  return () => { stopped = true; };
+}
+
+/* ---------- v5: weekly picture card ---------- */
+function rr(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+function wrapText(g, text, x, y, maxW, lh) { const words = text.split(' '); let line = ''; for (const w of words) { const t = line ? line + ' ' + w : w; if (g.measureText(t).width > maxW && line) { g.fillText(line, x, y); line = w; y += lh; } else line = t; } if (line) g.fillText(line, x, y); return y; }
+async function makeCard(p) {
+  try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) { /* fonts optional */ }
+  const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d'), wk = weekData(p);
+  const D = (w, s) => `${w} ${s}px "Baloo 2", "Trebuchet MS", sans-serif`, B = (w, s) => `${w} ${s}px "Atkinson Hyperlegible", "Segoe UI", sans-serif`;
+  const bg = g.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#1b1938'); bg.addColorStop(1, '#2d2960'); g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  [[120, 80], [930, 140], [980, 620], [60, 900], [880, 1240], [420, 60], [640, 1290]].forEach(([x, y], i) => { const r = 5 + (i % 3) * 2; const gl = g.createRadialGradient(x, y, 0, x, y, r * 5); gl.addColorStop(0, 'rgba(255,207,92,.9)'); gl.addColorStop(1, 'rgba(255,207,92,0)'); g.fillStyle = gl; g.beginPath(); g.arc(x, y, r * 5, 0, Math.PI * 2); g.fill(); });
+  g.fillStyle = '#ffcf5c'; g.font = B(700, 32); g.fillText('MINDMINT · THIS WEEK', 80, 120);
+  g.fillStyle = '#ece9ff'; g.font = D(800, 86); g.fillText(`${p.child.name}'s week`, 80, 215);
+  const names = ['M', 'T', 'W', 'T', 'F', 'S', 'S'], played = new Set(p.log.map(e => dk(e.ts))), ws = weekStart();
+  names.forEach((d, i) => { const day = new Date(ws); day.setDate(day.getDate() + i); const on = played.has(dk(day.getTime())); const x = 80 + 46 + i * 132; g.beginPath(); g.arc(x, 310, 44, 0, Math.PI * 2); g.fillStyle = on ? '#ffcf5c' : 'rgba(236,233,255,.13)'; g.fill(); g.fillStyle = on ? '#1b1938' : '#b9b5e6'; g.font = D(800, 34); g.textAlign = 'center'; g.fillText(on ? '✓' : d, x, 322); g.textAlign = 'left'; });
+  g.fillStyle = '#ece9ff'; g.font = D(700, 44); g.fillText(`${wk.days} of 7 days   ·   ${wk.mins} min   ·   🌼 ${p.friends.length}`, 80, 440);
+  let y = 530;
+  SKILLS.forEach(s => {
+    const x = wk.skills.find(q => q.s === s), lv = p.skills[s].level, d = x.played ? x.to - x.from : 0;
+    g.fillStyle = SKILL_COLOR[s]; g.beginPath(); g.arc(104, y + 20, 22, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#ece9ff'; g.font = D(700, 40); g.fillText(SKILL_NAME[s], 150, y + 34);
+    rr(g, 400, y + 6, 470, 30, 15); g.fillStyle = 'rgba(236,233,255,.14)'; g.fill();
+    rr(g, 400, y + 6, Math.max(30, 47 * lv), 30, 15); g.fillStyle = SKILL_COLOR[s]; g.fill();
+    g.fillStyle = '#ece9ff'; g.font = D(800, 40); g.fillText(String(lv), 892, y + 35);
+    g.fillStyle = d > 0 ? '#7fdcc0' : d < 0 ? '#ffb36b' : '#b9b5e6'; g.font = D(800, 34); g.fillText(d > 0 ? '▲' + d : d < 0 ? '▼' + (-d) : '–', 945, y + 34);
+    y += 88;
+  });
+  const fav = funSummary(p).filter(q => q.avg >= 1.5)[0];
+  rr(g, 60, 1080, 960, 190, 30); g.fillStyle = 'rgba(236,233,255,.08)'; g.fill();
+  g.fillStyle = '#ffcf5c'; g.font = B(700, 30); g.fillText(fav ? `FAVOURITE: ${GAME_ICON[fav.g]} ${GAMES[fav.g].name.toUpperCase()}` : 'OFF-SCREEN IDEA', 100, 1135);
+  const weakest = wk.weakest ? wk.weakest.s : 'memory', [ic, short] = LIFE_META[weakest][0];
+  g.fillStyle = '#ece9ff'; g.font = D(700, 40); wrapText(g, `Try this week: ${ic} ${short}`, 100, 1200, 880, 48);
+  g.fillStyle = '#b9b5e6'; g.font = B(400, 26); g.fillText('Levels describe these games only, not IQ or school grades.', 80, 1320);
+  return c.toDataURL('image/png');
+}
+function dataUrlToFile(url, name) { const [h, b] = url.split(','); const bin = atob(b), arr = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i); return new File([arr], name, { type: h.split(':')[1].split(';')[0] }); }
+
 function showIntro(k, board, ui) {
-  const steps = HOWTO[k];
-  board.innerHTML = `<div class="intro"><div class="intro-ico" aria-hidden="true">${GAME_ICON[k]}</div><div class="howto">${steps.map(([ic, tx]) => `<div class="step"><span class="step-ico" aria-hidden="true">${ic}</span><span>${tx}</span></div>`).join('<span class="arrow" aria-hidden="true">→</span>')}</div><button class="btn big play" id="go">▶ Go</button></div>`;
-  ui.say(steps.map(x => x[1].replace(/[.?]$/, '')).join('. ') + (/\?$/.test(steps[steps.length - 1][1]) ? '?' : '.'));
+  const hi = isHi(), steps = HOWTO[k].map(([ic, tx], i) => [ic, hi ? HOWTO_HI[k][i] : tx]);
+  board.innerHTML = `<div class="intro"><div class="demo" id="demo" aria-hidden="true"></div><div class="howto">${steps.map(([ic, tx]) => `<div class="step"><span class="step-ico" aria-hidden="true">${ic}</span><span>${tx}</span></div>`).join('<span class="arrow" aria-hidden="true">→</span>')}</div><button class="btn big play" id="go">${L('go')}</button></div>`;
+  const stopDemo = runDemo(board.querySelector('#demo'), k, ui.alive);
+  ui.say(steps.map(x => x[1].replace(/[.?।]$/, '')).join(hi ? '। ' : '. ') + (/\?$/.test(steps[steps.length - 1][1]) ? '?' : hi ? '।' : '.'));
   const go = board.querySelector('#go'); go.focus();
-  return new Promise(res => { go.onclick = () => res(); });
+  return new Promise(res => { go.onclick = () => { stopDemo(); res(); }; });
 }
 function flash(ok) {
   if (reduced) return;
@@ -1561,7 +1738,7 @@ async function play(k) {
   S.playing = k; S.screen = 'game'; render();
   const g = GAMES[k], sk = p.skills[g.skill], start = sk.level, changes = [], times = [], results = [], began = Date.now();
   const board = $('#board');
-  const ui = { say: t => { const el = $('#say'); if (el) el.textContent = t; speak(t); }, alive: () => my === token };
+  const ui = { say: t => { const x = tr(t), el = $('#say'); if (el) el.textContent = x; speak(x); }, alive: () => my === token };
   $('#levelnote').innerHTML = meter(sk.level);
   await showIntro(k, board, ui);
   if (!ui.alive()) return;
@@ -1575,12 +1752,12 @@ async function play(k) {
     let line;
     if (r.correct) {
       sk.streak++;
-      line = pick(['Yes!', 'Great!', 'Nice!', 'You got it!']); sfx('ok');
-      if (sk.streak >= 2) { sk.streak = 0; if (sk.level < 10) { sk.level++; changes.push({ dir: 'up', to: sk.level }); line = `⬆ Level up! Level ${sk.level}`; setTimeout(() => { sfx('up'); celebrate(); }, 250); } }
+      line = pick(PRAISE[isHi() ? 'hi' : 'en']); sfx('ok');
+      if (sk.streak >= 2) { sk.streak = 0; if (sk.level < 10) { sk.level++; changes.push({ dir: 'up', to: sk.level }); line = isHi() ? `⬆ अगला लेवल! लेवल ${sk.level}` : `⬆ Level up! Level ${sk.level}`; setTimeout(() => { sfx('up'); celebrate(); }, 250); } }
     } else {
       sk.streak = 0;
-      line = r.note || pick(['Good try!', 'Nearly!']); sfx('miss');
-      if (sk.level > 1) { sk.level--; changes.push({ dir: 'down', to: sk.level }); line += ' ⬇ Easier next.'; }
+      line = (!isHi() && r.note) || pick(TRYAGAIN[isHi() ? 'hi' : 'en']); sfx('miss');
+      if (sk.level > 1) { sk.level--; changes.push({ dir: 'down', to: sk.level }); line += isHi() ? ' ⬇ अगला थोड़ा आसान।' : ' ⬇ Easier next.'; }
     }
     ui.say(line); flash(r.correct); dots(g.trials, results); $('#levelnote').innerHTML = meter(sk.level);
     await wait(1400);
@@ -1608,11 +1785,11 @@ async function runCalm() {
   for (const [text, cls] of steps) {
     if (my !== token) return;
     const b = $('#breath'), t = $('#calm-text'); if (!b || !t) return;
-    b.className = 'breath ' + cls; t.textContent = text; speak(text);
+    b.className = 'breath ' + cls; t.textContent = tr(text); speak(tr(text));
     await wait(4500);
   }
   if (my !== token) return;
-  const t = $('#calm-text'); if (t) { t.textContent = 'Well done. Your glow is calm and bright.'; speak(t.textContent); }
+  const t = $('#calm-text'); if (t) { t.textContent = tr('Well done. Your glow is calm and bright.'); speak(t.textContent); }
 }
 
 /* ---------- Parental gate ---------- */
@@ -1694,7 +1871,7 @@ app.addEventListener('click', e => {
     case 'gate': openGate(); break;
     case 'warm': {
       const w = p.today.warm; w.answer = w.opts[+t.dataset.i]; save(); render();
-      speak(w.answer === w.correct ? 'Yes! You remembered the trick.' : `Close! It was: ${w.correct}`);
+      speak(w.answer === w.correct ? (isHi() ? 'हाँ! तुम्हें याद था।' : 'Yes! You remembered the trick.') : (isHi() ? `सही जवाब: ${bestTxt(w.correct)}` : `Close! It was: ${w.correct}`));
       break;
     }
     case 'play': play(t.dataset.key); break;
@@ -1710,6 +1887,18 @@ app.addEventListener('click', e => {
     case 'fun': S.current.fun = +t.dataset.v; save(); setChipGroup(t, c => c === t); if (+t.dataset.v === 2) sfx('ok'); break;
     case 'garden': S.gardenFrom = S.screen; S.screen = 'garden'; render(); break;
     case 'garden-back': S.screen = S.gardenFrom === 'done' ? 'done' : 'home'; render(); break;
+    case 'set-lang': p.child.lang = t.dataset.v; setChipGroup(t, c => c === t); save(); if (p.child.readAloud) speak(p.child.lang === 'hi' ? 'नमस्ते! मैं पिप हूँ।' : "Hi! I'm Pip."); break;
+    case 'hear': { const b = t.closest('.pip-say'); const bub = b && b.querySelector('.bubble'); if (bub) speak(bub.textContent); break; }
+    case 'card-make': { t.disabled = true; t.textContent = 'Making…'; makeCard(p).then(url => { S.cardImg = url; render(); const sc = $('#share-card'); if (sc) sc.scrollIntoView(); }).catch(() => { t.disabled = false; t.textContent = '🖼️ Picture card'; }); break; }
+    case 'card-share': {
+      const st = $('#card-status');
+      try {
+        const file = dataUrlToFile(S.cardImg, 'mindmint-week.png');
+        if (navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: `${p.child.name}'s week on Mindmint` }).catch(() => {});
+        else if (st) st.textContent = 'Sharing isn\'t available here. Use Download, or press and hold the picture.';
+      } catch (err) { if (st) st.textContent = 'Sharing isn\'t available here. Use Download, or press and hold the picture.'; }
+      break;
+    }
     case 'set-sound': p.child.sounds = p.child.sounds === false; t.setAttribute('aria-pressed', String(p.child.sounds)); save(); if (p.child.sounds) sfx('ok'); break;
     case 'fb': { const k = t.dataset.k, v = ['enjoy', 'useful'].includes(k) ? +t.dataset.v : t.dataset.v; S.fb[k] = v; setChipGroup(t, c => c === t); const a = $('#fb-wa'); if (a) a.href = waLink(feedbackText(p)); break; }
     case 'fb-copy': {
@@ -1721,7 +1910,7 @@ app.addEventListener('click', e => {
     case 'calm': S.screen = 'calm'; render(); runCalm(); break;
     case 'calm-done': token++; S.screen = 'done'; render(); break;
     case 'child': S.screen = 'home'; render(); break;
-    case 'view-kid': S.activeId = t.dataset.id; S.copyText = null; S.fbCopy = null; save(); render(); break;
+    case 'view-kid': S.activeId = t.dataset.id; S.copyText = null; S.fbCopy = null; S.cardImg = null; save(); render(); break;
     case 'set-focus': { const v = t.dataset.v, f = p.child.focus; if (f.includes(v)) f.splice(f.indexOf(v), 1); else { f.push(v); if (f.length > 2) f.shift(); } setChipGroup(t, c => f.includes(c.dataset.v)); save(); break; }
     case 'set-min': p.child.minutes = +t.dataset.v; setChipGroup(t, c => c === t); save(); break;
     case 'set-read': p.child.readAloud = !p.child.readAloud; t.setAttribute('aria-pressed', String(p.child.readAloud)); save(); if (p.child.readAloud) speak('Hi! I will read things out loud.'); break;
