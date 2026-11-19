@@ -423,9 +423,20 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .tsteps .frac{font-size:.85em}
 .tsteps .frac>span:first-child{border-bottom-width:2px}
 .key.wide{grid-column:1/-1;height:54px}
-.tq.wordy{font:700 1.25rem/1.4 var(--font-body);letter-spacing:0}
+.tq.wordy{font:700 1.25rem/1.4 var(--font-body);letter-spacing:0;display:block;text-align:center}
 .tq.wordy .frac{font:800 1.7rem var(--font-display);margin:0 4px}
 .tq2{margin-top:10px}
+.tsec-head{font:800 1.3rem var(--font-display);margin:18px 0 0;display:flex;gap:8px;align-items:center}
+.memo{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:100%;max-width:520px}
+.memo-row{display:flex;align-items:center;gap:8px;background:var(--night-raised);border-radius:14px;padding:8px 10px}
+.mnum{width:30px;height:30px;border-radius:50%;background:var(--glow);color:#1f1c3f;font:800 1rem var(--font-display);display:grid;place-items:center;flex:none}
+.mpeg{font-size:1.5rem;opacity:.85}
+.mplus{color:var(--moon-soft)}
+.mitem{font-size:2rem}
+.opts4{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:340px}
+.opts4 .ynb{max-width:none;min-height:86px}
+.opt-emo{font-size:2.6rem}
+.tq u{text-decoration-color:var(--glow);text-decoration-thickness:4px;text-underline-offset:6px}
 /* v8 games library */
 .lib-open{align-self:center;min-height:52px;font-size:1.1rem}
 .lib-skill{margin-top:18px}
@@ -2156,6 +2167,148 @@ TRICKS.push(
     mean: ['finds the mode of a list', 'finds the median of 5 numbers', 'finds the mean of 4 numbers', 'finds the median of an even-sized list', 'finds the mean of 5 numbers', 'picks and finds mean, median or mode in a list of 7'] }
 );
 
+/* ---------- v15: six more tricks + sections ---------- */
+const fmtIN = n => { const s = String(n); if (s.length <= 3) return s; const last3 = s.slice(-3), rest = s.slice(0, -3); return rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + last3; };
+const ONES = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+const TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+const w99 = n => (n < 20 ? ONES[n] : TENS[Math.floor(n / 10)] + (n % 10 ? '-' + ONES[n % 10] : ''));
+const UNITS = [[1e7, 'crore', 'करोड़'], [1e5, 'lakh', 'लाख'], [1e3, 'thousand', 'हज़ार'], [100, 'hundred', 'सौ']];
+function numParts(n) { const parts = []; let r = n; for (const [v, en, hi] of UNITS) { const k = Math.floor(r / v); if (k) { parts.push([k, v, en, hi]); r -= k * v; } } if (r) parts.push([r, 1, '', '']); return parts; }
+const numWords = n => numParts(n).map(([k, v, en]) => (v === 1 ? w99(k) : `${w99(k)} ${en}`)).join(' ');
+const numWordsHi = n => numParts(n).map(([k, v, , hi]) => (v === 1 ? `${k}` : `${k} ${hi}`)).join(' ');
+
+/* 25: reading big numbers (Indian system) */
+function readGen(l) {
+  const r = rand;
+  if (l <= 4) {
+    const [lo, hi] = { 1: [1001, 9999], 2: [10001, 99999], 3: [100001, 9999999], 4: [10000001, 99999999] }[l];
+    let n; do { n = r(lo, hi); const s = String(n).split(''); n = +s.map((d, i) => (i && Math.random() < 0.4 ? '0' : d)).join(''); } while (n < lo || n > hi);
+    const parts = numParts(n);
+    const steps = parts.map(([k, v, en, hi2]) => (v === 1 ? [`${w99(k)} → <b>${k}</b>`, `${k} → <b>${k}</b>`] : [`${w99(k)} ${en} → ${k} × ${fmtIN(v)} = <b>${fmtIN(k * v)}</b>`, `${k} ${hi2} → ${k} × ${fmtIN(v)} = <b>${fmtIN(k * v)}</b>`]));
+    steps.push([`Put them together: <b>${fmtIN(n)}</b>`, `सब मिलाओ: <b>${fmtIN(n)}</b>`], ANS(n));
+    return { q: TX(numWords(n), numWordsHi(n)), label: TX('In digits:', 'अंकों में:'), wordy: true, a: String(n), kind: 'num', steps, check: String(parts.reduce((x, [k, v]) => x + k * v, 0)) };
+  }
+  if (l === 5) {
+    let n, pos, d; do { n = r(100000, 99999999); const s = String(n); pos = r(0, s.length - 2); d = +s[pos]; } while (d === 0);
+    const s = String(n), val = d * 10 ** (s.length - 1 - pos);
+    const placeV = 10 ** (s.length - 1 - pos);
+    const nm = { 1e8: ['ten crores', 'दस करोड़'], 1e7: ['crores', 'करोड़'], 1e6: ['ten lakhs', 'दस लाख'], 1e5: ['lakhs', 'लाख'], 1e4: ['ten thousands', 'दस हज़ार'], 1e3: ['thousands', 'हज़ार'], 100: ['hundreds', 'सौ'], 10: ['tens', 'दहाई'] }[placeV];
+    const marked = fmtIN(n).replace(new RegExp(`^((?:[^0-9]*[0-9]){${pos}}[^0-9]*)([0-9])`), '$1<u>$2</u>');
+    return { q: isHi() ? `${marked} <span class="tq-l">में रेखांकित ${d} का मान</span>` : `<span class="tq-l">What is the underlined ${d} worth in</span> ${marked}`, a: String(val), kind: 'num', wordy: true, label: TX('Worth:', 'मान:'),
+      steps: [[`Count places from the right: the ${d} is in the <b>${nm[0]}</b> place`, `दाएँ से गिनो: ${d} <b>${nm[1]}</b> के स्थान पर है`], [`${d} × ${fmtIN(placeV)} = <b>${fmtIN(val)}</b>`, `${d} × ${fmtIN(placeV)} = <b>${fmtIN(val)}</b>`], ANS(val)], check: String(d * placeV) };
+  }
+  const t = pick([['million', 'lakh', 1e6, 1e5], ['crore', 'million', 1e7, 1e6], ['billion', 'crore', 1e9, 1e7], ['lakh', 'thousand', 1e5, 1e3]]), k = r(1, 9), a = k * t[2] / t[3];
+  const HI = { million: 'मिलियन', lakh: 'लाख', crore: 'करोड़', billion: 'बिलियन', thousand: 'हज़ार' };
+  return { q: TX(`${k} ${t[0]} = how many ${t[1]}?`, `${k} ${HI[t[0]]} = कितने ${HI[t[1]]}?`), a: String(a), kind: 'num', wordy: true, label: TX(`${t[1]}:`, `${HI[t[1]]}:`),
+    steps: [[`1 ${t[0]} = ${fmtIN(t[2])}, 1 ${t[1]} = ${fmtIN(t[3])}`, `1 ${HI[t[0]]} = ${fmtIN(t[2])}, 1 ${HI[t[1]]} = ${fmtIN(t[3])}`], [`So 1 ${t[0]} = <b>${t[2] / t[3]}</b> ${t[1]}`, `तो 1 ${HI[t[0]]} = <b>${t[2] / t[3]}</b> ${HI[t[1]]}`], [`${k} × ${t[2] / t[3]} = <b>${a}</b>`, `${k} × ${t[2] / t[3]} = <b>${a}</b>`], ANS(a)], check: String(k * t[2] / t[3]) };
+}
+
+/* 26: quick adding (make a ten, left to right, count up) */
+function addGen(l) {
+  const r = rand; let q, a, steps, chk;
+  if (l === 1) { const x = r(6, 9), y = r(11 - x, 9), need = 10 - x; a = x + y; q = `${x} + ${y}`; steps = [[`${x} needs ${need} to make 10`, `${x} को 10 बनने के लिए ${need} चाहिए`], [`Split ${y} into ${need} + ${y - need}`, `${y} को ${need} + ${y - need} में तोड़ो`], [`10 + ${y - need} = <b>${a}</b>`, `10 + ${y - need} = <b>${a}</b>`]]; chk = 10 + y - need; }
+  else if (l === 2) { let x, y; do { x = r(12, 89); y = r(3, 9); } while (x % 10 + y < 10 || x % 10 === 0); const up = Math.ceil(x / 10) * 10, need = up - x; a = x + y; q = `${x} + ${y}`; steps = [[`${x} needs ${need} to make ${up}`, `${x} को ${up} बनने के लिए ${need} चाहिए`], [`Split ${y} into ${need} + ${y - need}`, `${y} को ${need} + ${y - need} में तोड़ो`], [`${up} + ${y - need} = <b>${a}</b>`, `${up} + ${y - need} = <b>${a}</b>`]]; chk = up + y - need; }
+  else if (l === 3 || l === 4) { let x, y; do { x = r(11, 89); y = r(11, 89); } while (l === 3 ? (x % 10 + y % 10 >= 10 || x + y > 99) : (x % 10 + y % 10 < 10)); const T = x - x % 10 + y - y % 10, O = x % 10 + y % 10; a = x + y; q = `${x} + ${y}`; steps = [[`Tens first: ${x - x % 10} + ${y - y % 10} = <b>${T}</b>`, `पहले दहाई: ${x - x % 10} + ${y - y % 10} = <b>${T}</b>`], [`Then ones: ${x % 10} + ${y % 10} = <b>${O}</b>`, `फिर इकाई: ${x % 10} + ${y % 10} = <b>${O}</b>`], [`${T} + ${O} = <b>${a}</b>`, `${T} + ${O} = <b>${a}</b>`]]; chk = T + O; }
+  else if (l === 5) { const x = r(101, 899), y = r(101, 899 - (x > 500 ? 400 : 0)); const H = Math.floor(x / 100) * 100 + Math.floor(y / 100) * 100, T = (Math.floor(x / 10) % 10 + Math.floor(y / 10) % 10) * 10, O = x % 10 + y % 10; a = x + y; q = `${x} + ${y}`; steps = [[`Hundreds: ${Math.floor(x / 100) * 100} + ${Math.floor(y / 100) * 100} = <b>${H}</b>`, `सैकड़े: ${Math.floor(x / 100) * 100} + ${Math.floor(y / 100) * 100} = <b>${H}</b>`], [`Tens: ${Math.floor(x / 10) % 10 * 10} + ${Math.floor(y / 10) % 10 * 10} = <b>${T}</b>`, `दहाई: ${Math.floor(x / 10) % 10 * 10} + ${Math.floor(y / 10) % 10 * 10} = <b>${T}</b>`], [`Ones: ${x % 10} + ${y % 10} = <b>${O}</b>`, `इकाई: ${x % 10} + ${y % 10} = <b>${O}</b>`], [`${H} + ${T} + ${O} = <b>${a}</b>`, `${H} + ${T} + ${O} = <b>${a}</b>`]]; chk = H + T + O; }
+  else { let x, y; do { x = r(31, 99); y = r(12, x - 5); } while (y % 10 === 0); const up = Math.ceil(y / 10) * 10, s1 = up - y, s2 = x - up; a = x - y; q = `${x} − ${y}`; steps = [[`Count up from ${y} to ${up}: <b>${s1}</b>`, `${y} से ${up} तक ऊपर गिनो: <b>${s1}</b>`], [`From ${up} to ${x}: <b>${s2}</b>`, `${up} से ${x} तक: <b>${s2}</b>`], [`${s1} + ${s2} = <b>${a}</b>`, `${s1} + ${s2} = <b>${a}</b>`]]; chk = s1 + s2; }
+  steps.push(ANS(a));
+  return { q, a: String(a), kind: 'num', steps, check: String(chk) };
+}
+
+/* 27: tidy up algebra (group like terms, then work it out) */
+function algGen(l) {
+  const cf = c => (c === 1 ? '' : String(c));
+  const r = rand; let q, a, steps, suffix = '', label = '=', chk;
+  if (l === 1) { const x = r(2, 9), y = r(2, 9); a = x + y; q = `${cf(x)}a + ${cf(y)}a`; suffix = 'a'; steps = [[`Same letter, so add the numbers: ${x} + ${y} = <b>${a}</b>`, `एक ही अक्षर, तो संख्याएँ जोड़ो: ${x} + ${y} = <b>${a}</b>`]]; chk = x + y; }
+  else if (l === 2) { let x, y, z; do { x = r(3, 12); y = r(1, 9); z = r(1, 9); } while (x - y + z < 1); a = x - y + z; q = `${cf(x)}a − ${cf(y)}a + ${cf(z)}a`; suffix = 'a'; steps = [[`Work left to right on the numbers: ${x} − ${y} = ${x - y}, then + ${z} = <b>${a}</b>`, `संख्याओं पर बाएँ से दाएँ: ${x} − ${y} = ${x - y}, फिर + ${z} = <b>${a}</b>`]]; chk = x - y + z; }
+  else if (l === 3) { const m = r(2, 6), c = r(1, 9), k = r(1, m - 1); a = m - k; q = `${m}(a + ${c}) − ${cf(k)}a`; suffix = `a + ${m * c}`; steps = [[`Open the bracket: ${m} × a + ${m} × ${c} = ${cf(m)}a + ${m * c}`, `कोष्ठक खोलो: ${m} × a + ${m} × ${c} = ${cf(m)}a + ${m * c}`], [`Group the a's: ${cf(m)}a − ${cf(k)}a = <b>${cf(a)}a</b>`, `a एक साथ: ${cf(m)}a − ${cf(k)}a = <b>${cf(a)}a</b>`]]; chk = m - k; }
+  else if (l === 4) { const x = r(2, 9), y = r(2, 9), v = r(2, 9); a = (x + y) * v; q = TX(`If a = ${v}, &nbsp;${cf(x)}a + ${cf(y)}a`, `अगर a = ${v}, &nbsp;${cf(x)}a + ${cf(y)}a`); steps = [[`Group first: ${cf(x)}a + ${cf(y)}a = <b>${x + y}a</b>`, `पहले जोड़ो: ${cf(x)}a + ${cf(y)}a = <b>${x + y}a</b>`], [`Now put a = ${v}: ${x + y} × ${v} = <b>${a}</b>`, `अब a = ${v} रखो: ${x + y} × ${v} = <b>${a}</b>`]]; chk = x * v + y * v; }
+  else if (l === 5) { const x = r(3, 9), y = r(2, 8), z = r(1, x - 1), w = r(1, 6), va = r(2, 6), vb = r(2, 6), A = x - z, B = y + w; a = A * va + B * vb; q = TX(`If a = ${va}, b = ${vb}: &nbsp;${cf(x)}a + ${cf(y)}b − ${cf(z)}a + ${cf(w)}b`, `अगर a = ${va}, b = ${vb}: &nbsp;${cf(x)}a + ${cf(y)}b − ${cf(z)}a + ${cf(w)}b`); steps = [[`Group the a's: ${cf(x)}a − ${cf(z)}a = <b>${cf(A)}a</b>`, `a एक साथ: ${cf(x)}a − ${cf(z)}a = <b>${cf(A)}a</b>`], [`Group the b's: ${cf(y)}b + ${cf(w)}b = <b>${cf(B)}b</b>`, `b एक साथ: ${cf(y)}b + ${cf(w)}b = <b>${cf(B)}b</b>`], [`${A} × ${va} + ${B} × ${vb} = ${A * va} + ${B * vb} = <b>${a}</b>`, `${A} × ${va} + ${B} × ${vb} = ${A * va} + ${B * vb} = <b>${a}</b>`]]; chk = x * va + y * vb - z * va + w * vb; }
+  else { const m = r(2, 6), c = r(1, 9), k = r(1, 6), v = r(2, 9), A = m + k; a = A * v + m * c; q = TX(`If x = ${v}, &nbsp;${m}(x + ${c}) + ${cf(k)}x`, `अगर x = ${v}, &nbsp;${m}(x + ${c}) + ${cf(k)}x`); steps = [[`Open the bracket: ${cf(m)}x + ${m * c}`, `कोष्ठक खोलो: ${cf(m)}x + ${m * c}`], [`Group the x's: ${cf(m)}x + ${cf(k)}x = <b>${cf(A)}x</b>, so ${cf(A)}x + ${m * c}`, `x एक साथ: ${cf(m)}x + ${cf(k)}x = <b>${cf(A)}x</b>, यानी ${cf(A)}x + ${m * c}`], [`Put x = ${v}: ${A} × ${v} + ${m * c} = <b>${a}</b>`, `x = ${v} रखो: ${A} × ${v} + ${m * c} = <b>${a}</b>`]]; chk = m * (v + c) + k * v; }
+  const shownA = suffix && a === 1 ? '' : a;
+  steps.push([`Answer: <b>${shownA}${suffix}</b>`, `जवाब: <b>${shownA}${suffix}</b>`]);
+  return { q, a: String(a), kind: 'num', label, suffix, wordy: l >= 4, steps, check: String(chk) };
+}
+
+/* 28: square roots that are not whole (to 1 decimal place) */
+function nsqrtGen(l) {
+  const [lo, hi] = { 1: [2, 30], 2: [30, 100], 3: [100, 300], 4: [300, 1000], 5: [1000, 3000], 6: [3000, 9999] }[l];
+  let N, s, d, f, est; do { N = rand(lo, hi); s = Math.round(Math.sqrt(N)); d = N - s * s; f = +(d / (2 * s)).toFixed(2); est = s + f; } while (d === 0 || Math.round(est * 10) !== Math.round(Math.sqrt(N) * 10) || Math.abs(d) > s);
+  const a = String(Math.round(est * 10) / 10);
+  const steps = [
+    [`Nearest square: ${s} × ${s} = <b>${s * s}</b>`, `सबसे पास का वर्ग: ${s} × ${s} = <b>${s * s}</b>`],
+    [`${N} is ${Math.abs(d)} ${d > 0 ? 'more' : 'less'}`, `${N} उससे ${Math.abs(d)} ${d > 0 ? 'ज़्यादा' : 'कम'} है`],
+    [`Divide by double the root: ${Math.abs(d)} ÷ ${2 * s} ≈ <b>${Math.abs(f).toFixed(2)}</b>`, `मूल के दुगने से भाग: ${Math.abs(d)} ÷ ${2 * s} ≈ <b>${Math.abs(f).toFixed(2)}</b>`],
+    [`${s} ${d > 0 ? '+' : '−'} ${Math.abs(f).toFixed(2)} ≈ ${est.toFixed(2)} → to 1 decimal: <b>${a}</b>`, `${s} ${d > 0 ? '+' : '−'} ${Math.abs(f).toFixed(2)} ≈ ${est.toFixed(2)} → 1 दशमलव तक: <b>${a}</b>`],
+    ANS(a)
+  ];
+  return { q: `√${N}`, a, kind: 'num', dot: true, note: ['To 1 decimal place, like 7.1', '1 दशमलव तक, जैसे 7.1'], steps, check: String(Math.round(Math.sqrt(N) * 10) / 10), N };
+}
+
+/* 29: Vestanam (osculation): test division by 7, 13, 19, 29 */
+const OSC = { 7: [5, '7 × 7 = 49, and 49 + 1 = 50'], 13: [4, '13 × 3 = 39, and 39 + 1 = 40'], 19: [2, '19 + 1 = 20'], 29: [3, '29 + 1 = 30'] };
+function vestGen(l) {
+  const p = l <= 2 ? 7 : l <= 4 ? 13 : l === 5 ? 19 : pick([7, 13, 19, 29]);
+  const [lo, hi] = l % 2 === 1 && l < 6 ? [100, 999] : [1000, 9999];
+  const yes = Math.random() < 0.5; let n; if (yes) n = p * rand(Math.ceil(lo / p), Math.floor(hi / p)); else { do { n = rand(lo, hi); } while (n % p === 0); }
+  const [o, why] = OSC[p];
+  const steps = [[`The helper number for ${p} is <b>${o}</b> (${why})`, `${p} के लिए मददगार संख्या <b>${o}</b> है (${why})`]];
+  let cur = n, guard = 0;
+  while (cur >= 100 && guard++ < 6) { const last = cur % 10, rest = Math.floor(cur / 10), nx = rest + last * o; steps.push([`${cur}: ${rest} + ${last} × ${o} = <b>${nx}</b>`, `${cur}: ${rest} + ${last} × ${o} = <b>${nx}</b>`]); cur = nx; }
+  const ok = cur % p === 0;
+  steps.push(ok ? [`${cur} = ${p} × ${cur / p}, so <b>yes</b> ✅`, `${cur} = ${p} × ${cur / p}, तो <b>हाँ</b> ✅`] : [`${cur} is not in the ${p} table, so <b>no</b> ❌`, `${cur} ${p} के पहाड़े में नहीं, तो <b>नहीं</b> ❌`]);
+  return { q: `${n} ÷ ${p}`, a: yes ? 'yes' : 'no', kind: 'yn', ask: [`Does ${p} go into it exactly?`, `क्या ${p} से पूरा बँटेगा?`], steps, check: ok ? 'yes' : 'no' };
+}
+
+/* 30: Number Peg System (memory) */
+const PEGS = [null, ['🍞', 'bun'], ['👟', 'shoe'], ['🌳', 'tree'], ['🚪', 'door'], ['🐝', 'hive'], ['🥢', 'sticks'], ['☁️', 'heaven'], ['🚧', 'gate'], ['📏', 'line'], ['🐔', 'hen']];
+function pegGen(l) {
+  const cnt = l + 2, pool = shuffle(TAGGED.filter(it => !it.n.includes(' ') && !PEGS.some(pg => pg && pg[0] === it.e))).slice(0, cnt);
+  const items = pool.map((it, i) => ({ num: i + 1, e: it.e, n: it.n }));
+  const target = pick(items), others = shuffle(items.filter(x => x !== target)).slice(0, 3), opts = shuffle([target, ...others]);
+  const pg = PEGS[target.num];
+  return { q: TX(`What was number ${target.num}?`, `नंबर ${target.num} पर क्या था?`), a: target.n, kind: 'opt', memo: items, memoMs: 2500 + cnt * 1600,
+    opts: opts.map(x => ({ v: x.n, html: `<span class="opt-emo">${x.e}</span>` })), aHtml: target.e,
+    ask: [`Think of the peg: ${target.num} is ${pg[1]} ${pg[0]}`, `पेग सोचो: ${target.num} मतलब ${pg[0]}`],
+    steps: [[`Number pegs: 1 🍞 bun, 2 👟 shoe, 3 🌳 tree, 4 🚪 door, 5 🐝 hive, 6 🥢 sticks, 7 ☁️ heaven, 8 🚧 gate, 9 📏 line, 10 🐔 hen`, `नंबर पेग: 1 🍞, 2 👟, 3 🌳, 4 🚪, 5 🐝, 6 🥢, 7 ☁️, 8 🚧, 9 📏, 10 🐔`],
+      [`${target.num} is <b>${pg[1]}</b> ${pg[0]}. Picture the ${target.n} ${target.e} with the ${pg[1]} ${pg[0]}.`, `${target.num} मतलब ${pg[0]}। ${target.e} को ${pg[0]} के साथ सोचो।`],
+      [`So number ${target.num} was <b>${target.e}</b>`, `तो नंबर ${target.num} पर था <b>${target.e}</b>`]], check: target.n };
+}
+
+TRICKS.push(
+  { id: 'read', sec: 'start', icon: '🔢', color: '#4c9be8', name: ['Reading big numbers', 'बड़ी संख्याएँ पढ़ो'], sutra: '', gen: readGen,
+    rule: l => l <= 4 ? ['Crore, lakh, thousand, hundred: each part has its place', 'करोड़, लाख, हज़ार, सौ: हर हिस्से की अपनी जगह'] : l === 5 ? ['Count places from the right: ones, tens, hundreds…', 'दाएँ से जगह गिनो: इकाई, दहाई, सैकड़ा…'] : ['1 million = 10 lakh, 1 crore = 10 million', '1 मिलियन = 10 लाख, 1 करोड़ = 10 मिलियन'],
+    alt: [['count', ['Counted the zeros', 'शून्य गिने'], '0️⃣'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['writes thousands in digits', 'writes ten-thousands in digits', 'writes lakhs in digits', 'writes crores in digits', 'knows what each digit is worth', 'converts between million, lakh and crore'] },
+  { id: 'add', sec: 'start', icon: '➕', color: '#3fbf9a', name: ['Quick adding', 'झटपट जोड़'], sutra: '', gen: addGen,
+    rule: l => l <= 2 ? ['Make a ten first, then add the rest', 'पहले 10 बनाओ, फिर बाकी जोड़ो'] : l <= 5 ? ['Add from the left: big parts first', 'बाएँ से जोड़ो: पहले बड़े हिस्से'] : ['Take away by counting up', 'ऊपर गिनकर घटाओ'],
+    alt: [['fingers', ['Counted on fingers', 'उँगलियों पर गिना'], '✋'], ['column', ['Wrote it in columns', 'कॉलम में लिखा'], '📝']],
+    mean: ['adds single digits by making 10', 'adds a 1-digit number by bridging 10', 'adds 2-digit numbers left to right', 'adds 2-digit numbers with carrying', 'adds 3-digit numbers in their head', 'takes away by counting up'] },
+  { id: 'peg', sec: 'start', icon: '📌', color: '#9b7be0', name: ['Number pegs (memory)', 'नंबर पेग (याददाश्त)'], sutra: '', gen: pegGen,
+    rule: () => ['Hang each thing on its number picture: 1 bun, 2 shoe, 3 tree…', 'हर चीज़ को उसके नंबर-चित्र पर टाँगो: 1 🍞, 2 👟, 3 🌳…'],
+    alt: [['repeat', ['Said them over and over', 'बार-बार दोहराया'], '🔁'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['remembers 3 things in order with pegs', 'remembers 4 things in order', 'remembers 5 things in order', 'remembers 6 things in order', 'remembers 7 things in order', 'remembers 8 things in order'] },
+  { id: 'vest', sec: 'vedic', icon: '🔍', color: '#f0698f', name: ['Divide by 7, 13, 19', '7, 13, 19 से भाग'], sutra: 'Vestanam (osculation)', gen: vestGen,
+    rule: () => ['Last digit × helper number, add to the rest, repeat', 'आख़िरी अंक × मददगार संख्या, बाकी में जोड़ो, दोहराओ'],
+    alt: [['divide', ['Did the whole division', 'पूरा भाग किया'], '➗'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['tests 3-digit numbers for 7', 'tests 4-digit numbers for 7', 'tests 3-digit numbers for 13', 'tests 4-digit numbers for 13', 'tests 3-digit numbers for 19', 'tests 4-digit numbers for 7, 13, 19 or 29'] },
+  { id: 'alg', sec: 'big', icon: '🔤', color: '#f08a3c', name: ['Tidy up algebra', 'बीजगणित सरल करो'], sutra: '', gen: algGen,
+    rule: () => ['Group the same letters together, then work it out', 'एक जैसे अक्षर साथ रखो, फिर हल करो'],
+    alt: [['each', ['Worked out each part separately', 'हर हिस्सा अलग से हल किया'], '🧮'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['adds like terms (3a + 5a)', 'adds and takes away like terms', 'opens brackets and groups terms', 'simplifies, then puts in a value', 'simplifies with two letters, then puts in values', 'opens brackets, simplifies and puts in a value'] },
+  { id: 'nsqrt', sec: 'big', icon: '🌿', color: '#f5b82e', name: ['Roots that are not whole', 'अधूरे वर्गमूल'], sutra: '', gen: nsqrtGen,
+    rule: () => ['Nearest square, then add (difference ÷ double the root)', 'सबसे पास का वर्ग, फिर (अंतर ÷ मूल का दुगना) जोड़ो'],
+    alt: [['try', ['Tried decimals until close', 'दशमलव आज़माए'], '🔁'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['estimates square roots up to 30', 'estimates square roots up to 100', 'estimates square roots up to 300', 'estimates square roots up to 1000', 'estimates square roots up to 3000', 'estimates square roots up to 10,000'] }
+);
+
+/* sections and order */
+const TSECTIONS = [['start', ['Starter', 'शुरुआत'], '🌱'], ['vedic', ['Vedic tricks', 'वैदिक तरकीबें'], '✨'], ['life', ['Maths for everyday', 'रोज़ की गणित'], '🛒'], ['big', ['Champion', 'चैंपियन'], '🏆']];
+const TORDER = ['read', 'add', 'tbl', 'x5', 'peg', 'nikhilam', 'sq5', 'nine', 'div', 'vc', 'yava', 'nmul', 'div9', 'vest', 'pct', 'frac', 'avg', 'rat', 'stat', 'fcut', 'fop', 'pf', 'bod', 'eq', 'sun', 'alg', 'sqrt', 'nsqrt', 'cbrt', 'cube'];
+const TSEC = { read: 'start', add: 'start', tbl: 'start', x5: 'start', peg: 'start', nikhilam: 'vedic', sq5: 'vedic', nine: 'vedic', div: 'vedic', vc: 'vedic', yava: 'vedic', nmul: 'vedic', div9: 'vedic', vest: 'vedic', pct: 'life', frac: 'life', avg: 'life', rat: 'life', stat: 'life', fcut: 'big', fop: 'big', pf: 'big', bod: 'big', eq: 'big', sun: 'big', alg: 'big', sqrt: 'big', nsqrt: 'big', cbrt: 'big', cube: 'big' };
+TRICKS.sort((x, y) => TORDER.indexOf(x.id) - TORDER.indexOf(y.id));
+TRICKS.forEach(t => { t.sec = TSEC[t.id]; });
+
 const TRK = Object.fromEntries(TRICKS.map(t => [t.id, t]));
 
 function TS(p) {
@@ -2163,7 +2316,8 @@ function TS(p) {
   TRICKS.forEach(t => { const s = p.tricks[t.id] || (p.tricks[t.id] = {}); s.level = s.level || 1; s.streak = s.streak || 0; s.plays = s.plays || 0; s.best = s.best || 0; s.learned = !!s.learned; s.mastered = !!s.mastered; });
   return p.tricks;
 }
-const tunlocked = (p, i) => i === 0 || TS(p)[TRICKS[i - 1].id].plays > 0;
+const tunlocked = (p, i) => { const T = TS(p), t = TRICKS[i]; if (T[t.id].plays > 0) return true; const prev = TRICKS.slice(0, i).reverse().find(x => x.sec === t.sec); return !prev || T[prev.id].plays > 0; };
+const memoHtml = items => `<div class="memo">${items.map(m => `<div class="memo-row"><span class="mnum">${m.num}</span><span class="mpeg" aria-hidden="true">${PEGS[m.num][0]}</span><span class="mplus" aria-hidden="true">+</span><span class="mitem" role="img" aria-label="${m.n}">${m.e}</span></div>`).join('')}</div>`;
 const tmeter = level => `<span class="meter" role="img" aria-label="Level ${level} of ${TMAX}">${Array.from({ length: TMAX }, (_, i) => `<i class="${i < level ? 'on' : ''}"></i>`).join('')}</span>`;
 const tui = my => ({ alive: () => my === token, say: t => { const el = $('#say'); if (el) el.innerHTML = t; speak(mathSpeak(t)); } });
 
@@ -2173,13 +2327,13 @@ function vTricks() {
   return `
   <header class="topbar">${brand()}<button class="btn ghost small" data-tact="tricks-back">${L('back')}</button></header>
   <section class="pip-say compact">${pipSvg(60, true)}<div class="bubble">${TX('Learn a maths trick! One at a time.', 'गणित की एक तरकीब सीखो! एक-एक करके।')}</div>${hearBtn()}</section>
-  <ol class="tpath" aria-label="Maths tricks, in order">${TRICKS.map((t, i) => {
+  ${TSECTIONS.map(([sec, nm, ic]) => `<h2 class="tsec-head"><span aria-hidden="true">${ic}</span> ${TX(...nm)}</h2><ol class="tpath" aria-label="${nm[0]}">${TRICKS.map((t, i) => [t, i]).filter(([t]) => t.sec === sec).map(([t, i]) => {
     const s = T[t.id], open = tunlocked(p, i);
     return `<li><button class="tnode ${open ? '' : 'locked'} ${s.mastered ? 'mastered' : ''}" style="--c:${t.color}" data-tact="hub" data-id="${t.id}" ${open ? '' : 'disabled'} aria-label="${t.name[0]}${open ? `, level ${s.level}` : ', locked'}">
       <span class="tn-num" aria-hidden="true">${i + 1}</span><span class="tn-ico" aria-hidden="true">${open ? t.icon : '🔒'}</span>
       <span class="tn-main"><span class="tn-name">${TX(...t.name)}</span>${open ? tmeter(s.level) : `<span class="tn-lock">${TX('Play the one before to open', 'खोलने के लिए पिछली वाली खेलो')}</span>`}</span>
       <span class="tn-badge" aria-hidden="true">${s.mastered ? '🏅' : open && !s.plays ? `<span class="lib-badge static">${L('newb')}</span>` : ''}</span></button></li>`;
-  }).join('')}</ol>`;
+  }).join('')}</ol>`).join('')}`;
 }
 
 function vTrickHub() {
@@ -2252,13 +2406,24 @@ const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'del', '0', 'ok'], KE
 const keysFor = q => (q.dot ? KEYS_DOT : q.extra ? ['1', '2', '3', '4', '5', '6', '7', '8', '9', q.extra, '0', 'del', 'ok'] : KEYS);
 const fmtA = v => String(v).replace(/R/g, ' R ').replace(/×/g, ' × ');
 const KEY_LBL = { del: ['⌫', 'Delete'], ok: ['✓', 'Check'], dot: ['.', 'Decimal point'], rem: ['R', 'Remainder'], mul: ['×', 'Times'], slash: ['/', 'Fraction line'] };
-const qHead = (q, ansHtml) => q.label ? `<div class="tq ${q.wordy ? 'wordy' : ''}">${q.q}</div><div class="tq tq2"><span class="eq">${q.label}</span> ${ansHtml}</div>` : `<div class="tq">${q.q} <span class="eq">=</span> ${ansHtml}</div>`;
-function askQuestion(board, q, ui, o) {
-  const yn = q.kind === 'yn';
-  board.innerHTML = `<div class="tq-card">${yn ? `<div class="tq">${q.q}</div>` : qHead(q, '<span class="tans" id="tans" aria-live="polite"></span>')}${yn ? `<p class="tq-ask">${TX(...q.ask)}</p>` : q.note ? `<p class="tq-ask">${TX(...q.note)}</p>` : ''}</div>
+const qHead = (q, ansHtml) => q.label ? `<div class="tq ${q.wordy ? 'wordy' : ''}">${q.q}</div><div class="tq tq2"><span class="eq">${q.label}</span> ${ansHtml}${q.suffix ? ` <span class="eq">${q.suffix}</span>` : ''}</div>` : `<div class="tq">${q.q} <span class="eq">=</span> ${ansHtml}</div>`;
+async function askQuestion(board, q, ui, o) {
+  if (q.memo) {
+    let aborted = false;
+    board.innerHTML = `${memoHtml(q.memo)}<button class="btn" id="mready">${TX("I've got it ▶", 'याद हो गया ▶')}</button>`;
+    ui.say(TX('Picture each thing with its number picture!', 'हर चीज़ को उसके नंबर-चित्र के साथ सोचो!'));
+    await new Promise(res => { const tm = setTimeout(res, (noTimer() ? 2 : 1) * q.memoMs); board.querySelector('#mready').onclick = () => { clearTimeout(tm); res(); }; board._abort = () => { aborted = true; clearTimeout(tm); res(); }; });
+    if (aborted || !ui.alive()) return { correct: false, ms: 0, timeout: true };
+    ui.say(TX(...q.ask));
+  }
+  return askQuestion0(board, q, ui, o);
+}
+function askQuestion0(board, q, ui, o) {
+  const yn = q.kind === 'yn' || q.kind === 'opt';
+  board.innerHTML = `<div class="tq-card">${yn ? `<div class="tq">${q.q}</div>` : qHead(q, '<span class="tans" id="tans" aria-live="polite"></span>')}${yn && q.kind === 'yn' ? `<p class="tq-ask">${TX(...q.ask)}</p>` : q.note ? `<p class="tq-ask">${TX(...q.note)}</p>` : ''}</div>
     <ol class="tsteps" id="tsteps"></ol>
     <div id="tin">${yn
-      ? `<div class="yn"><button class="ynb" data-v="yes">✅ ${TX('Yes', 'हाँ')}</button><button class="ynb" data-v="no">❌ ${TX('No', 'नहीं')}</button></div>`
+      ? (q.kind === 'opt' ? `<div class="yn opts4">${q.opts.map(x => `<button class="ynb" data-v="${x.v}" aria-label="${x.v}">${x.html}</button>`).join('')}</div>` : `<div class="yn"><button class="ynb" data-v="yes">✅ ${TX('Yes', 'हाँ')}</button><button class="ynb" data-v="no">❌ ${TX('No', 'नहीं')}</button></div>`)
       : `<div class="keypad">${keysFor(q).map((k, i, all) => `<button class="key ${k}${all.length === 13 && k === 'ok' ? ' wide' : ''}" data-k="${k}" aria-label="${KEY_LBL[k] ? KEY_LBL[k][1] : k}">${KEY_LBL[k] ? KEY_LBL[k][0] : k}</button>`).join('')}</div>`}</div>
     ${o.hints ? `<button class="btn ghost small thint" id="thint">💡 ${TX('Show me a step', 'एक कदम दिखाओ')}</button>` : ''}`;
   const tans = board.querySelector('#tans'), list = board.querySelector('#tsteps'), hintB = board.querySelector('#thint');
@@ -2308,6 +2473,7 @@ function askQuestion(board, q, ui, o) {
     };
     onKey = e => {
       if (!ui.alive()) { window.removeEventListener('keydown', onKey); return; }
+      if (q.kind === 'opt') return;
       if (yn) { if (/^[yY]$/.test(e.key)) finish('yes'); else if (/^[nN]$/.test(e.key)) finish('no'); return; }
       if (/^[0-9]$/.test(e.key)) press(e.key); else if (e.key === '.' && q.dot) press('dot'); else if (/^[rR]$/.test(e.key) && q.extra === 'rem') press('rem'); else if (/^[*xX]$/.test(e.key) && q.extra === 'mul') press('mul'); else if (e.key === '/' && q.extra === 'slash') { e.preventDefault(); press('slash'); } else if (e.key === 'Backspace') press('del'); else if (e.key === 'Enter') { e.preventDefault(); press('ok'); }
     };
@@ -2319,9 +2485,9 @@ function askQuestion(board, q, ui, o) {
 async function runLesson(id) {
   const my = ++token, p = P(), s = TS(p)[id], t = TRK[id];
   S.tid = id; S.tmode = 'lesson'; S.screen = 'tplay'; render();
-  const ui = tui(my), q = t.gen(s.level), board = $('#board'), yn = q.kind === 'yn';
+  const ui = tui(my), q = t.gen(s.level), board = $('#board'), yn = q.kind === 'yn' || q.kind === 'opt';
   board.innerHTML = `<div class="rulecard" style="--c:${t.color}"><span class="rc-ico" aria-hidden="true">${t.icon}</span><span>${TX(...t.rule(s.level))}</span></div>
-    <div class="tq-card">${yn ? `<div class="tq">${q.q}</div>` : qHead(q, '<span class="tans empty" id="tans">?</span>')}${yn ? `<p class="tq-ask">${TX(...q.ask)}</p><p class="tans yn-ans empty" id="tans">?</p>` : ''}</div>
+    ${q.memo ? memoHtml(q.memo) : ''}<div class="tq-card">${yn ? `<div class="tq">${q.q}</div>` : qHead(q, '<span class="tans empty" id="tans">?</span>')}${yn ? `<p class="tq-ask">${TX(...q.ask)}</p><p class="tans yn-ans empty" id="tans">?</p>` : ''}</div>
     <ol class="tsteps lesson" id="tsteps"></ol><div class="row tcenter-row" id="tlbtns"></div>`;
   ui.say(TX("Watch Pip's trick!", 'पिप की तरकीब देखो!'));
   await wait(1800);
@@ -2335,7 +2501,7 @@ async function runLesson(id) {
   }
   if (!ui.alive()) return;
   const ans = $('#tans');
-  ans.textContent = yn ? (q.a === 'yes' ? TX('✅ Yes', '✅ हाँ') : TX('❌ No', '❌ नहीं')) : fmtA(q.a); ans.classList.remove('empty'); ans.classList.add('right');
+  if (q.kind === 'opt') ans.innerHTML = q.aHtml; else ans.textContent = yn ? (q.a === 'yes' ? TX('✅ Yes', '✅ हाँ') : TX('❌ No', '❌ नहीं')) : fmtA(q.a); ans.classList.remove('empty'); ans.classList.add('right');
   s.learned = true; save(); sfx('ok');
   ui.say(TX('Your turn now!', 'अब तुम्हारी बारी!'));
   $('#tlbtns').innerHTML = `<button class="btn ghost" data-tact="lesson">↻ ${TX('Watch again', 'फिर देखो')}</button><button class="btn" data-tact="practice">✏️ ${TX('My turn', 'मेरी बारी')}</button>`;
@@ -2350,7 +2516,7 @@ async function runPractice(id) {
     if (!ui.alive()) return;
     dots(TROUND, results);
     let q = t.gen(s.level); for (let g = 0; g < 8 && q.q === S.tlastQ; g++) q = t.gen(s.level); S.tlastQ = q.q;
-    ui.say(q.kind === 'yn' ? TX('Use the trick, then tap Yes or No.', 'तरकीब लगाओ, फिर हाँ या नहीं चुनो।') : TX('Use the trick. Type the answer.', 'तरकीब लगाओ। जवाब लिखो।'));
+    ui.say(q.kind === 'opt' ? TX('Look carefully!', 'ध्यान से देखो!') : q.kind === 'yn' ? TX('Use the trick, then tap Yes or No.', 'तरकीब लगाओ, फिर हाँ या नहीं चुनो।') : TX('Use the trick. Type the answer.', 'तरकीब लगाओ। जवाब लिखो।'));
     const r = await askQuestion(board, q, ui, { hints: true });
     if (!ui.alive() || r.timeout) return;
     results.push(r.correct);
