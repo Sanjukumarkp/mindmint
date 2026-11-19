@@ -335,6 +335,88 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .game-ico.xl{font-size:3.6rem;width:96px;height:96px;border-radius:26px}
 .stop{gap:14px}
 .stop-main{flex:1;display:flex;flex-direction:column;gap:6px}
+
+/* v11 maths tricks */
+.home-more{justify-content:center;gap:10px}
+.tricks-banner{appearance:none;border:0;width:100%;display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:20px;cursor:pointer;color:#1f1c3f;background:linear-gradient(110deg,#ffcf5c,#ffb38a);font:inherit;text-align:left;margin-top:6px;box-shadow:0 6px 22px rgba(255,180,100,.25)}
+.tricks-banner .tb-ico{font-size:2.2rem}
+.tricks-banner .tb-txt{flex:1;display:flex;flex-direction:column}
+.tricks-banner b{font:800 1.25rem var(--font-display)}
+.tricks-banner small{font-size:.9rem;opacity:.8}
+.tricks-banner .tb-go{font:800 2rem var(--font-display)}
+.tpath{list-style:none;margin:6px 0 0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:14px;position:relative}
+.tpath:before{content:"";position:absolute;left:38px;top:20px;bottom:20px;border-left:3px dashed rgba(236,233,255,.22)}
+.tnode{position:relative;appearance:none;width:100%;display:flex;align-items:center;gap:12px;padding:12px 14px 12px 10px;border-radius:20px;border:2px solid transparent;background:var(--night-raised);color:inherit;font:inherit;cursor:pointer;text-align:left}
+.tnode:hover,.tnode:focus-visible{border-color:var(--c)}
+.tnode.locked{opacity:.55;cursor:default}
+.tnode.mastered{border-color:var(--glow)}
+.tn-num{position:absolute;left:-16px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:var(--c);color:#1f1c3f;font:800 .9rem var(--font-display);display:grid;place-items:center}
+.tnode.locked .tn-num{background:rgba(236,233,255,.3)}
+.tn-ico{font-size:2rem;width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 22%,transparent);flex:none}
+.tn-main{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tn-name{font:700 1.15rem/1.15 var(--font-display)}
+.tn-lock{font-size:.85rem;color:var(--moon-soft)}
+.tn-badge{font-size:1.6rem}
+.lib-badge.static{position:static;display:inline-block;background:var(--c)}
+.thero{align-items:center;text-align:center;border-top:6px solid var(--c)}
+.th-ico{font-size:3.6rem;line-height:1}
+.th-rule{font:700 1.3rem/1.3 var(--font-display);color:var(--glow);margin:0}
+.th-sutra{margin:0;font-size:.85rem;color:var(--moon-soft);font-style:italic}
+.thub-btns{display:flex;flex-direction:column;align-items:center;gap:12px}
+.thub-btns .btn.ghost{min-width:260px}
+.tcenter{text-align:center}
+.tcenter-row{justify-content:center}
+.tboard{gap:12px;min-height:0}
+.rulecard{display:flex;align-items:center;gap:12px;background:color-mix(in srgb,var(--c) 20%,var(--night-raised));border:2px solid var(--c);border-radius:18px;padding:12px 16px;font:700 1.15rem/1.25 var(--font-display);width:100%;max-width:520px}
+.rc-ico{font-size:1.8rem}
+.tq-card{width:100%;max-width:520px;background:var(--night-raised);border-radius:22px;padding:18px 14px;text-align:center}
+.tq{font:800 clamp(1.9rem,8vw,2.6rem)/1.15 var(--font-display);letter-spacing:.02em;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 10px}
+.tq-l{font:600 1rem var(--font-body);color:var(--moon-soft);display:block;width:100%}
+.tq-ask{margin:8px 0 0;color:var(--moon-soft);font-size:1.05rem}
+.eq{color:var(--moon-soft)}
+.tans{display:inline-block;min-width:2.2em;padding:0 10px;border-radius:12px;border:3px solid var(--glow);color:var(--glow);background:rgba(255,207,92,.08)}
+.tans.empty{color:rgba(255,207,92,.45)}
+.tans.right{border-color:var(--mint);color:var(--mint)}
+.tans.wrong{border-color:var(--rose);color:var(--moon)}
+.tans.wrong s{color:var(--rose);font-size:.7em;margin-right:6px}
+.tans.yn-ans{margin:10px auto 0;font:800 1.5rem var(--font-display)}
+.tsteps{list-style:none;margin:0;padding:0;width:100%;max-width:520px;display:flex;flex-direction:column;gap:8px;counter-reset:st}
+.tsteps:empty{display:none}
+.tsteps li{counter-increment:st;display:flex;gap:10px;align-items:flex-start;background:rgba(236,233,255,.07);border-radius:14px;padding:10px 12px;font-size:1.08rem;line-height:1.35;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+.tsteps li.in{opacity:1;transform:none}
+.tsteps li:before{content:counter(st);flex:none;width:26px;height:26px;border-radius:50%;background:var(--glow);color:#1f1c3f;font:800 .9rem var(--font-display);display:grid;place-items:center}
+.tsteps li b{color:var(--glow);font-size:1.15em}
+.tsteps li>span{flex:1;min-width:0}
+#tin{width:100%;display:flex;justify-content:center}
+.tsteps.lesson li{font-size:1.15rem}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:330px}
+.key{appearance:none;height:62px;border-radius:18px;border:2px solid rgba(236,233,255,.22);background:var(--night-raised);color:var(--moon);font:800 1.7rem var(--font-display);cursor:pointer;touch-action:manipulation}
+.key:active{transform:scale(.95);background:rgba(236,233,255,.12)}
+.key.ok{background:var(--glow);color:#1f1c3f;border-color:var(--glow)}
+.key.del{font-size:1.4rem}
+.key:disabled{opacity:.5}
+.yn{display:flex;gap:14px;justify-content:center;width:100%}
+.ynb{appearance:none;flex:1;max-width:170px;min-height:76px;border-radius:20px;border:3px solid rgba(236,233,255,.25);background:var(--night-raised);color:var(--moon);font:800 1.4rem var(--font-display);cursor:pointer}
+.ynb.right{border-color:var(--mint);box-shadow:0 0 0 3px var(--mint)}
+.ynb.wrong{border-color:var(--rose)}
+.thint{align-self:center}
+.tgot{align-self:center}
+.tbar{height:12px;border-radius:999px;background:rgba(236,233,255,.15);overflow:hidden}
+.tbar span{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--mint),var(--glow));transition:width .2s linear}
+.count321{font:800 6rem var(--font-display);color:var(--glow);text-align:center;padding:40px 0}
+.speed-num{margin:0;font-size:1.2rem}
+.speed-num b{font:800 3.2rem var(--font-display);color:var(--glow);display:block;line-height:1}
+.mastered-note{margin:0;font:800 1.3rem var(--font-display);color:var(--glow)}
+.newrule{border-left:6px solid var(--c)}
+.trows{display:flex;flex-direction:column;gap:10px}
+.trow{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border-radius:14px;padding:12px}
+.tr-ico{font-size:1.6rem;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 25%,white);flex:none}
+.tr-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.tr-top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.tr-mean{margin:0;font-size:.92rem}
+.segbar.six{grid-template-columns:repeat(6,1fr)}
+.tc-sum{font:700 1.1rem var(--font-display);white-space:nowrap}
+@media (max-width:380px){.key{height:56px}.tq{font-size:1.8rem}.home-more .btn{padding:10px 16px}}
 /* v8 games library */
 .lib-open{align-self:center;min-height:52px;font-size:1.1rem}
 .lib-skill{margin-top:18px}
@@ -1019,7 +1101,7 @@ function vHome() {
     return `<li class="stop ${done ? 'lit' : ''} ${k === next ? 'next' : ''}"><span class="game-ico" aria-hidden="true">${GAME_ICON[k]}</span><div class="stop-main"><span class="stop-name">${g.name}</span>${meter(p.skills[g.skill].level)}</div><span class="stop-state">${done ? '<span role="img" aria-label="done">✅</span>' : lanternSvg(false)}</span></li>`;
   }).join('')}</ol>
   ${showWarm ? '' : next ? `<button class="btn big play" data-act="play" data-key="${next}">${L('play')}</button>` : `<button class="btn big play" data-act="finish">${L('finish')}</button>`}
-  ${showWarm ? '' : `<button class="btn ghost lib-open" data-act="games">${L('games')}</button>`}`;
+  ${showWarm ? '' : `<div class="row home-more"><button class="btn ghost lib-open" data-act="games">${L('games')}</button><button class="btn ghost lib-open" data-tact="tricks">🧮 ${TX('Maths tricks', 'गणित तरकीबें')}</button></div>`}`;
 }
 
 function vGames() {
@@ -1027,6 +1109,7 @@ function vGames() {
   return `
   <header class="topbar">${brand()}<button class="btn ghost small" data-act="games-back">${L('back')}</button></header>
   <section class="pip-say compact">${pipSvg(60, true)}<div class="bubble">${L('pickany')}</div>${hearBtn()}</section>
+  <button class="tricks-banner" data-tact="tricks"><span class="tb-ico" aria-hidden="true">🧮</span><span class="tb-txt"><b>${TX('Maths tricks', 'गणित की तरकीबें')}</b><small>${TX('Vedic maths shortcuts', 'वैदिक गणित के शॉर्टकट')}</small></span><span class="tb-go" aria-hidden="true">›</span></button>
   ${SKILLS.map(s => {
     const lv = p.skills[s].level;
     return `<section class="lib-skill" style="--c:${SKILL_COLOR[s]}">
@@ -1356,6 +1439,7 @@ function vParent() {
   <section class="card"><div class="card-head"><h2>Skills</h2><span class="legend-line"><span class="segbar mini" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>Levels 1 to 10 <span class="chg-pill up">▲</span> this week</span></div>
     <div class="skrows">${SKILLS.map(s => skillRow(p, s, wk)).join('')}</div>
     <p class="soft hint">Tap a skill to see what its level means and why it changed.</p></section>
+  ${tricksCard(p)}
   ${favRow(p)}
   <section class="card"><div class="card-head"><div><h2>Off-screen play</h2><p class="soft">Everyday games that use the same skills.</p></div>
     <div class="tried-meter"><span id="tried-count"><b>${triedCount}</b> of ${SKILLS.length * 2} tried this week</span><span class="minibar"><span id="tried-bar" style="width:${Math.round(triedCount / (SKILLS.length * 2) * 100)}%"></span></span></div></div>${lifeGrid(p)}</section>
@@ -1369,13 +1453,497 @@ function vParent() {
   ${fold('🔐 Data and safety', `<p>Everything stays in this browser. No ads, no chat, no sharing.</p><div class="row" id="del-row"><button class="btn ghost small" data-act="delete">Delete ${name}'s data</button></div>`)}`;
 }
 
+/* ---------- v11: Maths Tricks (Vedic maths track) ---------- */
+const TX = (en, hi) => (isHi() && hi) ? hi : en;
+const TMAX = 6, TROUND = 6;
+const nroot = n => (n % 9 === 0 ? 9 : n % 9);
+const digitChain = n => { const parts = []; let v = n; while (v > 9) { const ds = String(v).split(''); const s = ds.reduce((a, b) => a + +b, 0); parts.push(`${ds.join(' + ')} = ${s}`); v = s; } return parts.length ? parts.join(' → ') : String(n); };
+const mathSpeak = s => {
+  const t = String(s).replace(/<[^>]+>/g, ' ');
+  return isHi()
+    ? t.replace(/−/g, ' घटा ').replace(/×/g, ' गुणा ').replace(/÷/g, ' भाग ').replace(/\+/g, ' जोड़ ').replace(/=/g, ' बराबर ').replace(/→/g, ', ')
+    : t.replace(/−/g, ' minus ').replace(/×/g, ' times ').replace(/÷/g, ' divided by ').replace(/\+/g, ' plus ').replace(/=/g, ' equals ').replace(/→/g, ', ');
+};
+const nz = (lo, hi) => { let v; do { v = rand(lo, hi); } while (v % 10 === 0); return v; };
+
+/* Trick 1: subtract from 10, 100, 1000 (Nikhilam: all from 9, the last from 10) */
+function nikGen(l) {
+  let base, n;
+  if (l === 1) { base = 100; n = nz(11, 89); }
+  else if (l === 2) { base = 100; n = nz(11, 99); }
+  else if (l === 3) { base = 1000; n = nz(101, 999); }
+  else if (l === 4) { base = 1000; n = nz(11, 99); }
+  else if (l === 5) { base = 10000; n = nz(1001, 9999); }
+  else if (Math.random() < 0.5) { base = 1000; n = nz(11, 99) * 10; }
+  else { base = 10000; n = nz(101, 999); }
+  const width = String(base).length - 1, padded = String(n).padStart(width, '0'), digs = padded.split('').map(Number);
+  let last = digs.length - 1; while (digs[last] === 0) last--;
+  const steps = [];
+  if (padded !== String(n)) steps.push([`${base} has ${width} zeros, so write ${n} as <b>${padded}</b>`, `${base} में ${width} शून्य हैं, तो ${n} को <b>${padded}</b> लिखो`]);
+  const out = digs.map((d, i) => (i < last ? 9 - d : i === last ? 10 - d : 0));
+  digs.forEach((d, i) => {
+    if (i < last) steps.push([`From 9: 9 − ${d} = <b>${9 - d}</b>`, `9 में से: 9 − ${d} = <b>${9 - d}</b>`]);
+    else if (i === last) steps.push([`Last one from 10: 10 − ${d} = <b>${10 - d}</b>`, `आख़िरी वाला 10 में से: 10 − ${d} = <b>${10 - d}</b>`]);
+    else steps.push(['A zero at the end stays <b>0</b>', 'आख़िर का शून्य <b>0</b> ही रहता है']);
+  });
+  const a = String(base - n), joined = out.join('');
+  if (joined !== a) steps.push([`${joined} is the same as ${a}`, `${joined} मतलब ${a}`]);
+  steps.push([`Answer: <b>${a}</b>`, `जवाब: <b>${a}</b>`]);
+  return { q: `${base} − ${n}`, a, kind: 'num', steps, check: String(+joined) };
+}
+
+/* Trick 2: squares ending in 5 and "same front, backs add to 10" (Ekadhikena Purvena) */
+function sq5Gen(l) {
+  let t, u1, u2;
+  if (l === 1) { t = rand(1, 4); u1 = u2 = 5; }
+  else if (l === 2) { t = rand(5, 9); u1 = u2 = 5; }
+  else if (l === 3) { t = rand(1, 4); u1 = rand(1, 9); u2 = 10 - u1; }
+  else if (l === 4) { t = rand(5, 9); u1 = rand(1, 9); u2 = 10 - u1; }
+  else if (l === 5) { t = rand(10, 12); u1 = u2 = 5; }
+  else { t = rand(10, 19); u1 = rand(1, 9); u2 = 10 - u1; }
+  const x = t * 10 + u1, y = t * 10 + u2, front = t * (t + 1), back = String(u1 * u2).padStart(2, '0'), a = String(x * y);
+  const steps = [
+    [`Front: ${t} × the next number ${t + 1} = <b>${front}</b>`, `आगे: ${t} × अगली संख्या ${t + 1} = <b>${front}</b>`],
+    [`Back: ${u1} × ${u2} = <b>${back}</b>${u1 * u2 < 10 ? ' (always 2 digits)' : ''}`, `पीछे: ${u1} × ${u2} = <b>${back}</b>${u1 * u2 < 10 ? ' (हमेशा 2 अंक)' : ''}`],
+    [`Put them side by side: ${front} | ${back}`, `दोनों को साथ रखो: ${front} | ${back}`],
+    [`Answer: <b>${a}</b>`, `जवाब: <b>${a}</b>`]
+  ];
+  return { q: `${x} × ${y}`, a, kind: 'num', steps, check: String(front) + back };
+}
+
+/* Trick 3: times 5, 12, 15 and 75 */
+function x5Gen(l) {
+  let n, m, steps, chk;
+  if (l <= 3) {
+    n = l === 1 ? rand(6, 49) * 2 : l === 2 ? rand(5, 49) * 2 + 1 : rand(101, 999); m = 5;
+    const h = n / 2;
+    steps = [[`Half of ${n} is <b>${h}</b>`, `${n} का आधा <b>${h}</b>`],
+      [Number.isInteger(h) ? `Add a zero (× 10): <b>${h * 10}</b>` : `× 10 moves the dot one place: <b>${h * 10}</b>`, Number.isInteger(h) ? `एक शून्य लगाओ (× 10): <b>${h * 10}</b>` : `× 10 से दशमलव एक जगह खिसकता है: <b>${h * 10}</b>`]];
+    chk = h * 10;
+  } else if (l === 4) {
+    n = rand(11, 49); m = 12;
+    steps = [[`${n} × 10 = <b>${n * 10}</b>`, `${n} × 10 = <b>${n * 10}</b>`], [`${n} × 2 = <b>${n * 2}</b>`, `${n} × 2 = <b>${n * 2}</b>`], [`Add: ${n * 10} + ${n * 2} = <b>${n * 12}</b>`, `जोड़ो: ${n * 10} + ${n * 2} = <b>${n * 12}</b>`]];
+    chk = n * 10 + n * 2;
+  } else if (l === 5) {
+    n = rand(11, 60); m = 15;
+    steps = [[`${n} × 10 = <b>${n * 10}</b>`, `${n} × 10 = <b>${n * 10}</b>`], [`Half of ${n * 10} is <b>${n * 5}</b>`, `${n * 10} का आधा <b>${n * 5}</b>`], [`Add: ${n * 10} + ${n * 5} = <b>${n * 15}</b>`, `जोड़ो: ${n * 10} + ${n * 5} = <b>${n * 15}</b>`]];
+    chk = n * 10 + n * 5;
+  } else {
+    const k = rand(2, 24); n = k * 4; m = 75;
+    steps = [[`A quarter: ${n} ÷ 4 = <b>${k}</b>`, `चौथाई: ${n} ÷ 4 = <b>${k}</b>`], [`× 3: ${k} × 3 = <b>${k * 3}</b>`, `× 3: ${k} × 3 = <b>${k * 3}</b>`], [`Add two zeros (× 100): <b>${k * 300}</b>`, `दो शून्य लगाओ (× 100): <b>${k * 300}</b>`]];
+    chk = k * 300;
+  }
+  const a = String(n * m);
+  steps.push([`Answer: <b>${a}</b>`, `जवाब: <b>${a}</b>`]);
+  return { q: `${n} × ${m}`, a, kind: 'num', steps, check: String(chk) };
+}
+
+/* Trick 4: Trick of 9 (nine-numbers, used to check answers) */
+function nineGen(l) {
+  if (l <= 2) {
+    const n = l === 1 ? rand(12, 98) : rand(100, 9999), r = nroot(n);
+    const steps = [[`Add the digits: ${digitChain(n)}`, `अंक जोड़ो: ${digitChain(n)}`]];
+    if (l === 2 && String(n).includes('9')) steps.push(['Tip: a 9 adds nothing, so you can skip it', 'टिप: 9 से कुछ नहीं बदलता, उसे छोड़ सकते हो']);
+    steps.push([`Nine-number: <b>${r}</b>`, `नौ-अंक: <b>${r}</b>`]);
+    return { q: isHi() ? `${n} <span class="tq-l">का नौ-अंक</span>` : `<span class="tq-l">Nine-number of</span> ${n}`, a: String(r), kind: 'num', steps, check: String(r) };
+  }
+  let a, b, op, real;
+  if (l === 3) { a = rand(12, 98); b = rand(12, 98); op = '+'; real = a + b; }
+  else if (l === 4) { a = rand(120, 999); b = rand(12, a - 10); op = '−'; real = a - b; }
+  else if (l === 5) { a = rand(12, 98); b = rand(3, 9); op = '×'; real = a * b; }
+  else { a = rand(12, 98); b = rand(12, 98); op = '×'; real = a * b; }
+  const yes = Math.random() < 0.5; let shown = real;
+  if (!yes) { do { shown = real + pick([1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 20, -1, -2, -3, -4, -10, -11]); } while (shown <= 0 || nroot(shown) === nroot(real)); }
+  const ra = nroot(a), rb = nroot(b), rs = nroot(shown);
+  let comb = op === '+' ? ra + rb : op === '×' ? ra * rb : ra - rb, combTxt = `${ra} ${op} ${rb} = ${comb}`, combHi = combTxt;
+  if (op === '−' && comb <= 0) { combTxt += `, add 9 → ${comb + 9}`; combHi += `, 9 जोड़ो → ${comb + 9}`; comb += 9; }
+  const rr = nroot(comb);
+  if (comb > 9) { combTxt += ` → ${digitChain(comb)}`; combHi += ` → ${digitChain(comb)}`; }
+  const steps = [
+    [`Nine-number of ${a}: ${digitChain(a)}`, `${a} का नौ-अंक: ${digitChain(a)}`],
+    [`Nine-number of ${b}: ${digitChain(b)}`, `${b} का नौ-अंक: ${digitChain(b)}`],
+    [`Do the same sum with them: ${combTxt} → <b>${rr}</b>`, `इनसे वही हिसाब करो: ${combHi} → <b>${rr}</b>`],
+    [`Nine-number of the answer ${shown}: ${digitChain(shown)}`, `जवाब ${shown} का नौ-अंक: ${digitChain(shown)}`],
+    rr === rs ? [`${rr} and ${rs} match, so it's right ✅`, `${rr} और ${rs} मिलते हैं, तो सही है ✅`]
+      : [`${rr} and ${rs} don't match, so it's wrong ❌ (it's really ${real})`, `${rr} और ${rs} नहीं मिलते, तो ग़लत है ❌ (असली जवाब ${real})`]
+  ];
+  return { q: `${a} ${op} ${b} = ${shown}`, a: yes ? 'yes' : 'no', kind: 'yn', ask: ['Is it right? Check with nine-numbers.', 'क्या ये सही है? नौ-अंक से जाँचो।'], steps, check: rr === rs ? 'yes' : 'no' };
+}
+
+/* Trick 5: divisibility tests */
+function divGen(l) {
+  const k = l === 1 ? pick([2, 5, 10]) : [0, 0, 3, 9, 4, 6, 11][l];
+  const [lo, hi] = { 1: [10, 999], 2: [100, 999], 3: [100, 9999], 4: [100, 9999], 5: [100, 999], 6: [100, 9999] }[l];
+  const yes = Math.random() < 0.5; let n;
+  if (yes) n = k * rand(Math.ceil(lo / k), Math.floor(hi / k));
+  else if (k === 6) { do { n = Math.random() < 0.5 ? rand(lo / 2, hi / 2) * 2 : rand(Math.ceil(lo / 3), Math.floor(hi / 3)) * 3; } while (n % 6 === 0 || n < lo || n > hi); }
+  else { do { n = rand(lo, hi); } while (n % k === 0); }
+  const ds = String(n).split('').map(Number), s = ds.reduce((x, y) => x + y, 0), last = ds[ds.length - 1];
+  const YN = ok => (ok ? ['so <b>yes</b> ✅', 'तो <b>हाँ</b> ✅'] : ['so <b>no</b> ❌', 'तो <b>नहीं</b> ❌']);
+  let steps, ok;
+  if (k === 2) { ok = last % 2 === 0; steps = [[`Last digit is ${last}. ${ok ? 'Even' : 'Odd'}, ${YN(ok)[0]}`, `आख़िरी अंक ${last} है। ${ok ? 'सम' : 'विषम'}, ${YN(ok)[1]}`]]; }
+  else if (k === 5) { ok = last === 0 || last === 5; steps = [[`Last digit is ${last}. ${ok ? 'It is' : 'Not'} 0 or 5, ${YN(ok)[0]}`, `आख़िरी अंक ${last} है। ${ok ? '' : 'ये '}0 या 5 ${ok ? 'है' : 'नहीं है'}, ${YN(ok)[1]}`]]; }
+  else if (k === 10) { ok = last === 0; steps = [[`Last digit is ${last}. ${ok ? 'It ends in 0' : 'Not a 0'}, ${YN(ok)[0]}`, `आख़िरी अंक ${last} है। ${ok ? '0 पर ख़त्म' : '0 नहीं'}, ${YN(ok)[1]}`]]; }
+  else if (k === 3 || k === 9) {
+    ok = s % k === 0;
+    steps = [[`Add the digits: ${ds.join(' + ')} = <b>${s}</b>`, `अंक जोड़ो: ${ds.join(' + ')} = <b>${s}</b>`],
+      [`${s} is ${ok ? '' : 'not '}in the ${k} times table, ${YN(ok)[0]}`, `${s} ${k} के पहाड़े में ${ok ? 'है' : 'नहीं है'}, ${YN(ok)[1]}`]];
+  } else if (k === 4) {
+    const t2 = n % 100; ok = t2 % 4 === 0;
+    steps = [[`Only the last two digits matter: <b>${String(t2).padStart(2, '0')}</b>`, `सिर्फ़ आख़िरी दो अंक देखो: <b>${String(t2).padStart(2, '0')}</b>`],
+      [ok ? `${t2} ÷ 4 = ${t2 / 4}, ${YN(ok)[0]}` : `${t2} is not in the 4 times table, ${YN(ok)[0]}`, ok ? `${t2} ÷ 4 = ${t2 / 4}, ${YN(ok)[1]}` : `${t2} 4 के पहाड़े में नहीं है, ${YN(ok)[1]}`]];
+  } else if (k === 6) {
+    const e2 = last % 2 === 0, e3 = s % 3 === 0; ok = e2 && e3;
+    steps = [[`By 2? Last digit ${last} is ${e2 ? 'even ✓' : 'odd ✗'}`, `2 से? आख़िरी अंक ${last} ${e2 ? 'सम ✓' : 'विषम ✗'}`],
+      [`By 3? Digits add to ${ds.join(' + ')} = ${s} ${e3 ? '✓' : '✗'}`, `3 से? अंक जोड़ो ${ds.join(' + ')} = ${s} ${e3 ? '✓' : '✗'}`],
+      [`6 needs both, ${YN(ok)[0]}`, `6 के लिए दोनों चाहिए, ${YN(ok)[1]}`]];
+  } else {
+    const r = ds.slice().reverse(), odd = r.filter((_, i) => i % 2 === 0), even = r.filter((_, i) => i % 2 === 1);
+    const A = odd.reduce((x, y) => x + y, 0), B = even.reduce((x, y) => x + y, 0), D = Math.abs(A - B); ok = D % 11 === 0;
+    steps = [[`From the right, every other digit: ${odd.join(' + ')} = <b>${A}</b>`, `दाएँ से, एक छोड़कर अंक: ${odd.join(' + ')} = <b>${A}</b>`],
+      [`The other digits: ${even.join(' + ')} = <b>${B}</b>`, `बाकी अंक: ${even.join(' + ')} = <b>${B}</b>`],
+      [`Difference: ${Math.max(A, B)} − ${Math.min(A, B)} = <b>${D}</b>`, `अंतर: ${Math.max(A, B)} − ${Math.min(A, B)} = <b>${D}</b>`],
+      [`${D} is ${ok ? '' : 'not '}0 or in the 11 times table, ${YN(ok)[0]}`, `${D} ${ok ? '' : 'न '}0 है ${ok ? 'या' : 'न'} 11 के पहाड़े में, ${YN(ok)[1]}`]];
+  }
+  return { q: `${n} ÷ ${k}`, a: yes ? 'yes' : 'no', kind: 'yn', ask: [`Does ${k} go into it with nothing left over?`, `क्या ${k} से पूरा बँटेगा, कुछ न बचे?`], steps, check: ok ? 'yes' : 'no', k };
+}
+
+/* Trick 6: 2-digit × 2-digit, vertically and crosswise (Urdhva Tiryagbhyam) */
+function vcGen(l) {
+  let a, b, c, d;
+  const small = (mx) => { do { a = rand(1, mx); b = rand(1, mx); c = rand(1, mx); d = rand(1, mx); } while (b * d > 9 || a * d + b * c > 9 || a * c > 9); };
+  if (l === 1) { a = 1; c = 1; b = rand(1, 9); d = rand(1, 9); }
+  else if (l === 2) small(3);
+  else if (l === 3) small(4);
+  else if (l === 4) { do { a = rand(1, 3); c = rand(1, 3); b = rand(1, 9); d = rand(1, 9); } while (b * d < 10); }
+  else if (l === 5) { a = rand(1, 5); c = rand(1, 5); b = rand(1, 9); d = rand(1, 9); }
+  else { a = rand(1, 9); c = rand(1, 9); b = rand(1, 9); d = rand(1, 9); }
+  const x = a * 10 + b, y = c * 10 + d, right = b * d, r0 = right % 10, c0 = Math.floor(right / 10);
+  const crossRaw = a * d + b * c, cross = crossRaw + c0, r1 = cross % 10, c1 = Math.floor(cross / 10), left = a * c + c1, ans = String(x * y);
+  const steps = [
+    [`Right: ${b} × ${d} = ${right}${c0 ? ` → write <b>${r0}</b>, carry ${c0}` : ` → write <b>${r0}</b>`}`, `दाएँ: ${b} × ${d} = ${right}${c0 ? ` → <b>${r0}</b> लिखो, ${c0} हासिल` : ` → <b>${r0}</b> लिखो`}`],
+    [`Cross: ${a} × ${d} + ${b} × ${c} = ${crossRaw}${c0 ? ` + ${c0} carried = ${cross}` : ''}${c1 ? ` → write <b>${r1}</b>, carry ${c1}` : ` → write <b>${r1}</b>`}`, `तिरछा: ${a} × ${d} + ${b} × ${c} = ${crossRaw}${c0 ? ` + ${c0} हासिल = ${cross}` : ''}${c1 ? ` → <b>${r1}</b> लिखो, ${c1} हासिल` : ` → <b>${r1}</b> लिखो`}`],
+    [`Left: ${a} × ${c} = ${a * c}${c1 ? ` + ${c1} carried = ${left}` : ''} → write <b>${left}</b>`, `बाएँ: ${a} × ${c} = ${a * c}${c1 ? ` + ${c1} हासिल = ${left}` : ''} → <b>${left}</b> लिखो`],
+    [`Answer: <b>${ans}</b>`, `जवाब: <b>${ans}</b>`]
+  ];
+  return { q: `${x} × ${y}`, a: ans, kind: 'num', steps, check: `${left}${r1}${r0}` };
+}
+
+const TRICKS = [
+  { id: 'nikhilam', icon: '💯', color: '#4c9be8', name: ['Subtract from 100', '100 में से घटाओ'], sutra: 'Nikhilam Navatashcaramam Dashatah', gen: nikGen,
+    rule: () => ['All from 9, the last from 10', 'सब 9 में से, आख़िरी 10 में से'],
+    alt: [['up', ['Counted up', 'ऊपर की ओर गिना'], '🔢'], ['long', ['Took away with borrowing', 'उधार लेकर घटाया'], '🐢']],
+    mean: ['takes 2-digit numbers away from 100', 'takes any 2-digit number away from 100', 'takes 3-digit numbers away from 1000', 'takes 2-digit numbers away from 1000 (adds a zero in front first)', 'takes 4-digit numbers away from 10,000', 'handles numbers ending in zero and mixed sizes'] },
+  { id: 'sq5', icon: '✋', color: '#f0698f', name: ['Numbers ending in 5', '5 पर ख़त्म संख्याएँ'], sutra: 'Ekadhikena Purvena', gen: sq5Gen,
+    rule: l => (l <= 2 || l === 5) ? ['Front × the next number, then write 25', 'आगे × अगली संख्या, फिर 25 लिखो'] : ['Same front, backs add to 10: front × next, then back × back', 'आगे एक जैसे, पीछे का जोड़ 10: आगे × अगली, फिर पीछे × पीछे'],
+    alt: [['long', ['Multiplied the long way', 'लंबा गुणा किया'], '🐢'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['squares 15, 25, 35 and 45 in their head', 'squares 55 to 95 in their head', 'multiplies pairs like 23 × 27 (same front, backs add to 10)', 'multiplies pairs like 64 × 66', 'squares 105, 115 and 125', 'multiplies 3-digit pairs like 112 × 118'] },
+  { id: 'x5', icon: '✖️', color: '#f08a3c', name: ['Times 5, 12, 15, 75', '5, 12, 15, 75 का गुणा'], sutra: '', gen: x5Gen,
+    rule: l => [null, ['× 5: take half, then × 10', '× 5: आधा करो, फिर × 10'], ['× 5: take half, then × 10', '× 5: आधा करो, फिर × 10'], ['× 5: take half, then × 10', '× 5: आधा करो, फिर × 10'], ['× 12: do × 10, then add × 2', '× 12: × 10 करो, फिर × 2 जोड़ो'], ['× 15: do × 10, then add half of it', '× 15: × 10 करो, फिर उसका आधा जोड़ो'], ['× 75: a quarter, × 3, then × 100', '× 75: चौथाई, × 3, फिर × 100']][l],
+    alt: [['add', ['Added it again and again', 'बार-बार जोड़ा'], '➕'], ['long', ['Long multiplication', 'लंबा गुणा'], '🐢']],
+    mean: ['multiplies even numbers by 5 (half, then × 10)', 'multiplies odd numbers by 5', 'multiplies 3-digit numbers by 5', 'multiplies by 12 (× 10 plus × 2)', 'multiplies by 15 (× 10 plus half)', 'multiplies by 75 (quarter, × 3, × 100)'] },
+  { id: 'nine', icon: '9️⃣', color: '#9b7be0', name: ['The trick of 9', '9 की तरकीब'], sutra: 'Navasesh (casting out nines)', gen: nineGen,
+    rule: l => l <= 2 ? ['Add the digits until one digit is left', 'एक अंक बचने तक अंक जोड़ते रहो'] : ['Check: do the nine-numbers match?', 'जाँचो: क्या नौ-अंक मिलते हैं?'],
+    alt: [['calc', ['Worked out the whole sum', 'पूरा हिसाब लगाया'], '🧮'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['finds the nine-number (digit sum) of 2-digit numbers', 'finds the nine-number of 3- and 4-digit numbers', 'checks additions using nine-numbers', 'checks subtractions using nine-numbers', 'checks multiplications like 47 × 6', 'checks 2-digit × 2-digit answers'] },
+  { id: 'div', icon: '🍰', color: '#3fbf9a', name: ['Will it share equally?', 'क्या बराबर बँटेगा?'], sutra: '', gen: divGen,
+    rule: l => [null, ['2, 5 and 10: look at the last digit', '2, 5 और 10: आख़िरी अंक देखो'], ['3: add the digits. Is it in the 3 times table?', '3: अंक जोड़ो। क्या 3 के पहाड़े में है?'], ['9: add the digits. Is it in the 9 times table?', '9: अंक जोड़ो। क्या 9 के पहाड़े में है?'], ['4: look at the last two digits only', '4: सिर्फ़ आख़िरी दो अंक देखो'], ['6: it must pass the 2 test and the 3 test', '6: 2 और 3 दोनों टेस्ट पास करने होंगे'], ['11: add every other digit, then compare', '11: एक छोड़कर अंक जोड़ो, फिर तुलना करो']][l],
+    alt: [['divide', ['Did the whole division', 'पूरा भाग किया'], '➗'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['tests division by 2, 5 and 10 from the last digit', 'tests division by 3 using the digit sum', 'tests division by 9 using the digit sum', 'tests division by 4 using the last two digits', 'tests division by 6 (passes both 2 and 3)', 'tests division by 11 (alternate digits)'] },
+  { id: 'vc', icon: '✳️', color: '#f5b82e', name: ['2-digit × 2-digit', '2 अंक × 2 अंक'], sutra: 'Urdhva Tiryagbhyam', gen: vcGen,
+    rule: l => l <= 3 ? ['Right, cross, left', 'दाएँ, तिरछा, बाएँ'] : ['Right, cross, left, and carry to the left', 'दाएँ, तिरछा, बाएँ, और हासिल बाएँ ले जाओ'],
+    alt: [['long', ['Long multiplication', 'लंबा गुणा'], '🐢'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['multiplies 11–19 by 11–19 with right, cross, left', 'multiplies small 2-digit numbers with no carrying', 'multiplies 2-digit numbers with no carrying', 'multiplies 2-digit numbers with carrying', 'multiplies 2-digit numbers up to 59', 'multiplies any two 2-digit numbers']
+  }
+];
+const TRK = Object.fromEntries(TRICKS.map(t => [t.id, t]));
+
+function TS(p) {
+  p.tricks = p.tricks || {}; p.tlog = p.tlog || [];
+  TRICKS.forEach(t => { const s = p.tricks[t.id] || (p.tricks[t.id] = {}); s.level = s.level || 1; s.streak = s.streak || 0; s.plays = s.plays || 0; s.best = s.best || 0; s.learned = !!s.learned; s.mastered = !!s.mastered; });
+  return p.tricks;
+}
+const tunlocked = (p, i) => i === 0 || TS(p)[TRICKS[i - 1].id].plays > 0;
+const tmeter = level => `<span class="meter" role="img" aria-label="Level ${level} of ${TMAX}">${Array.from({ length: TMAX }, (_, i) => `<i class="${i < level ? 'on' : ''}"></i>`).join('')}</span>`;
+const tui = my => ({ alive: () => my === token, say: t => { const el = $('#say'); if (el) el.innerHTML = t; speak(mathSpeak(t)); } });
+
+/* ---------- Views ---------- */
+function vTricks() {
+  const p = P(), T = TS(p);
+  return `
+  <header class="topbar">${brand()}<button class="btn ghost small" data-tact="tricks-back">${L('back')}</button></header>
+  <section class="pip-say compact">${pipSvg(60, true)}<div class="bubble">${TX('Learn a maths trick! One at a time.', 'गणित की एक तरकीब सीखो! एक-एक करके।')}</div>${hearBtn()}</section>
+  <ol class="tpath" aria-label="Maths tricks, in order">${TRICKS.map((t, i) => {
+    const s = T[t.id], open = tunlocked(p, i);
+    return `<li><button class="tnode ${open ? '' : 'locked'} ${s.mastered ? 'mastered' : ''}" style="--c:${t.color}" data-tact="hub" data-id="${t.id}" ${open ? '' : 'disabled'} aria-label="${t.name[0]}${open ? `, level ${s.level}` : ', locked'}">
+      <span class="tn-num" aria-hidden="true">${i + 1}</span><span class="tn-ico" aria-hidden="true">${open ? t.icon : '🔒'}</span>
+      <span class="tn-main"><span class="tn-name">${TX(...t.name)}</span>${open ? tmeter(s.level) : `<span class="tn-lock">${TX('Play the one before to open', 'खोलने के लिए पिछली वाली खेलो')}</span>`}</span>
+      <span class="tn-badge" aria-hidden="true">${s.mastered ? '🏅' : open && !s.plays ? `<span class="lib-badge static">${L('newb')}</span>` : ''}</span></button></li>`;
+  }).join('')}</ol>`;
+}
+
+function vTrickHub() {
+  const p = P(), t = TRK[S.tid], s = TS(p)[S.tid], speedOK = s.level >= 3 && !noTimer();
+  return `
+  <header class="topbar">${brand()}<button class="btn ghost small" data-tact="tricks">${L('back')}</button></header>
+  <section class="card thero" style="--c:${t.color}">
+    <span class="th-ico" aria-hidden="true">${t.icon}</span>
+    <h1>${TX(...t.name)}</h1>
+    <p class="th-rule">${TX(...t.rule(s.level))}</p>
+    ${t.sutra ? `<p class="th-sutra">${t.sutra}</p>` : ''}
+    <div class="lvl-row">${tmeter(s.level)}<span class="lvl-badge">${s.mastered ? '🏅 ' : ''}${TX('Level', 'लेवल')} ${s.level}</span></div>
+  </section>
+  <div class="thub-btns">
+    <button class="btn big play" data-tact="practice">✏️ ${TX('Practise', 'अभ्यास करो')}</button>
+    <button class="btn ghost" data-tact="lesson">📺 ${TX("Watch Pip's trick", 'पिप की तरकीब देखो')}</button>
+    ${speedOK ? `<button class="btn ghost" data-tact="speed">⚡ ${TX('Speed round', 'तेज़ राउंड')}${s.best ? ` · ${TX('best', 'सबसे अच्छा')} ${s.best}` : ''}</button>` : noTimer() ? '' : `<p class="soft tcenter">⚡ ${TX('Speed round opens at level 3', 'तेज़ राउंड लेवल 3 पर खुलेगा')}</p>`}
+  </div>`;
+}
+
+function vTrickShell() {
+  const t = TRK[S.tid], s = TS(P())[S.tid];
+  return `
+  <header class="topbar"><div class="brand"><span aria-hidden="true">${t.icon}</span> ${TX(...t.name)}</div><button class="btn ghost small" data-tact="tstop">${TX('Stop', 'रुको')}</button></header>
+  ${S.tmode === 'speed' ? '<div class="tbar" aria-hidden="true"><span id="tbar"></span></div>' : S.tmode === 'practice' ? '<div class="trialbar" id="dots" aria-hidden="true"></div>' : ''}
+  <div class="pip-say compact">${pipSvg(52, true)}<div class="bubble" id="say" role="status" aria-live="polite">…</div>${hearBtn()}</div>
+  <div id="board" class="board tboard"></div>
+  <p class="levelnote" id="levelnote">${S.tmode === 'speed' ? '' : tmeter(s.level)}</p>`;
+}
+
+function stratTip(t, v, l) {
+  const r = t.rule(l);
+  if (v === 'trick') return TX('Yes! That is the trick. 🌟 Say it in your head each time.', 'हाँ! यही तरकीब है। 🌟 हर बार मन में बोलो।');
+  if (v === 'none') return TX(`Next time, say the trick to yourself: ${r[0]}.`, `अगली बार, तरकीब मन में बोलो: ${r[1]}।`);
+  return TX(`That works too. The trick is quicker: ${r[0]}.`, `वो भी चलता है। तरकीब ज़्यादा तेज़ है: ${r[1]}।`);
+}
+function vTrickResult() {
+  const p = P(), e = S.tcur, t = TRK[e.trick], s = TS(p)[e.trick];
+  const btns = `<div class="row tcenter-row"><button class="btn big play" data-tact="${e.mode === 'speed' ? 'speed' : 'practice'}">▶ ${TX('Again', 'फिर से')}</button><button class="btn ghost" data-tact="tricks">🧮 ${TX('All tricks', 'सारी तरकीबें')}</button></div>`;
+  if (e.mode === 'speed') {
+    return `
+    <header class="topbar">${brand()}</header>
+    <section class="card result-hero"><span class="game-ico xl" aria-hidden="true">⚡</span><h2>${TX(...t.name)}</h2>
+      <p class="speed-num"><b>${e.correct}</b> ${TX('right in 60 seconds', '60 सेकंड में सही')}</p>
+      <p class="soft">${e.newBest && e.correct ? TX('🎉 New best!', '🎉 नया रिकॉर्ड!') : `${TX('Best', 'सबसे अच्छा')}: ${s.best}`}</p></section>
+    ${btns}`;
+  }
+  const stars = e.correct / e.total >= 0.8 ? 3 : e.correct / e.total >= 0.5 ? 2 : 1, up = e.levelEnd > e.levelStart, down = e.levelEnd < e.levelStart;
+  const opts = [['trick', [t.rule(e.levelEnd)[0], t.rule(e.levelEnd)[1]], '✨'], ...t.alt, ['none', ['Not sure', 'पता नहीं'], '🤷']];
+  return `
+  <header class="topbar">${brand()}</header>
+  <section class="card result-hero">
+    <span class="game-ico xl" aria-hidden="true">${t.icon}</span><h2>${TX(...t.name)}</h2>
+    <div class="stars" role="img" aria-label="${stars} of 3 stars">${[1, 2, 3].map(i => `<span class="${i <= stars ? 'on' : ''}">★</span>`).join('')}</div>
+    <div class="trialbar" role="img" aria-label="${e.correct} of ${e.total} right">${e.results.map(r => `<span class="tdot ${r ? 'ok' : 'no'}"></span>`).join('')}</div>
+    <div class="lvl-row">${tmeter(e.levelEnd)}<span class="lvl-badge ${up ? 'up' : down ? 'down' : ''}">${up ? '⬆ ' : ''}${TX('Level', 'लेवल')} ${e.levelEnd}</span></div>
+    ${s.mastered && e.levelEnd === TMAX ? `<p class="mastered-note">🏅 ${TX('Trick mastered!', 'तरकीब पक्की!')}</p>` : ''}
+  </section>
+  ${e.newRule ? `<section class="card newrule" style="--c:${t.color}"><p class="eyebrow">✨ ${TX('New at this level', 'इस लेवल पर नया')}</p><h3>${TX(...t.rule(e.newRule))}</h3><button class="btn ghost small" data-tact="lesson">📺 ${TX('Watch Pip show it', 'पिप से देखो')}</button></section>` : ''}
+  <section class="card">
+    <h3 id="tstrat-q">🤔 ${TX('How did you work them out?', 'तुमने कैसे हल किया?')}</h3>
+    <div class="pick-col" role="group" aria-labelledby="tstrat-q">${opts.map(([v, tx, ic]) => `<button class="pick wide" data-tact="tstrat" data-v="${v}" aria-pressed="${e.strategy === v}"><span class="pick-ico" aria-hidden="true">${ic}</span>${TX(...tx)}</button>`).join('')}</div>
+    <div class="pip-say compact">${pipSvg(48, true)}<div class="bubble" id="tip" role="status" aria-live="polite">${e.strategy ? stratTip(t, e.strategy, e.levelEnd) : L('tapone')}</div>${hearBtn()}</div>
+  </section>
+  ${btns}`;
+}
+
+/* ---------- Question input (keypad or yes/no) ---------- */
+const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'del', '0', 'ok'];
+function askQuestion(board, q, ui, o) {
+  const yn = q.kind === 'yn';
+  board.innerHTML = `<div class="tq-card"><div class="tq">${q.q}${yn ? '' : ' <span class="eq">=</span> <span class="tans" id="tans" aria-live="polite"></span>'}</div>${yn ? `<p class="tq-ask">${TX(...q.ask)}</p>` : ''}</div>
+    <ol class="tsteps" id="tsteps"></ol>
+    <div id="tin">${yn
+      ? `<div class="yn"><button class="ynb" data-v="yes">✅ ${TX('Yes', 'हाँ')}</button><button class="ynb" data-v="no">❌ ${TX('No', 'नहीं')}</button></div>`
+      : `<div class="keypad">${KEYS.map(k => `<button class="key ${k}" data-k="${k}" aria-label="${k === 'del' ? 'Delete' : k === 'ok' ? 'Check' : k}">${k === 'del' ? '⌫' : k === 'ok' ? '✓' : k}</button>`).join('')}</div>`}</div>
+    ${o.hints ? `<button class="btn ghost small thint" id="thint">💡 ${TX('Show me a step', 'एक कदम दिखाओ')}</button>` : ''}`;
+  const tans = board.querySelector('#tans'), list = board.querySelector('#tsteps'), hintB = board.querySelector('#thint');
+  let val = '', shown = 0, hinted = false, over = false;
+  const t0 = performance.now(), max = String(q.a).length + 2;
+  const draw = () => { if (tans) { tans.textContent = val || '?'; tans.classList.toggle('empty', !val); } };
+  const addStep = i => { const li = document.createElement('li'); li.innerHTML = `<span>${TX(...q.steps[i])}</span>`; list.appendChild(li); requestAnimationFrame(() => li.classList.add('in')); };
+  draw();
+  return new Promise(resolve => {
+    let onKey;
+    const done = r => { if (over) return; over = true; window.removeEventListener('keydown', onKey); board._abort = null; resolve(r); };
+    board._abort = () => done({ correct: false, ms: 0, timeout: true });
+    let checked = false;
+    const finish = async given => {
+      if (checked || over) return; checked = true;
+      board.querySelectorAll('#tin button, #thint').forEach(b => { b.disabled = true; });
+      const ok = given === String(q.a), ms = performance.now() - t0;
+      if (yn) { board.querySelector(`.ynb[data-v="${q.a}"]`).classList.add('right'); if (!ok) board.querySelector(`.ynb[data-v="${given}"]`).classList.add('wrong'); }
+      if (ok) { if (tans) tans.classList.add('right'); await wait(o.speed ? 250 : 550); done({ correct: true, ms, hinted }); return; }
+      if (tans) { tans.classList.add('wrong'); tans.innerHTML = `<s>${esc(given)}</s> ${q.a}`; }
+      if (o.speed) { await wait(1000); done({ correct: false, ms }); return; }
+      ui.say(TX("Let's see the steps.", 'चलो, कदम देखते हैं।'));
+      const tin = board.querySelector('#tin'); if (tin && !yn) tin.style.display = 'none';
+      for (let i = shown; i < q.steps.length; i++) addStep(i);
+      shown = q.steps.length;
+      if (hintB) hintB.remove();
+      const go = document.createElement('button'); go.className = 'btn tgot'; go.textContent = TX('Got it ▶', 'समझ गया ▶');
+      board.appendChild(go); go.focus();
+      go.onclick = () => done({ correct: false, ms });
+    };
+    const press = k => {
+      if (over || !ui.alive()) return;
+      if (yn) return;
+      if (k === 'del') val = val.slice(0, -1);
+      else if (k === 'ok') { if (val) finish(val); return; }
+      else if (val.length < max) val += k;
+      draw();
+    };
+    board.onclick = e => {
+      const k = e.target.closest('.key'); if (k && !k.disabled) { press(k.dataset.k); return; }
+      const y = e.target.closest('.ynb'); if (y && !y.disabled) { finish(y.dataset.v); return; }
+      if (e.target.closest('#thint') && shown < q.steps.length - 1) { hinted = true; addStep(shown++); if (shown >= q.steps.length - 1) hintB.disabled = true; }
+    };
+    onKey = e => {
+      if (!ui.alive()) { window.removeEventListener('keydown', onKey); return; }
+      if (yn) { if (/^[yY]$/.test(e.key)) finish('yes'); else if (/^[nN]$/.test(e.key)) finish('no'); return; }
+      if (/^[0-9]$/.test(e.key)) press(e.key); else if (e.key === 'Backspace') press('del'); else if (e.key === 'Enter') { e.preventDefault(); press('ok'); }
+    };
+    window.addEventListener('keydown', onKey);
+  });
+}
+
+/* ---------- Flows ---------- */
+async function runLesson(id) {
+  const my = ++token, p = P(), s = TS(p)[id], t = TRK[id];
+  S.tid = id; S.tmode = 'lesson'; S.screen = 'tplay'; render();
+  const ui = tui(my), q = t.gen(s.level), board = $('#board'), yn = q.kind === 'yn';
+  board.innerHTML = `<div class="rulecard" style="--c:${t.color}"><span class="rc-ico" aria-hidden="true">${t.icon}</span><span>${TX(...t.rule(s.level))}</span></div>
+    <div class="tq-card"><div class="tq">${q.q}${yn ? '' : ' <span class="eq">=</span> <span class="tans empty" id="tans">?</span>'}</div>${yn ? `<p class="tq-ask">${TX(...q.ask)}</p><p class="tans yn-ans empty" id="tans">?</p>` : ''}</div>
+    <ol class="tsteps lesson" id="tsteps"></ol><div class="row tcenter-row" id="tlbtns"></div>`;
+  ui.say(TX("Watch Pip's trick!", 'पिप की तरकीब देखो!'));
+  await wait(1800);
+  const list = $('#tsteps');
+  for (const st of q.steps) {
+    if (!ui.alive() || !list) return;
+    const li = document.createElement('li'); li.innerHTML = `<span>${TX(...st)}</span>`; list.appendChild(li);
+    requestAnimationFrame(() => li.classList.add('in'));
+    ui.say(TX(...st));
+    await wait(Math.max(2400, mathSpeak(TX(...st)).length * 75));
+  }
+  if (!ui.alive()) return;
+  const ans = $('#tans');
+  ans.textContent = yn ? (q.a === 'yes' ? TX('✅ Yes', '✅ हाँ') : TX('❌ No', '❌ नहीं')) : q.a; ans.classList.remove('empty'); ans.classList.add('right');
+  s.learned = true; save(); sfx('ok');
+  ui.say(TX('Your turn now!', 'अब तुम्हारी बारी!'));
+  $('#tlbtns').innerHTML = `<button class="btn ghost" data-tact="lesson">↻ ${TX('Watch again', 'फिर देखो')}</button><button class="btn" data-tact="practice">✏️ ${TX('My turn', 'मेरी बारी')}</button>`;
+}
+
+async function runPractice(id) {
+  const my = ++token, p = P(), s = TS(p)[id], t = TRK[id];
+  S.tid = id; S.tmode = 'practice'; S.screen = 'tplay'; render();
+  const ui = tui(my), board = $('#board'), results = [], start = s.level, began = Date.now();
+  let newRule = null;
+  for (let i = 0; i < TROUND; i++) {
+    if (!ui.alive()) return;
+    dots(TROUND, results);
+    let q = t.gen(s.level); for (let g = 0; g < 8 && q.q === S.tlastQ; g++) q = t.gen(s.level); S.tlastQ = q.q;
+    ui.say(q.kind === 'yn' ? TX('Use the trick, then tap Yes or No.', 'तरकीब लगाओ, फिर हाँ या नहीं चुनो।') : TX('Use the trick. Type the answer.', 'तरकीब लगाओ। जवाब लिखो।'));
+    const r = await askQuestion(board, q, ui, { hints: true });
+    if (!ui.alive() || r.timeout) return;
+    results.push(r.correct);
+    let line;
+    if (r.correct) {
+      line = pick(PRAISE[isHi() ? 'hi' : 'en']); sfx('ok');
+      if (r.hinted) line += TX(' Next one without a hint!', ' अगला बिना मदद के!');
+      else if (++s.streak >= 2) {
+        s.streak = 0;
+        if (s.level < TMAX) {
+          const before = t.rule(s.level)[0]; s.level++;
+          if (t.rule(s.level)[0] !== before) newRule = s.level;
+          line = isHi() ? `⬆ अगला लेवल! लेवल ${s.level}` : `⬆ Level up! Level ${s.level}`;
+          setTimeout(() => { sfx('up'); celebrate(); }, 250);
+        } else if (!s.mastered) {
+          s.mastered = true; line = TX('🏅 Trick mastered!', '🏅 तरकीब पक्की!');
+          setTimeout(() => { sfx('done'); celebrate(); }, 250);
+        }
+      }
+    } else {
+      s.streak = 0; sfx('miss'); line = pick(TRYAGAIN[isHi() ? 'hi' : 'en']);
+      if (s.level > 1) { s.level--; line += TX(' ⬇ Easier next.', ' ⬇ अगला थोड़ा आसान।'); }
+    }
+    ui.say(line); flash(r.correct); dots(TROUND, results);
+    const ln = $('#levelnote'); if (ln) ln.innerHTML = tmeter(s.level);
+    await wait(r.correct ? 1300 : 500);
+  }
+  if (!ui.alive()) return;
+  s.plays++; s.learned = true;
+  const entry = { ts: Date.now(), trick: id, mode: 'practice', total: TROUND, correct: results.filter(Boolean).length, results, levelStart: start, levelEnd: s.level, newRule, strategy: null, durMs: Date.now() - began };
+  p.tlog.push(entry); S.tcur = entry; S.screen = 'tresult'; save(); render();
+}
+
+async function runSpeed(id) {
+  const my = ++token, p = P(), s = TS(p)[id], t = TRK[id];
+  S.tid = id; S.tmode = 'speed'; S.screen = 'tplay'; render();
+  const ui = tui(my), board = $('#board'), lvl = Math.max(1, s.level - 1), DUR = window.__TDUR || 60000, began = Date.now();
+  let right = 0, total = 0, timeUp = false;
+  ui.say(TX('Speed round! How many in 60 seconds?', 'तेज़ राउंड! 60 सेकंड में कितने?'));
+  for (const c of ['3', '2', '1']) { board.innerHTML = `<div class="count321">${c}</div>`; await wait(800); if (!ui.alive()) return; }
+  const end = Date.now() + DUR, bar = $('#tbar');
+  const tick = setInterval(() => {
+    if (!ui.alive()) { clearInterval(tick); return; }
+    const left = Math.max(0, end - Date.now()); if (bar) bar.style.width = (left / DUR * 100) + '%';
+    if (left <= 0) { clearInterval(tick); timeUp = true; if (board._abort) board._abort(); }
+  }, 200);
+  while (!timeUp && ui.alive()) {
+    const r = await askQuestion(board, t.gen(lvl), ui, { hints: false, speed: true });
+    if (r.timeout || !ui.alive()) break;
+    total++; if (r.correct) { right++; sfx('ok'); } else sfx('miss');
+    ui.say(`⚡ ${right}`);
+  }
+  clearInterval(tick);
+  if (!ui.alive()) return;
+  const best = right > s.best; if (best) s.best = right; s.plays++;
+  const entry = { ts: Date.now(), trick: id, mode: 'speed', total, correct: right, level: lvl, newBest: best, durMs: Date.now() - began };
+  p.tlog.push(entry); S.tcur = entry; S.screen = 'tresult'; save(); render();
+  if (best && right) setTimeout(() => { sfx('done'); celebrate(); }, 200);
+}
+
+/* ---------- Parent card ---------- */
+function tricksCard(p) {
+  const T = TS(p), name = esc(p.child.name), ws = new Date(weekStart()).getTime();
+  const week = p.tlog.filter(e => e.ts >= ws), mastered = TRICKS.filter(t => T[t.id].mastered).length;
+  return `<section class="card"><div class="card-head"><div><h2>🧮 Maths tricks</h2><p class="soft">Vedic maths shortcuts, one at a time, in order.</p></div><span class="tc-sum">🏅 <b>${mastered}</b>/${TRICKS.length}</span></div>
+    <div class="trows">${TRICKS.map((t, i) => {
+      const s = T[t.id], open = tunlocked(p, i);
+      const pill = s.mastered ? '<span class="chg-pill up">🏅 Mastered</span>' : s.plays ? `<span class="lv-pill">Level ${s.level} of ${TMAX}</span>` : `<span class="chg-pill flat">${open ? 'Not started' : '🔒 Locked'}</span>`;
+      return `<div class="trow" style="--c:${t.color}"><span class="tr-ico" aria-hidden="true">${t.icon}</span><div class="tr-main">
+        <div class="tr-top"><b>${t.name[0]}</b>${pill}</div>
+        <span class="segbar six" role="img" aria-label="Level ${s.level} of ${TMAX}">${Array.from({ length: TMAX }, (_, j) => `<i class="${s.plays && j < s.level ? 'on' : ''}"></i>`).join('')}</span>
+        <p class="soft tr-mean">${s.plays ? `${name} ${t.mean[s.level - 1]}.` : `${t.rule(1)[0]}.`}${s.best ? ` ⚡ Best: ${s.best} right in 60 s.` : ''}${t.sutra ? ` <i>${t.sutra}</i>` : ''}</p></div></div>`;
+    }).join('')}</div>
+    <p class="soft hint">${week.length ? `${week.length} trick session${week.length > 1 ? 's' : ''} this week.` : 'No trick sessions this week yet.'} The next trick opens after the one before it has been practised once.</p></section>`;
+}
+
+/* ---------- Actions ---------- */
+app.addEventListener('click', e => {
+  const b = e.target.closest('[data-tact]'); if (!b) return;
+  const a = b.dataset.tact, p = P(); if (!p) return;
+  if (a === 'tricks') { token++; if (['home', 'games', 'done'].includes(S.screen)) S.tricksFrom = S.screen; S.screen = 'tricks'; render(); }
+  else if (a === 'tricks-back') { token++; S.screen = S.tricksFrom || 'home'; render(); }
+  else if (a === 'hub') { const id = b.dataset.id; S.tid = id; if (!TS(p)[id].learned) runLesson(id); else { token++; S.screen = 'thub'; render(); } }
+  else if (a === 'lesson') runLesson(S.tid);
+  else if (a === 'practice') runPractice(S.tid);
+  else if (a === 'speed') runSpeed(S.tid);
+  else if (a === 'tstop') { token++; S.screen = 'thub'; render(); }
+  else if (a === 'tstrat') {
+    const e2 = S.tcur; e2.strategy = b.dataset.v; save();
+    b.closest('.pick-col').querySelectorAll('.pick').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    const tip = $('#tip'); if (tip) { tip.textContent = stratTip(TRK[e2.trick], e2.strategy, e2.levelEnd); speak(tip.textContent); }
+  }
+});
+
 /* ---------- Render ---------- */
 function render() {
   document.body.classList.toggle('grownup', S.screen === 'parent');
-  const views = { welcome: vWelcome, setup: vSetup, home: vHome, game: () => vGameShell(S.playing), result: vResult, done: vDone, calm: vCalm, garden: vGarden, games: vGames, parent: vParent };
+  const views = { welcome: vWelcome, setup: vSetup, home: vHome, game: () => vGameShell(S.playing), result: vResult, done: vDone, calm: vCalm, garden: vGarden, games: vGames, tricks: vTricks, thub: vTrickHub, tplay: vTrickShell, tresult: vTrickResult, parent: vParent };
   app.innerHTML = (views[S.screen] || vWelcome)();
   if (S.screen !== 'game') { try { window.scrollTo(0, 0); } catch (e) { /* ignore */ } }
-  if (['home', 'done', 'games'].includes(S.screen)) { const b = app.querySelector('.bubble'); if (b) speak(b.textContent); }
+  if (['home', 'done', 'games', 'tricks', 'thub'].includes(S.screen)) { const b = app.querySelector('.bubble'); if (b) speak(b.textContent); }
 }
 
 /* ---------- Games ---------- */
@@ -2277,6 +2845,7 @@ function loadDemo() {
   Object.keys(S.profiles).forEach(id => { if (S.profiles[id].demo) delete S.profiles[id]; });
   const id = 'demo-asha';
   const p = { id, created: Date.now(), demo: true, child: { name: 'Asha', band: '7-9', focus: ['memory', 'numbers'], minutes: 10, readAloud: false, noTimer: false, sounds: true }, skills: freshSkills(2), log: [], quests: {}, today: null, friends: [] };
+  p.tricks = { nikhilam: { level: 4, streak: 0, learned: true, mastered: false, plays: 3, best: 9 }, sq5: { level: 2, streak: 1, learned: true, mastered: false, plays: 1, best: 0 } }; p.tlog = [];
   const r = mulberry32(11), ability = { memory: 1.6, focus: 2.4, numbers: 2, noticing: 3, logic: 2.2, words: 2.6 };
   const daysAgo = [14, 13, 11, 10, 9, 7, 6, 4, 3, 2, 1];
   const base = new Date(); base.setHours(18, 30, 0, 0);
