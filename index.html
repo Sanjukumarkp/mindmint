@@ -1821,6 +1821,166 @@ TRICKS.push(
     mean: ['finds cube roots from 1331 to 8000', 'finds cube roots up to 64,000', 'finds cube roots up to 216,000', 'finds cube roots up to 512,000', 'finds cube roots up to 970,299', 'finds the cube root of any perfect cube up to 6 digits'] }
 );
 
+/* ---------- v13: six more maths tricks ---------- */
+/* 13: big times tables (split into tens and ones) */
+function tblGen(l) {
+  const cfg = { 1: [11, 15, 2, 10], 2: [16, 20, 2, 10], 3: [21, 30, 2, 9], 4: [31, 50, 2, 9], 5: [51, 99, 2, 9], 6: [11, 30, 11, 19] }[l];
+  let a, b; do { a = rand(cfg[0], cfg[1]); } while (a % 10 === 0); b = rand(cfg[2], cfg[3]);
+  let steps, chk;
+  if (l < 6) {
+    const t = Math.floor(a / 10) * 10, u = a % 10;
+    steps = [[`Split ${a} into ${t} + ${u}`, `${a} को ${t} + ${u} में तोड़ो`], [`${t} × ${b} = <b>${t * b}</b>`, `${t} × ${b} = <b>${t * b}</b>`], [`${u} × ${b} = <b>${u * b}</b>`, `${u} × ${b} = <b>${u * b}</b>`], [`Add: ${t * b} + ${u * b} = <b>${t * b + u * b}</b>`, `जोड़ो: ${t * b} + ${u * b} = <b>${t * b + u * b}</b>`]];
+    chk = t * b + u * b;
+  } else {
+    const u = b - 10;
+    steps = [[`Split ${b} into 10 + ${u}`, `${b} को 10 + ${u} में तोड़ो`], [`${a} × 10 = <b>${a * 10}</b>`, `${a} × 10 = <b>${a * 10}</b>`], [`${a} × ${u} = <b>${a * u}</b>`, `${a} × ${u} = <b>${a * u}</b>`], [`Add: ${a * 10} + ${a * u} = <b>${a * 10 + a * u}</b>`, `जोड़ो: ${a * 10} + ${a * u} = <b>${a * 10 + a * u}</b>`]];
+    chk = a * 10 + a * u;
+  }
+  steps.push(ANS(a * b));
+  return { q: `${a} × ${b}`, a: String(a * b), kind: 'num', steps, check: String(chk) };
+}
+
+/* 14: multiply near 100 or 1000 (Nikhilam multiplication) */
+function nmulGen(l) {
+  let base = 100, x, y;
+  if (l === 1) { x = rand(94, 99); y = rand(94, 99); }
+  else if (l === 2) { do { x = rand(88, 99); y = rand(88, 99); } while ((100 - x) * (100 - y) >= 100); }
+  else if (l === 3) { do { x = rand(101, 112); y = rand(101, 112); } while ((x - 100) * (y - 100) >= 100); }
+  else if (l === 4) { base = 1000; if (Math.random() < 0.5) { x = rand(988, 999); y = rand(988, 999); } else { x = rand(1001, 1012); y = rand(1001, 1012); } }
+  else if (l === 5) { x = rand(101, 109); y = rand(91, 99); if (Math.random() < 0.5) [x, y] = [y, x]; }
+  else { do { x = rand(80, 92); y = rand(80, 92); } while ((100 - x) * (100 - y) < 100); }
+  const dx = x - base, dy = y - base, z = String(base).length - 1, left = x + dy, prod = dx * dy, a = String(x * y);
+  const side = d => (d < 0 ? [`${-d} below`, `${-d} कम`] : [`${d} above`, `${d} ज़्यादा`]);
+  const steps = [
+    [`${x} is ${side(dx)[0]} ${base}, ${y} is ${side(dy)[0]}`, `${x}, ${base} से ${side(dx)[1]}; ${y} ${side(dy)[1]}`],
+    [`Left part: ${x} ${dy < 0 ? '−' : '+'} ${Math.abs(dy)} = <b>${left}</b>`, `बायाँ हिस्सा: ${x} ${dy < 0 ? '−' : '+'} ${Math.abs(dy)} = <b>${left}</b>`],
+    [`Right part: ${Math.abs(dx)} × ${Math.abs(dy)} = <b>${Math.abs(prod)}</b>`, `दायाँ हिस्सा: ${Math.abs(dx)} × ${Math.abs(dy)} = <b>${Math.abs(prod)}</b>`]
+  ];
+  let L, R;
+  if (prod < 0) {
+    L = left - 1; R = String(base + prod).padStart(z, '0');
+    steps.push([`One is above and one is below, so the right part is taken away: borrow 1 from the left (${left} − 1 = ${L}) and ${base} − ${-prod} = <b>${R}</b>`, `एक ज़्यादा, एक कम है, तो दायाँ हिस्सा घटेगा: बाएँ से 1 उधार (${left} − 1 = ${L}) और ${base} − ${-prod} = <b>${R}</b>`]);
+  } else {
+    const carry = Math.floor(prod / base); L = left + carry; R = String(prod % base).padStart(z, '0');
+    if (carry) steps.push([`Only ${z} digits fit on the right: keep ${R}, carry ${carry} → ${left} + ${carry} = <b>${L}</b>`, `दाईं ओर ${z} अंक ही आएँगे: ${R} रखो, ${carry} हासिल → ${left} + ${carry} = <b>${L}</b>`]);
+    else if (String(prod).length < z) steps.push([`Write ${prod} with ${z} digits: <b>${R}</b>`, `${prod} को ${z} अंकों में लिखो: <b>${R}</b>`]);
+  }
+  steps.push([`Side by side: ${L} | ${R}`, `साथ रखो: ${L} | ${R}`], ANS(a));
+  return { q: `${x} × ${y}`, a, kind: 'num', steps, check: `${L}${R}` };
+}
+
+/* 15: cubes of 2-digit numbers (Anurupyena), right to left with carries */
+function cubeGen(l) {
+  const [lo, hi] = { 1: [11, 13], 2: [14, 19], 3: [21, 25], 4: [26, 39], 5: [41, 69], 6: [71, 99] }[l];
+  const n = nz(lo, hi), a = Math.floor(n / 10), b = n % 10;
+  const T0 = b ** 3, T1 = 3 * a * b * b, T2 = 3 * a * a * b, T3 = a ** 3;
+  const r0 = T0 % 10, c0 = Math.floor(T0 / 10), s1 = T1 + c0, r1 = s1 % 10, c1 = Math.floor(s1 / 10), s2 = T2 + c1, r2 = s2 % 10, c2 = Math.floor(s2 / 10), left = T3 + c2;
+  const wr = (r, c) => (c ? [`write <b>${r}</b>, carry ${c}`, `<b>${r}</b> लिखो, ${c} हासिल`] : [`write <b>${r}</b>`, `<b>${r}</b> लिखो`]);
+  const plus = (c) => (c ? [` + ${c} carried`, ` + ${c} हासिल`] : ['', '']);
+  const steps = [
+    [`Split ${n} into ${a} and ${b}. Work right to left.`, `${n} को ${a} और ${b} में तोड़ो। दाएँ से बाएँ चलो।`],
+    [`${b} × ${b} × ${b} = ${T0} → ${wr(r0, c0)[0]}`, `${b} × ${b} × ${b} = ${T0} → ${wr(r0, c0)[1]}`],
+    [`3 × ${a} × ${b} × ${b} = ${T1}${plus(c0)[0]} = ${s1} → ${wr(r1, c1)[0]}`, `3 × ${a} × ${b} × ${b} = ${T1}${plus(c0)[1]} = ${s1} → ${wr(r1, c1)[1]}`],
+    [`3 × ${a} × ${a} × ${b} = ${T2}${plus(c1)[0]} = ${s2} → ${wr(r2, c2)[0]}`, `3 × ${a} × ${a} × ${b} = ${T2}${plus(c1)[1]} = ${s2} → ${wr(r2, c2)[1]}`],
+    [`${a} × ${a} × ${a} = ${T3}${plus(c2)[0]} = <b>${left}</b>`, `${a} × ${a} × ${a} = ${T3}${plus(c2)[1]} = <b>${left}</b>`],
+    ANS(n ** 3)
+  ];
+  return { q: `${n} × ${n} × ${n}`, a: String(n ** 3), kind: 'num', steps, check: `${left}${r2}${r1}${r0}` };
+}
+
+/* 16: divide by 9 the Vedic way (running sums) */
+function div9Gen(l) {
+  const digits = { 1: 2, 2: 2, 3: 3, 4: 3, 5: 4, 6: 4 }[l], easy = l % 2 === 1;
+  let n, ds, sums, tot;
+  do {
+    n = rand(10 ** (digits - 1), 10 ** digits - 1); ds = String(n).split('').map(Number);
+    sums = []; ds.slice(0, -1).reduce((acc, d) => { sums.push(acc + d); return acc + d; }, 0);
+    tot = ds.reduce((x, y) => x + y, 0);
+  } while (easy ? (tot >= 9 || sums.some(v => v > 9)) : (tot < 9 && sums.every(v => v <= 9)));
+  const Q = Math.floor(n / 9), R = n % 9, raw = sums.reduce((acc, v) => acc * 10 + v, 0);
+  const steps = [
+    [`Top part: running totals of the digits (leave out the last): ${sums.map((v, i) => (i ? `${sums[i - 1]} + ${ds[i]} = ${v}` : `${v}`)).join(', ')}`, `ऊपर का हिस्सा: अंकों का चलता जोड़ (आख़िरी छोड़कर): ${sums.map((v, i) => (i ? `${sums[i - 1]} + ${ds[i]} = ${v}` : `${v}`)).join(', ')}`]
+  ];
+  if (sums.some(v => v > 9)) steps.push([`A total bigger than 9 carries left: ${sums.join(' | ')} → <b>${raw}</b>`, `9 से बड़ा जोड़ बाईं ओर जाता है: ${sums.join(' | ')} → <b>${raw}</b>`]);
+  else steps.push([`So the answer starts as <b>${raw}</b>`, `तो जवाब की शुरुआत <b>${raw}</b>`]);
+  steps.push([`Left over: add all the digits: ${ds.join(' + ')} = <b>${tot}</b>`, `बचा हुआ: सारे अंक जोड़ो: ${ds.join(' + ')} = <b>${tot}</b>`]);
+  if (tot >= 9) { const k = Math.floor(tot / 9); steps.push([`${tot} has ${k} nine${k > 1 ? 's' : ''} in it: answer ${raw} + ${k} = <b>${Q}</b>, left over ${tot} − ${9 * k} = <b>${R}</b>`, `${tot} में ${k} बार 9 है: जवाब ${raw} + ${k} = <b>${Q}</b>, बचा ${tot} − ${9 * k} = <b>${R}</b>`]); }
+  steps.push([`Answer: <b>${Q} R ${R}</b>`, `जवाब: <b>${Q} R ${R}</b>`]);
+  const a = `${Q}R${R}`;
+  return { q: `${n} ÷ 9`, a, kind: 'num', extra: 'rem', note: ['Type the answer, tap R, then what is left over', 'जवाब लिखो, R दबाओ, फिर बचा हुआ लिखो'], match: g => g === a || (R === 0 && g === String(Q)), steps, check: `${raw + Math.floor(tot / 9)}R${tot % 9}` };
+}
+
+/* 17: prime factors (factor ladder) */
+function pfGen(l) {
+  const cfg = { 1: [[2, 3], 6, 48, 2], 2: [[2, 3, 5], 20, 100, 3], 3: [[2, 3, 5, 7], 50, 200, 3], 4: [[2, 3, 5, 7, 11, 13], 100, 500, 3], 5: [[2, 3, 5, 7, 11, 13], 300, 1000, 3], 6: [[2, 3, 5, 7, 11, 13, 17, 19], 500, 2000, 3] }[l];
+  const [ps, lo, hi, minF] = cfg;
+  let f, n; do { f = []; n = 1; while (n < lo || f.length < minF || Math.random() < 0.5) { const p = pick(ps); if (n * p > hi) break; f.push(p); n *= p; } } while (n < lo || n > hi || f.length < minF);
+  f.sort((x, y) => x - y);
+  const steps = []; let cur = n;
+  for (const p of f) {
+    if (cur === p) break;
+    const why = p === 2 ? [`${cur} is even`, `${cur} सम है`] : p === 3 ? [`digits of ${cur} add to ${String(cur).split('').reduce((x, y) => x + +y, 0)}, in the 3 table`, `${cur} के अंकों का जोड़ ${String(cur).split('').reduce((x, y) => x + +y, 0)}, 3 के पहाड़े में`] : p === 5 ? [`${cur} ends in ${cur % 10}`, `${cur} का आख़िरी अंक ${cur % 10}`] : [`try ${p}`, `${p} आज़माओ`];
+    steps.push([`${why[0]} → ${cur} ÷ ${p} = <b>${cur / p}</b>`, `${why[1]} → ${cur} ÷ ${p} = <b>${cur / p}</b>`]);
+    cur /= p;
+  }
+  steps.push([`${cur} is prime, so stop`, `${cur} अभाज्य है, रुक जाओ`]);
+  const a = f.join('×');
+  steps.push([`Answer: <b>${f.join(' × ')}</b>`, `जवाब: <b>${f.join(' × ')}</b>`]);
+  const norm = g => g.split('×').filter(Boolean).map(Number).sort((x, y) => x - y).join('×');
+  return { q: isHi() ? `${n} <span class="tq-l">के अभाज्य गुणनखंड</span>` : `<span class="tq-l">Prime factors of</span> ${n}`, a, kind: 'num', extra: 'mul', note: ['Type each prime with × between them', 'हर अभाज्य संख्या के बीच × लगाओ'], match: g => norm(g) === a, steps, check: String(f.reduce((x, y) => x * y, 1)) === String(n) ? a : 'bad', n };
+}
+
+/* 18: BODMAS */
+function bodGen(l) {
+  const r = (a, b) => rand(a, b);
+  const S2 = (en, hi) => [en, hi];
+  const forms = {
+    1: [() => { const a = r(2, 20), b = r(2, 9), c = r(2, 9); return [`${a} + ${b} × ${c}`, a + b * c, [S2(`× before +: ${b} × ${c} = <b>${b * c}</b>`, `+ से पहले ×: ${b} × ${c} = <b>${b * c}</b>`), S2(`Then ${a} + ${b * c} = <b>${a + b * c}</b>`, `फिर ${a} + ${b * c} = <b>${a + b * c}</b>`)]]; },
+      () => { const a = r(2, 9), b = r(2, 9), c = r(2, 20); return [`${a} × ${b} + ${c}`, a * b + c, [S2(`× first: ${a} × ${b} = <b>${a * b}</b>`, `पहले ×: ${a} × ${b} = <b>${a * b}</b>`), S2(`Then ${a * b} + ${c} = <b>${a * b + c}</b>`, `फिर ${a * b} + ${c} = <b>${a * b + c}</b>`)]]; }],
+    2: [() => { const b = r(2, 9), c = r(2, 9), a = b * c + r(1, 20); return [`${a} − ${b} × ${c}`, a - b * c, [S2(`× before −: ${b} × ${c} = <b>${b * c}</b>`, `− से पहले ×: ${b} × ${c} = <b>${b * c}</b>`), S2(`Then ${a} − ${b * c} = <b>${a - b * c}</b>`, `फिर ${a} − ${b * c} = <b>${a - b * c}</b>`)]]; },
+      () => { const c = r(2, 9), b = c * r(2, 9), a = r(2, 30); return [`${a} + ${b} ÷ ${c}`, a + b / c, [S2(`÷ before +: ${b} ÷ ${c} = <b>${b / c}</b>`, `+ से पहले ÷: ${b} ÷ ${c} = <b>${b / c}</b>`), S2(`Then ${a} + ${b / c} = <b>${a + b / c}</b>`, `फिर ${a} + ${b / c} = <b>${a + b / c}</b>`)]]; }],
+    3: [() => { const a = r(2, 12), b = r(2, 12), c = r(2, 9); return [`(${a} + ${b}) × ${c}`, (a + b) * c, [S2(`Brackets first: ${a} + ${b} = <b>${a + b}</b>`, `पहले कोष्ठक: ${a} + ${b} = <b>${a + b}</b>`), S2(`Then ${a + b} × ${c} = <b>${(a + b) * c}</b>`, `फिर ${a + b} × ${c} = <b>${(a + b) * c}</b>`)]]; },
+      () => { const a = r(2, 9), c = r(2, 12), b = c + r(1, 9); return [`${a} × (${b} − ${c})`, a * (b - c), [S2(`Brackets first: ${b} − ${c} = <b>${b - c}</b>`, `पहले कोष्ठक: ${b} − ${c} = <b>${b - c}</b>`), S2(`Then ${a} × ${b - c} = <b>${a * (b - c)}</b>`, `फिर ${a} × ${b - c} = <b>${a * (b - c)}</b>`)]]; }],
+    4: [() => { let a, b, c, d; do { a = r(2, 9); b = r(2, 9); c = r(2, 9); d = r(2, 9); } while (a * b < c * d); return [`${a} × ${b} − ${c} × ${d}`, a * b - c * d, [S2(`Both × first: ${a} × ${b} = <b>${a * b}</b>, ${c} × ${d} = <b>${c * d}</b>`, `पहले दोनों ×: ${a} × ${b} = <b>${a * b}</b>, ${c} × ${d} = <b>${c * d}</b>`), S2(`Then ${a * b} − ${c * d} = <b>${a * b - c * d}</b>`, `फिर ${a * b} − ${c * d} = <b>${a * b - c * d}</b>`)]]; },
+      () => { const b = r(2, 9), a = b * r(2, 9), c = r(2, 9), d = r(2, 9); return [`${a} ÷ ${b} + ${c} × ${d}`, a / b + c * d, [S2(`÷ and × first: ${a} ÷ ${b} = <b>${a / b}</b>, ${c} × ${d} = <b>${c * d}</b>`, `पहले ÷ और ×: ${a} ÷ ${b} = <b>${a / b}</b>, ${c} × ${d} = <b>${c * d}</b>`), S2(`Then ${a / b} + ${c * d} = <b>${a / b + c * d}</b>`, `फिर ${a / b} + ${c * d} = <b>${a / b + c * d}</b>`)]]; }],
+    5: [() => { let a, b, d, q, c; do { a = r(3, 9); b = r(3, 9); d = r(2, 9); q = r(1, Math.floor((a * b - 1) / d)); c = a * b - q * d; } while (c < 1); return [`(${a} × ${b} − ${c}) ÷ ${d}`, q, [S2(`Inside the brackets, × first: ${a} × ${b} = <b>${a * b}</b>`, `कोष्ठक के अंदर, पहले ×: ${a} × ${b} = <b>${a * b}</b>`), S2(`Then ${a * b} − ${c} = <b>${a * b - c}</b>`, `फिर ${a * b} − ${c} = <b>${a * b - c}</b>`), S2(`Now ÷: ${a * b - c} ÷ ${d} = <b>${q}</b>`, `अब ÷: ${a * b - c} ÷ ${d} = <b>${q}</b>`)]]; },
+      () => { const a = r(2, 20), c = r(2, 9), b = c + r(1, 9), d = r(2, 9); return [`${a} + (${b} − ${c}) × ${d}`, a + (b - c) * d, [S2(`Brackets first: ${b} − ${c} = <b>${b - c}</b>`, `पहले कोष्ठक: ${b} − ${c} = <b>${b - c}</b>`), S2(`× next: ${b - c} × ${d} = <b>${(b - c) * d}</b>`, `फिर ×: ${b - c} × ${d} = <b>${(b - c) * d}</b>`), S2(`Then ${a} + ${(b - c) * d} = <b>${a + (b - c) * d}</b>`, `फिर ${a} + ${(b - c) * d} = <b>${a + (b - c) * d}</b>`)]]; }],
+    6: [() => { const a = r(2, 12), b = r(2, 9), c = r(2, 9); return [`${a}² + ${b} × ${c}`, a * a + b * c, [S2(`Orders (powers) first: ${a}² = ${a} × ${a} = <b>${a * a}</b>`, `पहले घात: ${a}² = ${a} × ${a} = <b>${a * a}</b>`), S2(`× next: ${b} × ${c} = <b>${b * c}</b>`, `फिर ×: ${b} × ${c} = <b>${b * c}</b>`), S2(`Then ${a * a} + ${b * c} = <b>${a * a + b * c}</b>`, `फिर ${a * a} + ${b * c} = <b>${a * a + b * c}</b>`)]]; },
+      () => { const a = r(1, 6), b = r(1, 6), s = a + b, c = r(1, s * s - 1); return [`(${a} + ${b})² − ${c}`, s * s - c, [S2(`Brackets first: ${a} + ${b} = <b>${s}</b>`, `पहले कोष्ठक: ${a} + ${b} = <b>${s}</b>`), S2(`Orders next: ${s}² = <b>${s * s}</b>`, `फिर घात: ${s}² = <b>${s * s}</b>`), S2(`Then ${s * s} − ${c} = <b>${s * s - c}</b>`, `फिर ${s * s} − ${c} = <b>${s * s - c}</b>`)]]; },
+      () => { const a = r(2, 9), b = r(2, 9); return [`${a} × ${b}²`, a * b * b, [S2(`Orders first: ${b}² = <b>${b * b}</b>`, `पहले घात: ${b}² = <b>${b * b}</b>`), S2(`Then ${a} × ${b * b} = <b>${a * b * b}</b>`, `फिर ${a} × ${b * b} = <b>${a * b * b}</b>`)]]; }]
+  };
+  const [expr, val, steps] = pick(forms[l])();
+  steps.push(ANS(val));
+  return { q: expr, a: String(val), kind: 'num', steps, check: String(+steps[steps.length - 2][0].match(/<b>(\d+)<\/b>[^<]*$/)[1]) };
+}
+
+TRICKS.push(
+  { id: 'tbl', icon: '📋', color: '#4c9be8', name: ['Big times tables', 'बड़े पहाड़े'], sutra: '', gen: tblGen,
+    rule: l => l < 6 ? ['Split the big number into tens and ones, then add', 'बड़ी संख्या को दहाई और इकाई में तोड़ो, फिर जोड़ो'] : ['Split the teen into 10 + ones, then add', '11–19 वाली संख्या को 10 + इकाई में तोड़ो, फिर जोड़ो'],
+    alt: [['table', ['Said the table from the start', 'शुरू से पहाड़ा बोला'], '🗣️'], ['long', ['Long multiplication', 'लंबा गुणा'], '🐢']],
+    mean: ['knows the 11 to 15 tables', 'knows the 16 to 20 tables', 'knows the 21 to 30 tables', 'knows the 31 to 50 tables', 'knows the 51 to 99 tables', 'multiplies 2-digit numbers by 11 to 19'] },
+  { id: 'nmul', icon: '🎯', color: '#f0698f', name: ['Multiply near 100', '100 के पास गुणा'], sutra: 'Nikhilam (multiplication)', gen: nmulGen,
+    rule: () => ['Left: cross-subtract. Right: multiply the differences.', 'बायाँ: तिरछा घटाओ। दायाँ: अंतरों का गुणा।'],
+    alt: [['long', ['Long multiplication', 'लंबा गुणा'], '🐢'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['multiplies numbers just below 100, like 97 × 96', 'multiplies numbers from 88 to 99', 'multiplies numbers just above 100, like 104 × 107', 'multiplies 3-digit numbers near 1000', 'multiplies when one is above 100 and one below', 'multiplies numbers further from 100, with carrying'] },
+  { id: 'cube', icon: '📦', color: '#f08a3c', name: ['Cubes of 2-digit numbers', '2 अंकों के घन'], sutra: 'Anurupyena', gen: cubeGen,
+    rule: () => ['Four parts, right to left: b×b×b, 3×a×b×b, 3×a×a×b, a×a×a', 'चार हिस्से, दाएँ से बाएँ: b×b×b, 3×a×b×b, 3×a×a×b, a×a×a'],
+    alt: [['long', ['Multiplied three times', 'तीन बार गुणा किया'], '🐢'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['cubes 11, 12 and 13', 'cubes 14 to 19', 'cubes 21 to 25', 'cubes 26 to 39', 'cubes 41 to 69', 'cubes any number from 71 to 99'] },
+  { id: 'div9', icon: '➗', color: '#9b7be0', name: ['Divide by 9', '9 से भाग'], sutra: 'Nikhilam (division)', gen: div9Gen,
+    rule: () => ['Running totals give the answer, the digit sum gives what is left over', 'चलता जोड़ जवाब देता है, अंकों का जोड़ बचा हुआ'],
+    alt: [['long', ['Long division', 'लंबा भाग'], '🐢'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['divides 2-digit numbers by 9', 'divides 2-digit numbers by 9, fixing big remainders', 'divides 3-digit numbers by 9', 'divides 3-digit numbers by 9 with carries', 'divides 4-digit numbers by 9', 'divides any 4-digit number by 9'] },
+  { id: 'pf', icon: '🌳', color: '#3fbf9a', name: ['Prime factors', 'अभाज्य गुणनखंड'], sutra: '', gen: pfGen,
+    rule: () => ['Keep dividing by the smallest prime: 2, 3, 5, 7…', 'सबसे छोटे अभाज्य से भाग देते रहो: 2, 3, 5, 7…'],
+    alt: [['tree', ['Made a factor tree', 'गुणनखंड पेड़ बनाया'], '🌲'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['breaks numbers up to 48 into 2s and 3s', 'finds prime factors up to 100', 'finds prime factors up to 200', 'finds prime factors up to 500, including 11 and 13', 'finds prime factors up to 1000', 'finds prime factors up to 2000'] },
+  { id: 'bod', icon: '🧩', color: '#f5b82e', name: ['BODMAS: what goes first?', 'BODMAS: पहले क्या?'], sutra: '', gen: bodGen,
+    rule: () => ['Brackets, Orders, ÷ and ×, then + and −', 'कोष्ठक, घात, ÷ और ×, फिर + और −'],
+    alt: [['left', ['Went left to right', 'बाएँ से दाएँ किया'], '➡️'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['does × before +', 'does × and ÷ before + and −', 'works out brackets first', 'handles two × or ÷ parts in one sum', 'handles brackets with ×, − and ÷ together', 'handles powers (squares) in the right order'] }
+);
+
 const TRK = Object.fromEntries(TRICKS.map(t => [t.id, t]));
 
 function TS(p) {
@@ -1914,18 +2074,21 @@ function vTrickResult() {
 
 /* ---------- Question input (keypad or yes/no) ---------- */
 const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'del', '0', 'ok'], KEYS_DOT = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'dot', '0', 'del', 'ok'];
+const keysFor = q => (q.dot ? KEYS_DOT : q.extra ? ['1', '2', '3', '4', '5', '6', '7', '8', '9', q.extra, '0', 'del', 'ok'] : KEYS);
+const fmtA = v => String(v).replace(/R/g, ' R ').replace(/×/g, ' × ');
+const KEY_LBL = { del: ['⌫', 'Delete'], ok: ['✓', 'Check'], dot: ['.', 'Decimal point'], rem: ['R', 'Remainder'], mul: ['×', 'Times'] };
 function askQuestion(board, q, ui, o) {
   const yn = q.kind === 'yn';
-  board.innerHTML = `<div class="tq-card"><div class="tq">${q.q}${yn ? '' : ' <span class="eq">=</span> <span class="tans" id="tans" aria-live="polite"></span>'}</div>${yn ? `<p class="tq-ask">${TX(...q.ask)}</p>` : ''}</div>
+  board.innerHTML = `<div class="tq-card"><div class="tq">${q.q}${yn ? '' : ' <span class="eq">=</span> <span class="tans" id="tans" aria-live="polite"></span>'}</div>${yn ? `<p class="tq-ask">${TX(...q.ask)}</p>` : q.note ? `<p class="tq-ask">${TX(...q.note)}</p>` : ''}</div>
     <ol class="tsteps" id="tsteps"></ol>
     <div id="tin">${yn
       ? `<div class="yn"><button class="ynb" data-v="yes">✅ ${TX('Yes', 'हाँ')}</button><button class="ynb" data-v="no">❌ ${TX('No', 'नहीं')}</button></div>`
-      : `<div class="keypad">${(q.dot ? KEYS_DOT : KEYS).map(k => `<button class="key ${k}${q.dot && k === 'ok' ? ' wide' : ''}" data-k="${k}" aria-label="${k === 'del' ? 'Delete' : k === 'ok' ? 'Check' : k === 'dot' ? 'Decimal point' : k}">${k === 'del' ? '⌫' : k === 'ok' ? '✓' : k === 'dot' ? '.' : k}</button>`).join('')}</div>`}</div>
+      : `<div class="keypad">${keysFor(q).map((k, i, all) => `<button class="key ${k}${all.length === 13 && k === 'ok' ? ' wide' : ''}" data-k="${k}" aria-label="${KEY_LBL[k] ? KEY_LBL[k][1] : k}">${KEY_LBL[k] ? KEY_LBL[k][0] : k}</button>`).join('')}</div>`}</div>
     ${o.hints ? `<button class="btn ghost small thint" id="thint">💡 ${TX('Show me a step', 'एक कदम दिखाओ')}</button>` : ''}`;
   const tans = board.querySelector('#tans'), list = board.querySelector('#tsteps'), hintB = board.querySelector('#thint');
   let val = '', shown = 0, hinted = false, over = false;
   const t0 = performance.now(), max = String(q.a).length + 2;
-  const draw = () => { if (tans) { tans.textContent = val || '?'; tans.classList.toggle('empty', !val); } };
+  const draw = () => { if (tans) { tans.textContent = val ? fmtA(val) : '?'; tans.classList.toggle('empty', !val); } };
   const addStep = i => { const li = document.createElement('li'); li.innerHTML = `<span>${TX(...q.steps[i])}</span>`; list.appendChild(li); requestAnimationFrame(() => li.classList.add('in')); };
   draw();
   return new Promise(resolve => {
@@ -1936,10 +2099,10 @@ function askQuestion(board, q, ui, o) {
     const finish = async given => {
       if (checked || over) return; checked = true;
       board.querySelectorAll('#tin button, #thint').forEach(b => { b.disabled = true; });
-      const ok = given === String(q.a) || (!!q.dot && /^(\d+\.?\d*|\.\d+)$/.test(given) && Math.abs(+given - +q.a) < 1e-9), ms = performance.now() - t0;
+      const ok = q.match ? q.match(given) : given === String(q.a) || (!!q.dot && /^(\d+\.?\d*|\.\d+)$/.test(given) && Math.abs(+given - +q.a) < 1e-9), ms = performance.now() - t0;
       if (yn) { board.querySelector(`.ynb[data-v="${q.a}"]`).classList.add('right'); if (!ok) board.querySelector(`.ynb[data-v="${given}"]`).classList.add('wrong'); }
       if (ok) { if (tans) tans.classList.add('right'); await wait(o.speed ? 250 : 550); done({ correct: true, ms, hinted }); return; }
-      if (tans) { tans.classList.add('wrong'); tans.innerHTML = `<s>${esc(given)}</s> ${q.a}`; }
+      if (tans) { tans.classList.add('wrong'); tans.innerHTML = `<s>${esc(fmtA(given))}</s> ${fmtA(q.a)}`; }
       if (o.speed) { await wait(1000); done({ correct: false, ms }); return; }
       ui.say(TX("Let's see the steps.", 'चलो, कदम देखते हैं।'));
       const tin = board.querySelector('#tin'); if (tin && !yn) tin.style.display = 'none';
@@ -1954,6 +2117,8 @@ function askQuestion(board, q, ui, o) {
       if (over || !ui.alive()) return;
       if (yn) return;
       if (k === 'del') val = val.slice(0, -1);
+      else if (k === 'rem') { if (val && !val.includes('R') && val.length < max) val += 'R'; }
+      else if (k === 'mul') { if (val && !val.endsWith('×') && val.length < max) val += '×'; }
       else if (k === 'dot') { if (!val.includes('.') && val.length < max) val += val ? '.' : '0.'; }
       else if (k === 'ok') { if (val) finish(val); return; }
       else if (val.length < max) val += k;
@@ -1967,7 +2132,7 @@ function askQuestion(board, q, ui, o) {
     onKey = e => {
       if (!ui.alive()) { window.removeEventListener('keydown', onKey); return; }
       if (yn) { if (/^[yY]$/.test(e.key)) finish('yes'); else if (/^[nN]$/.test(e.key)) finish('no'); return; }
-      if (/^[0-9]$/.test(e.key)) press(e.key); else if (e.key === '.' && q.dot) press('dot'); else if (e.key === 'Backspace') press('del'); else if (e.key === 'Enter') { e.preventDefault(); press('ok'); }
+      if (/^[0-9]$/.test(e.key)) press(e.key); else if (e.key === '.' && q.dot) press('dot'); else if (/^[rR]$/.test(e.key) && q.extra === 'rem') press('rem'); else if (/^[*xX]$/.test(e.key) && q.extra === 'mul') press('mul'); else if (e.key === 'Backspace') press('del'); else if (e.key === 'Enter') { e.preventDefault(); press('ok'); }
     };
     window.addEventListener('keydown', onKey);
   });
@@ -1993,7 +2158,7 @@ async function runLesson(id) {
   }
   if (!ui.alive()) return;
   const ans = $('#tans');
-  ans.textContent = yn ? (q.a === 'yes' ? TX('✅ Yes', '✅ हाँ') : TX('❌ No', '❌ नहीं')) : q.a; ans.classList.remove('empty'); ans.classList.add('right');
+  ans.textContent = yn ? (q.a === 'yes' ? TX('✅ Yes', '✅ हाँ') : TX('❌ No', '❌ नहीं')) : fmtA(q.a); ans.classList.remove('empty'); ans.classList.add('right');
   s.learned = true; save(); sfx('ok');
   ui.say(TX('Your turn now!', 'अब तुम्हारी बारी!'));
   $('#tlbtns').innerHTML = `<button class="btn ghost" data-tact="lesson">↻ ${TX('Watch again', 'फिर देखो')}</button><button class="btn" data-tact="practice">✏️ ${TX('My turn', 'मेरी बारी')}</button>`;
