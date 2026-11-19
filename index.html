@@ -437,6 +437,21 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .opts4 .ynb{max-width:none;min-height:86px}
 .opt-emo{font-size:2.6rem}
 .tq u{text-decoration-color:var(--glow);text-decoration-thickness:4px;text-underline-offset:6px}
+.geo{width:100%;max-width:300px;height:auto;display:block;margin:0 auto 6px}
+.geo .sh{fill:rgba(255,207,92,.14);stroke:#ffcf5c;stroke-width:3;stroke-linejoin:round}
+.geo .sh2{fill:rgba(255,207,92,.24);stroke:#ffcf5c;stroke-width:3;stroke-linejoin:round}
+.geo .cut{fill:#1b1938;stroke:#ffcf5c;stroke-width:2;stroke-dasharray:5 4}
+.geo .dim{stroke:#b9b5e6;stroke-width:2;stroke-dasharray:5 4}
+.geo .rm{fill:none;stroke:#7fdcc0;stroke-width:2}
+.geo .edge{stroke:#ffcf5c;stroke-width:2.5;stroke-linecap:round}
+.geo .arc{fill:none;stroke:#7fdcc0;stroke-width:2}
+.geo .tick{stroke:#7fdcc0;stroke-width:3}
+.geo .dot{fill:#ffcf5c}
+.geo text{fill:#ece9ff;font:700 14px Lexend,system-ui,sans-serif}
+.geo text.unk{fill:#ffcf5c;font-size:18px}
+.gq{font:700 1.15rem/1.35 var(--font-body)}
+.gnote{display:block;font:500 .8rem var(--font-body);color:var(--moon-soft);margin-top:4px}
+.opt-txt{font:800 1.05rem var(--font-display)}
 /* v8 games library */
 .lib-open{align-self:center;min-height:52px;font-size:1.1rem}
 .lib-skill{margin-top:18px}
@@ -2306,6 +2321,210 @@ TRICKS.push(
 const TSECTIONS = [['start', ['Starter', 'शुरुआत'], '🌱'], ['vedic', ['Vedic tricks', 'वैदिक तरकीबें'], '✨'], ['life', ['Maths for everyday', 'रोज़ की गणित'], '🛒'], ['big', ['Champion', 'चैंपियन'], '🏆']];
 const TORDER = ['read', 'add', 'tbl', 'x5', 'peg', 'nikhilam', 'sq5', 'nine', 'div', 'vc', 'yava', 'nmul', 'div9', 'vest', 'pct', 'frac', 'avg', 'rat', 'stat', 'fcut', 'fop', 'pf', 'bod', 'eq', 'sun', 'alg', 'sqrt', 'nsqrt', 'cbrt', 'cube'];
 const TSEC = { read: 'start', add: 'start', tbl: 'start', x5: 'start', peg: 'start', nikhilam: 'vedic', sq5: 'vedic', nine: 'vedic', div: 'vedic', vc: 'vedic', yava: 'vedic', nmul: 'vedic', div9: 'vedic', vest: 'vedic', pct: 'life', frac: 'life', avg: 'life', rat: 'life', stat: 'life', fcut: 'big', fop: 'big', pf: 'big', bod: 'big', eq: 'big', sun: 'big', alg: 'big', sqrt: 'big', nsqrt: 'big', cbrt: 'big', cube: 'big' };
+TRICKS.sort((x, y) => TORDER.indexOf(x.id) - TORDER.indexOf(y.id));
+TRICKS.forEach(t => { t.sec = TSEC[t.id]; });
+
+/* ---------- v16: geometry (Shapes section) ---------- */
+const SVGW = (inner, label, w = 260, h = 170) => `<svg class="geo" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">${inner}</svg>`;
+const poly = (pts, cls = 'sh') => `<polygon class="${cls}" points="${pts.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ')}"/>`;
+const lbl = (x, y, t, cls = '') => `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" class="${cls}" text-anchor="middle" dominant-baseline="middle">${t}</text>`;
+const ln = (a, b, cls = 'sh') => `<line class="${cls}" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"/>`;
+const rmark = (p, dx, dy, s = 12) => `<polyline class="rm" points="${p[0] + dx * s},${p[1]} ${p[0] + dx * s},${p[1] + dy * s} ${p[0]},${p[1] + dy * s}"/>`;
+const qQ = (svg, txt) => `${svg}<div class="gq">${txt}</div>`;
+
+/* 31: quadrilaterals */
+const QUADS = { square: ['square', 'वर्ग'], rectangle: ['rectangle', 'आयत'], rhombus: ['rhombus', 'समचतुर्भुज'], parallelogram: ['parallelogram', 'समांतर चतुर्भुज'], trapezium: ['trapezium', 'समलंब'], kite: ['kite', 'पतंग'] };
+const QWHY = {
+  square: ['All 4 sides equal and every corner is a right angle → square', 'चारों भुजाएँ बराबर और हर कोना समकोण → वर्ग'],
+  rectangle: ['Every corner is a right angle, but only opposite sides are equal → rectangle', 'हर कोना समकोण, पर सिर्फ़ आमने-सामने की भुजाएँ बराबर → आयत'],
+  rhombus: ['All 4 sides equal, but the corners are not right angles → rhombus', 'चारों भुजाएँ बराबर, पर कोने समकोण नहीं → समचतुर्भुज'],
+  parallelogram: ['Opposite sides parallel and equal, no right angles → parallelogram', 'आमने-सामने की भुजाएँ समांतर और बराबर, कोई समकोण नहीं → समांतर चतुर्भुज'],
+  trapezium: ['Only one pair of sides is parallel → trapezium', 'सिर्फ़ एक जोड़ी भुजाएँ समांतर → समलंब'],
+  kite: ['Two pairs of equal sides next to each other → kite', 'पास-पास की भुजाओं के दो बराबर जोड़े → पतंग']
+};
+const QPROP = {
+  square: ['All sides equal and all angles 90°', 'सभी भुजाएँ बराबर और सभी कोण 90°'],
+  rectangle: ['All angles 90°, but only opposite sides equal', 'सभी कोण 90°, पर सिर्फ़ आमने-सामने की भुजाएँ बराबर'],
+  rhombus: ['All sides equal, but no 90° angles', 'सभी भुजाएँ बराबर, पर कोई कोण 90° नहीं'],
+  parallelogram: ['Two pairs of parallel sides, no 90° angles, sides not all equal', 'दो जोड़ी समांतर भुजाएँ, कोई 90° नहीं, सब भुजाएँ बराबर नहीं'],
+  trapezium: ['Exactly one pair of parallel sides', 'ठीक एक जोड़ी समांतर भुजाएँ'],
+  kite: ['Two pairs of equal sides that sit next to each other', 'पास-पास बैठी बराबर भुजाओं के दो जोड़े']
+};
+function quadSvg(kind, rot) {
+  const cx = 130, cy = 85; let pts, marks = '';
+  if (kind === 'square') { const s = 100; pts = [[cx - s / 2, cy - s / 2], [cx + s / 2, cy - s / 2], [cx + s / 2, cy + s / 2], [cx - s / 2, cy + s / 2]]; }
+  else if (kind === 'rectangle') { const w = 170, h = 90; pts = [[cx - w / 2, cy - h / 2], [cx + w / 2, cy - h / 2], [cx + w / 2, cy + h / 2], [cx - w / 2, cy + h / 2]]; }
+  else if (kind === 'rhombus') { const w = 80, h = 62; pts = [[cx, cy - h], [cx + w, cy], [cx, cy + h], [cx - w, cy]]; }
+  else if (kind === 'parallelogram') { const w = 140, h = 90, o = 40; pts = [[cx - w / 2 + o / 2, cy - h / 2], [cx + w / 2 + o / 2, cy - h / 2], [cx + w / 2 - o / 2, cy + h / 2], [cx - w / 2 - o / 2, cy + h / 2]]; }
+  else if (kind === 'trapezium') { pts = [[cx - 45, cy - 45], [cx + 45, cy - 45], [cx + 95, cy + 45], [cx - 85, cy + 45]]; }
+  else { pts = [[cx, cy - 70], [cx + 55, cy - 25], [cx, cy + 75], [cx - 55, cy - 25]]; }
+  if (kind === 'square' || kind === 'rectangle') marks = rmark(pts[0], 1, 1) + rmark(pts[1], -1, 1) + rmark(pts[2], -1, -1) + rmark(pts[3], 1, -1);
+  return SVGW(`<g transform="rotate(${rot} ${cx} ${cy})">${poly(pts)}${marks}</g>`, 'A four-sided shape');
+}
+function quadGen(l) {
+  if (l === 6) {
+    let a, b, c, d; do { a = rand(5, 14) * 10; b = rand(5, 14) * 10; c = rand(5, 14) * 10; d = 360 - a - b - c; } while (d < 40 || d > 170);
+    const pts = [[45, 40], [215, 30], [235, 140], [30, 135]];
+    const svg = SVGW(poly(pts) + lbl(62, 55, `${a}°`) + lbl(198, 47, `${b}°`) + lbl(212, 125, `${c}°`) + lbl(52, 120, '?', 'unk'), 'Quadrilateral with three angles marked');
+    return { q: qQ(svg, TX('Three angles are given. Find the missing one.', 'तीन कोण दिए हैं। चौथा ढूँढो।')), a: String(d), kind: 'num', wordy: true, label: '?', suffix: '°',
+      steps: [['The 4 angles of any quadrilateral add to <b>360°</b>', 'किसी भी चतुर्भुज के 4 कोणों का जोड़ <b>360°</b>'], [`${a} + ${b} + ${c} = <b>${a + b + c}</b>`, `${a} + ${b} + ${c} = <b>${a + b + c}</b>`], [`360 − ${a + b + c} = <b>${d}°</b>`, `360 − ${a + b + c} = <b>${d}°</b>`], ANS(d)], check: String(360 - (a + b + c)), geo: ['quadsum', a, b, c] };
+  }
+  const pool = l === 1 ? ['square', 'rectangle'] : l === 2 ? ['square', 'rectangle', 'rhombus', 'parallelogram'] : Object.keys(QUADS);
+  const kind = pick(pool), others = shuffle(Object.keys(QUADS).filter(k => k !== kind)).slice(0, l === 1 ? 2 : 3), opts = shuffle([kind, ...others]);
+  const opt = k => ({ v: k, html: `<span class="opt-txt">${TX(...QUADS[k])}</span>` });
+  if (l === 5) {
+    return { q: qQ('', `${TX('Which shape has this?', 'किस आकृति में ये है?')}<br><b>${TX(...QPROP[kind])}</b>`), a: kind, kind: 'opt', opts: opts.map(opt), aHtml: TX(...QUADS[kind]), wordy: true,
+      ask: ['Think about sides and corners', 'भुजाएँ और कोने सोचो'], steps: [QWHY[kind], [`Answer: <b>${QUADS[kind][0]}</b>`, `जवाब: <b>${QUADS[kind][1]}</b>`]], check: kind };
+  }
+  const rot = l >= 4 ? pick([15, 30, -20, 45, 90, -35]) : 0;
+  return { q: qQ(quadSvg(kind, rot), TX('What is this shape called?', 'इस आकृति का नाम क्या है?')), a: kind, kind: 'opt', opts: opts.map(opt), aHtml: TX(...QUADS[kind]), wordy: true,
+    ask: ['Look at the sides and the corners', 'भुजाएँ और कोने देखो'], steps: [l >= 4 ? ['Turning a shape does not change its name', 'आकृति घुमाने से नाम नहीं बदलता'] : ['Check the corners: are they right angles (little squares)?', 'कोने देखो: क्या वहाँ समकोण (छोटा चौकोर) है?'], QWHY[kind], [`Answer: <b>${QUADS[kind][0]}</b>`, `जवाब: <b>${QUADS[kind][1]}</b>`]], check: kind };
+}
+
+/* 32: area and perimeter */
+function apGen(l) {
+  const r = rand; let svg, txt, a, steps, suffix, geo;
+  const rect = (w, h, lw, lh) => SVGW(poly([[50, 25], [210, 25], [210, 145], [50, 145]]) + lbl(130, 14, lw) + lbl(232, 85, lh), 'Rectangle');
+  if (l === 1) { const w = r(3, 20), h = r(2, w - 1); a = 2 * (w + h); svg = rect(w, h, `${w} cm`, `${h} cm`); txt = TX('Perimeter (all the way round)?', 'परिमाप (चारों ओर की लंबाई)?'); suffix = 'cm'; steps = [['Perimeter = 2 × (length + width)', 'परिमाप = 2 × (लंबाई + चौड़ाई)'], [`2 × (${w} + ${h}) = 2 × ${w + h} = <b>${a}</b>`, `2 × (${w} + ${h}) = 2 × ${w + h} = <b>${a}</b>`]]; geo = ['rp', w, h]; }
+  else if (l === 2) { const w = r(3, 15), h = r(2, 12); a = w * h; svg = rect(w, h, `${w} cm`, `${h} cm`); txt = TX('Area (space inside)?', 'क्षेत्रफल (अंदर की जगह)?'); suffix = 'cm²'; steps = [['Area = length × width', 'क्षेत्रफल = लंबाई × चौड़ाई'], [`${w} × ${h} = <b>${a}</b>`, `${w} × ${h} = <b>${a}</b>`]]; geo = ['ra', w, h]; }
+  else if (l === 3) { const s = r(2, 15), P = 4 * s; a = s * s; svg = SVGW(poly([[80, 25], [200, 25], [200, 145], [80, 145]]) + rmark([80, 25], 1, 1) + lbl(140, 85, `P = ${P} cm`), 'Square'); txt = TX('A square has perimeter ' + P + ' cm. Area?', `एक वर्ग का परिमाप ${P} cm है। क्षेत्रफल?`); suffix = 'cm²'; steps = [[`4 equal sides: side = ${P} ÷ 4 = <b>${s}</b>`, `4 बराबर भुजाएँ: भुजा = ${P} ÷ 4 = <b>${s}</b>`], [`Area = ${s} × ${s} = <b>${a}</b>`, `क्षेत्रफल = ${s} × ${s} = <b>${a}</b>`]]; geo = ['sq', P]; }
+  else if (l === 4) { const b = r(4, 15), h = r(3, 12); a = b * h; svg = SVGW(poly([[80, 30], [225, 30], [180, 140], [35, 140]]) + ln([80, 30], [80, 140], 'dim') + rmark([80, 140], 1, -1, 9) + lbl(130, 155, `${b} cm`) + lbl(98, 85, `${h} cm`), 'Parallelogram with height'); txt = TX('Area of the parallelogram?', 'समांतर चतुर्भुज का क्षेत्रफल?'); suffix = 'cm²'; steps = [['Area = base × height (the straight-up height, not the slanted side)', 'क्षेत्रफल = आधार × ऊँचाई (सीधी ऊँचाई, तिरछी भुजा नहीं)'], [`${b} × ${h} = <b>${a}</b>`, `${b} × ${h} = <b>${a}</b>`]]; geo = ['pa', b, h]; }
+  else if (l === 5) { let b, h; do { b = r(4, 20); h = r(3, 14); } while ((b * h) % 2); a = b * h / 2; svg = SVGW(poly([[30, 145], [230, 145], [150, 25]]) + ln([150, 25], [150, 145], 'dim') + rmark([150, 145], 1, -1, 9) + lbl(130, 160, `${b} cm`) + lbl(170, 90, `${h} cm`), 'Triangle with height'); txt = TX('Area of the triangle?', 'त्रिभुज का क्षेत्रफल?'); suffix = 'cm²'; steps = [['A triangle is half a rectangle: ½ × base × height', 'त्रिभुज आधा आयत है: ½ × आधार × ऊँचाई'], [`${b} × ${h} = ${b * h}, half of that = <b>${a}</b>`, `${b} × ${h} = ${b * h}, उसका आधा = <b>${a}</b>`]]; geo = ['ta', b, h]; }
+  else { let p, q2, h; do { p = r(3, 12); q2 = r(p + 2, 20); h = r(2, 12); } while (((p + q2) * h) % 2); a = (p + q2) * h / 2; svg = SVGW(poly([[85, 30], [175, 30], [235, 140], [25, 140]]) + ln([85, 30], [85, 140], 'dim') + lbl(130, 18, `${p} cm`) + lbl(130, 155, `${q2} cm`) + lbl(103, 85, `${h} cm`), 'Trapezium with height'); txt = TX('Area of the trapezium?', 'समलंब का क्षेत्रफल?'); suffix = 'cm²'; steps = [['Add the two parallel sides, × height, then halve', 'दोनों समांतर भुजाएँ जोड़ो, × ऊँचाई, फिर आधा'], [`(${p} + ${q2}) × ${h} = ${(p + q2) * h}, half = <b>${a}</b>`, `(${p} + ${q2}) × ${h} = ${(p + q2) * h}, आधा = <b>${a}</b>`]]; geo = ['tz', p, q2, h]; }
+  steps.push([`Answer: <b>${a} ${suffix}</b>`, `जवाब: <b>${a} ${suffix}</b>`]);
+  return { q: qQ(svg, txt), a: String(a), kind: 'num', wordy: true, label: '=', suffix, steps, check: String(a), geo };
+}
+
+/* 33: circles (π = 22/7) */
+function circGen(l) {
+  const k = [2, 4, 5].includes(l) ? rand(1, 9) : rand(1, 5), r7 = 7 * k; let a, txt, steps, suffix = 'cm', lab, geo;
+  const svgR = (t, dia) => SVGW(`<circle class="sh" cx="130" cy="85" r="68"/><circle cx="130" cy="85" r="3" class="dot"/>${dia ? ln([62, 85], [198, 85], 'dim') : ln([130, 85], [198, 85], 'dim')}${lbl(dia ? 130 : 164, 74, t)}`, 'Circle');
+  if (l === 1) { const big = rand(0, 1), rr = rand(2, 30); if (big) { a = 2 * rr; lab = `r = ${rr} cm`; txt = TX('Diameter?', 'व्यास?'); steps = [['The diameter goes all the way across: 2 × radius', 'व्यास पूरा आर-पार: 2 × त्रिज्या'], [`2 × ${rr} = <b>${a}</b>`, `2 × ${rr} = <b>${a}</b>`]]; geo = ['d', rr]; } else { a = rr; lab = `d = ${2 * rr} cm`; txt = TX('Radius?', 'त्रिज्या?'); steps = [['The radius is half the diameter', 'त्रिज्या, व्यास का आधा'], [`${2 * rr} ÷ 2 = <b>${a}</b>`, `${2 * rr} ÷ 2 = <b>${a}</b>`]]; geo = ['r', 2 * rr]; } return { q: qQ(svgR(lab, !big), txt), a: String(a), kind: 'num', wordy: true, label: '=', suffix, steps: [...steps, [`Answer: <b>${a} cm</b>`, `जवाब: <b>${a} cm</b>`]], check: String(a), geo }; }
+  if (l === 2) { a = 44 * k; lab = `r = ${r7} cm`; txt = TX('Circumference (all the way round)? Use π = 22/7', 'परिधि (चारों ओर)? π = 22/7 लो'); steps = [['Circumference = 2 × π × r', 'परिधि = 2 × π × r'], [`r = ${r7} is a multiple of 7: ${r7} ÷ 7 = ${k}`, `r = ${r7}, 7 का गुणज है: ${r7} ÷ 7 = ${k}`], [`2 × 22 × ${k} = <b>${a}</b>`, `2 × 22 × ${k} = <b>${a}</b>`]]; geo = ['C', r7]; }
+  else if (l === 3) { a = 154 * k * k; suffix = 'cm²'; lab = `r = ${r7} cm`; txt = TX('Area? Use π = 22/7', 'क्षेत्रफल? π = 22/7 लो'); steps = [['Area = π × r × r', 'क्षेत्रफल = π × r × r'], [`22/7 × ${r7} × ${r7}: cancel one 7 → 22 × ${k} × ${r7}`, `22/7 × ${r7} × ${r7}: एक 7 कटेगा → 22 × ${k} × ${r7}`], [`= <b>${a}</b>`, `= <b>${a}</b>`]]; geo = ['A', r7]; }
+  else if (l === 4) { a = 36 * k; lab = `r = ${r7} cm`; txt = TX('Perimeter of a semicircle (curve + straight edge)? π = 22/7', 'अर्धवृत्त का परिमाप (वक्र + सीधी भुजा)? π = 22/7'); steps = [[`Curve = half the circumference = π × r = 22 × ${k} = <b>${22 * k}</b>`, `वक्र = आधी परिधि = π × r = 22 × ${k} = <b>${22 * k}</b>`], [`Straight edge = diameter = <b>${2 * r7}</b>`, `सीधी भुजा = व्यास = <b>${2 * r7}</b>`], [`${22 * k} + ${2 * r7} = <b>${a}</b>`, `${22 * k} + ${2 * r7} = <b>${a}</b>`]]; geo = ['semi', r7];
+    const svg = SVGW(`<path class="sh" d="M62 120 A68 68 0 0 1 198 120 Z"/>${ln([130, 120], [198, 120], 'dim')}${lbl(164, 134, `r = ${r7} cm`)}`, 'Semicircle'); return { q: qQ(svg, txt), a: String(a), kind: 'num', wordy: true, label: '=', suffix, steps: [...steps, [`Answer: <b>${a} cm</b>`, `जवाब: <b>${a} cm</b>`]], check: String(22 * k + 14 * k), geo }; }
+  else if (l === 5) { a = r7; lab = `C = ${44 * k} cm`; txt = TX('Radius? Use π = 22/7', 'त्रिज्या? π = 22/7 लो'); steps = [['C = 2 × 22/7 × r = 44/7 × r', 'C = 2 × 22/7 × r = 44/7 × r'], [`r = ${44 * k} × 7 ÷ 44 = ${k} × 7 = <b>${a}</b>`, `r = ${44 * k} × 7 ÷ 44 = ${k} × 7 = <b>${a}</b>`]]; geo = ['rC', 44 * k]; }
+  else { a = 154 * k * k; suffix = 'cm²'; lab = `d = ${2 * r7} cm`; txt = TX('Area? Use π = 22/7', 'क्षेत्रफल? π = 22/7 लो'); steps = [[`Radius = half of ${2 * r7} = <b>${r7}</b>`, `त्रिज्या = ${2 * r7} का आधा = <b>${r7}</b>`], [`Area = 22/7 × ${r7} × ${r7} = 22 × ${k} × ${r7} = <b>${a}</b>`, `क्षेत्रफल = 22/7 × ${r7} × ${r7} = 22 × ${k} × ${r7} = <b>${a}</b>`]]; geo = ['A', r7];
+    return { q: qQ(svgR(lab, true), txt), a: String(a), kind: 'num', wordy: true, label: '=', suffix, steps: [...steps, [`Answer: <b>${a} ${suffix}</b>`, `जवाब: <b>${a} ${suffix}</b>`]], check: String(22 * r7 * r7 / 7), geo }; }
+  steps.push([`Answer: <b>${a} ${suffix}</b>`, `जवाब: <b>${a} ${suffix}</b>`]);
+  return { q: qQ(svgR(lab, false), txt), a: String(a), kind: 'num', wordy: true, label: '=', suffix, steps, check: String(a), geo };
+}
+
+/* 34: 3D shapes */
+const S3 = { prism: { 3: ['triangular prism', 'त्रिकोणीय प्रिज़्म'], 4: ['cuboid', 'घनाभ'], 5: ['pentagonal prism', 'पंचकोणीय प्रिज़्म'], 6: ['hexagonal prism', 'षट्कोणीय प्रिज़्म'] }, pyr: { 3: ['triangular pyramid', 'त्रिकोणीय पिरामिड'], 4: ['square pyramid', 'वर्ग पिरामिड'], 5: ['pentagonal pyramid', 'पंचकोणीय पिरामिड'], 6: ['hexagonal pyramid', 'षट्कोणीय पिरामिड'] } };
+function solidSvg(type, n) {
+  const cx = 130, R = 70, rr = 22, base = type === 'prism' ? 135 : 130, top = type === 'prism' ? 50 : 22, off = n === 4 ? Math.PI / 4 : -Math.PI / 2 + 0.3;
+  const B = Array.from({ length: n }, (_, i) => [cx + R * Math.cos(off + i * 2 * Math.PI / n), base + rr * Math.sin(off + i * 2 * Math.PI / n)]);
+  let edges = B.map((p, i) => ln(p, B[(i + 1) % n], 'edge')).join('');
+  if (type === 'prism') { const T = B.map(([x, y]) => [x, y - (base - top)]); edges += T.map((p, i) => ln(p, T[(i + 1) % n], 'edge')).join('') + B.map((p, i) => ln(p, T[i], 'edge')).join(''); }
+  else edges += B.map(p => ln(p, [cx, top], 'edge')).join('');
+  return SVGW(edges, S3[type][n][0]);
+}
+function s3Gen(l) {
+  const r = rand;
+  if (l <= 4) {
+    const type = pick(['prism', 'pyr']), n = pick([3, 4, 5, 6]), F = type === 'prism' ? n + 2 : n + 1, E = type === 'prism' ? 3 * n : 2 * n, V = type === 'prism' ? 2 * n : n + 1, nm = S3[type][n];
+    const ask = l === 1 ? 'F' : l === 2 ? 'E' : l === 3 ? 'V' : 'E';
+    const A = { F, E, V }[ask], what = { F: ['faces (flat sides)', 'फलक (सपाट सतहें)'], E: ['edges (lines)', 'किनारे (रेखाएँ)'], V: ['vertices (corners)', 'शीर्ष (कोने)'] }[ask];
+    let steps;
+    if (l === 4) steps = [[`Euler's rule: Faces + Vertices − 2 = Edges`, `ऑयलर का नियम: फलक + शीर्ष − 2 = किनारे`], [`${F} + ${V} − 2 = <b>${E}</b>`, `${F} + ${V} − 2 = <b>${E}</b>`]];
+    else if (type === 'prism') steps = [[`A prism has 2 matching ends with ${n} corners each`, `प्रिज़्म के 2 एक जैसे सिरे, हर एक में ${n} कोने`], ask === 'F' ? [`2 ends + ${n} sides = <b>${F}</b>`, `2 सिरे + ${n} बगल = <b>${F}</b>`] : ask === 'E' ? [`${n} on top + ${n} on the bottom + ${n} going up = <b>${E}</b>`, `${n} ऊपर + ${n} नीचे + ${n} खड़े = <b>${E}</b>`] : [`${n} on top + ${n} on the bottom = <b>${V}</b>`, `${n} ऊपर + ${n} नीचे = <b>${V}</b>`]];
+    else steps = [[`A pyramid has a ${n}-sided base and one point on top`, `पिरामिड का आधार ${n} भुजाओं का, ऊपर एक नोक`], ask === 'F' ? [`1 base + ${n} triangles = <b>${F}</b>`, `1 आधार + ${n} त्रिभुज = <b>${F}</b>`] : ask === 'E' ? [`${n} round the base + ${n} up to the point = <b>${E}</b>`, `${n} आधार के + ${n} नोक तक = <b>${E}</b>`] : [`${n} base corners + 1 top = <b>${V}</b>`, `${n} आधार के कोने + 1 ऊपर = <b>${V}</b>`]];
+    steps.push(ANS(A));
+    const txt = l === 4 ? TX(`A ${nm[0]} has ${F} faces and ${V} vertices. How many edges?`, `${nm[1]} के ${F} फलक और ${V} शीर्ष हैं। किनारे कितने?`) : TX(`How many ${what[0]} does a ${nm[0]} have?`, `${nm[1]} के कितने ${what[1]}?`);
+    return { q: qQ(solidSvg(type, n), txt), a: String(A), kind: 'num', wordy: true, label: '=', steps, check: String(ask === 'F' ? F : ask === 'V' ? V : F + V - 2), geo: ['solid', type, n, ask] };
+  }
+  const L = r(2, 12), B = r(2, 10), H = r(2, 9);
+  const box = SVGW(poly([[40, 60], [180, 60], [180, 150], [40, 150]]) + poly([[40, 60], [80, 25], [220, 25], [180, 60]], 'sh2') + poly([[180, 60], [220, 25], [220, 115], [180, 150]], 'sh2') + lbl(110, 162, `${L} cm`) + lbl(212, 145, `${B} cm`) + lbl(26, 105, `${H} cm`), 'Cuboid');
+  if (l === 5) { const a = L * B * H; return { q: qQ(box, TX('Volume of the box?', 'डिब्बे का आयतन?')), a: String(a), kind: 'num', wordy: true, label: '=', suffix: 'cm³', steps: [['Volume = length × breadth × height', 'आयतन = लंबाई × चौड़ाई × ऊँचाई'], [`${L} × ${B} × ${H} = <b>${a}</b>`, `${L} × ${B} × ${H} = <b>${a}</b>`], [`Answer: <b>${a} cm³</b>`, `जवाब: <b>${a} cm³</b>`]], check: String(H * B * L), geo: ['vol', L, B, H] }; }
+  const a = 2 * (L * B + B * H + H * L);
+  return { q: qQ(box, TX('Total surface area (all 6 faces)?', 'कुल पृष्ठीय क्षेत्रफल (सभी 6 फलक)?')), a: String(a), kind: 'num', wordy: true, label: '=', suffix: 'cm²',
+    steps: [['3 pairs of matching faces', 'एक जैसे फलकों के 3 जोड़े'], [`Top: ${L} × ${B} = ${L * B}, front: ${L} × ${H} = ${L * H}, side: ${B} × ${H} = ${B * H}`, `ऊपर: ${L} × ${B} = ${L * B}, सामने: ${L} × ${H} = ${L * H}, बगल: ${B} × ${H} = ${B * H}`], [`2 × (${L * B} + ${L * H} + ${B * H}) = <b>${a}</b>`, `2 × (${L * B} + ${L * H} + ${B * H}) = <b>${a}</b>`], [`Answer: <b>${a} cm²</b>`, `जवाब: <b>${a} cm²</b>`]], check: String(2 * L * B + 2 * B * H + 2 * H * L), geo: ['sa', L, B, H] };
+}
+
+/* 35: complex shapes */
+function cxGen(l) {
+  const r = rand; let svg, txt, a, steps, suffix = 'cm²', geo, chk;
+  if (l === 1 || l === 3) {
+    const W = r(8, 16), H = r(8, 14), h1 = r(2, H - 3), w1 = r(2, W - 3);
+    const sx = 180 / W, sy = 120 / H, X = v => 40 + v * sx, Y = v => 145 - v * sy;
+    const pts = [[X(0), Y(0)], [X(W), Y(0)], [X(W), Y(h1)], [X(w1), Y(h1)], [X(w1), Y(H)], [X(0), Y(H)]];
+    svg = SVGW(poly(pts) + lbl((X(0) + X(W)) / 2, 158, `${W} cm`) + lbl(X(W) + 18, (Y(0) + Y(h1)) / 2, `${h1}`) + lbl(X(0) - 18, (Y(0) + Y(H)) / 2, `${H}`) + lbl((X(0) + X(w1)) / 2, Y(H) - 10, `${w1}`), 'L-shape');
+    if (l === 1) { a = W * h1 + w1 * (H - h1); txt = TX('Area of the L-shape?', 'L-आकृति का क्षेत्रफल?'); steps = [['Cut it into two rectangles', 'इसे दो आयतों में काटो'], [`Bottom: ${W} × ${h1} = <b>${W * h1}</b>`, `नीचे: ${W} × ${h1} = <b>${W * h1}</b>`], [`Top part: ${w1} × (${H} − ${h1}) = ${w1} × ${H - h1} = <b>${w1 * (H - h1)}</b>`, `ऊपर: ${w1} × (${H} − ${h1}) = ${w1} × ${H - h1} = <b>${w1 * (H - h1)}</b>`], [`Add: <b>${a}</b>`, `जोड़ो: <b>${a}</b>`]]; geo = ['L', W, H, h1, w1]; chk = W * H - (W - w1) * (H - h1); }
+    else { a = 2 * (W + H); suffix = 'cm'; txt = TX('Perimeter of the L-shape?', 'L-आकृति का परिमाप?'); steps = [['Trick: push the inside corner out. The perimeter is the same as the full rectangle!', 'तरकीब: अंदर का कोना बाहर धकेलो। परिमाप पूरे आयत जितना ही!'], [`2 × (${W} + ${H}) = <b>${a}</b>`, `2 × (${W} + ${H}) = <b>${a}</b>`]]; geo = ['Lp', W, H, h1, w1]; chk = W + h1 + (W - w1) + (H - h1) + w1 + H; }
+  } else if (l === 2) {
+    const W = r(8, 16), H = r(6, 12), w = r(2, W - 4), h = r(2, H - 3); a = W * H - w * h;
+    svg = SVGW(poly([[40, 25], [220, 25], [220, 145], [40, 145]]) + poly([[110, 65], [110 + w * 8, 65], [110 + w * 8, 65 + h * 6], [110, 65 + h * 6]], 'cut') + lbl(130, 14, `${W} cm`) + lbl(238, 85, `${H}`) + lbl(110 + w * 4, 58, `${w}`) + lbl(100, 65 + h * 3, `${h}`), 'Rectangle with a hole');
+    txt = TX('Area that is left (without the hole)?', 'छेद को छोड़कर बचा क्षेत्रफल?');
+    steps = [[`Big rectangle: ${W} × ${H} = <b>${W * H}</b>`, `बड़ा आयत: ${W} × ${H} = <b>${W * H}</b>`], [`Hole: ${w} × ${h} = <b>${w * h}</b>`, `छेद: ${w} × ${h} = <b>${w * h}</b>`], [`Take away: ${W * H} − ${w * h} = <b>${a}</b>`, `घटाओ: ${W * H} − ${w * h} = <b>${a}</b>`]]; geo = ['hole', W, H, w, h]; chk = W * H - w * h;
+  } else if (l === 4) {
+    let W, H, t; do { W = r(4, 14); H = r(3, 10); t = r(2, 8); } while ((W * t) % 2);
+    a = W * H + W * t / 2;
+    svg = SVGW(poly([[50, 70], [210, 70], [210, 150], [50, 150]]) + poly([[50, 70], [130, 18], [210, 70]]) + ln([130, 18], [130, 70], 'dim') + lbl(130, 162, `${W} cm`) + lbl(226, 110, `${H}`) + lbl(142, 48, `${t}`), 'House shape');
+    txt = TX('Area of the house shape?', 'घर की आकृति का क्षेत्रफल?');
+    steps = [[`Rectangle: ${W} × ${H} = <b>${W * H}</b>`, `आयत: ${W} × ${H} = <b>${W * H}</b>`], [`Roof triangle: ½ × ${W} × ${t} = <b>${W * t / 2}</b>`, `छत त्रिभुज: ½ × ${W} × ${t} = <b>${W * t / 2}</b>`], [`Add: <b>${a}</b>`, `जोड़ो: <b>${a}</b>`]]; geo = ['house', W, H, t]; chk = (2 * W * H + W * t) / 2;
+  } else if (l === 5) {
+    const k = r(1, 3), D = 14 * k, R7 = 7 * k, W = r(8, 25); a = W * D + 77 * k * k;
+    svg = SVGW(poly([[40, 30], [180, 30], [180, 140], [40, 140]]) + `<path class="sh" d="M180 30 A55 55 0 0 1 180 140"/>` + lbl(110, 18, `${W} cm`) + lbl(26, 85, `${D}`), 'Rectangle with a semicircle');
+    txt = TX('Total area? The round end is a semicircle. π = 22/7', 'कुल क्षेत्रफल? गोल सिरा अर्धवृत्त है। π = 22/7');
+    steps = [[`Rectangle: ${W} × ${D} = <b>${W * D}</b>`, `आयत: ${W} × ${D} = <b>${W * D}</b>`], [`Semicircle radius = ${D} ÷ 2 = ${R7}. Half of 22/7 × ${R7} × ${R7} = <b>${77 * k * k}</b>`, `अर्धवृत्त त्रिज्या = ${D} ÷ 2 = ${R7}। 22/7 × ${R7} × ${R7} का आधा = <b>${77 * k * k}</b>`], [`Add: <b>${a}</b>`, `जोड़ो: <b>${a}</b>`]]; geo = ['semi+', W, D]; chk = W * D + 22 * R7 * R7 / 7 / 2;
+  } else {
+    const k = r(1, 5), s = 14 * k; a = s * s - 154 * k * k;
+    svg = SVGW(`<rect class="sh" x="65" y="20" width="130" height="130"/><path class="cut" d="M65 150 L65 20 A130 130 0 0 1 195 150 Z"/>` + lbl(130, 162, `${s} cm`), 'Square with a quarter circle cut out');
+    txt = TX('Find the yellow area. The dark cut-out is a quarter circle. π = 22/7', 'पीला क्षेत्रफल ढूँढो। गहरा कटा हिस्सा चौथाई वृत्त है। π = 22/7');
+    steps = [[`Square: ${s} × ${s} = <b>${s * s}</b>`, `वर्ग: ${s} × ${s} = <b>${s * s}</b>`], [`Quarter circle, radius ${s}: ¼ × 22/7 × ${s} × ${s} = <b>${154 * k * k}</b>`, `चौथाई वृत्त, त्रिज्या ${s}: ¼ × 22/7 × ${s} × ${s} = <b>${154 * k * k}</b>`], [`Take away: ${s * s} − ${154 * k * k} = <b>${a}</b>`, `घटाओ: ${s * s} − ${154 * k * k} = <b>${a}</b>`]]; geo = ['quarter', s]; chk = s * s - 22 * s * s / 7 / 4;
+  }
+  steps.push([`Answer: <b>${a} ${suffix}</b>`, `जवाब: <b>${a} ${suffix}</b>`]);
+  return { q: qQ(svg, txt), a: String(a), kind: 'num', wordy: true, label: '=', suffix, steps, check: String(chk), geo };
+}
+
+/* 36: angles */
+const rad = d => d * Math.PI / 180;
+const arcLbl = (p, d1, d2, t, R = 34, cls = '') => { const m = rad((d1 + d2) / 2); return lbl(p[0] + R * Math.cos(m), p[1] - R * Math.sin(m), t, cls); };
+const arc = (p, d1, d2, R = 22) => `<path class="arc" d="M${(p[0] + R * Math.cos(rad(d1))).toFixed(1)} ${(p[1] - R * Math.sin(rad(d1))).toFixed(1)} A${R} ${R} 0 ${d2 - d1 > 180 ? 1 : 0} 0 ${(p[0] + R * Math.cos(rad(d2))).toFixed(1)} ${(p[1] - R * Math.sin(rad(d2))).toFixed(1)}"/>`;
+const ray = (p, d, L = 95) => ln(p, [p[0] + L * Math.cos(rad(d)), p[1] - L * Math.sin(rad(d))]);
+function triPts(A, B) { const P = [40, 140], Q = [220, 140], tA = Math.tan(rad(A)), tB = Math.tan(rad(B)), x = (180 * tB) / (tA + tB), h = x * tA, sc = Math.min(1, 110 / h); return [P, Q, [40 + x, 140 - h * sc]]; }
+function angGen(l) {
+  const r = rand; let svg, txt, a, steps, geo, chk;
+  if (l === 1) { const x = r(3, 15) * 10 + pick([0, 5]); a = 180 - x; const O = [130, 130]; svg = SVGW(ln([20, 130], [240, 130]) + ray(O, x) + arc(O, 0, x) + arc(O, x, 180, 16) + arcLbl(O, 0, x, `${x}°`, 42) + arcLbl(O, x, 180, '?', 34, 'unk'), 'Angles on a straight line'); txt = TX('Angles on a straight line. Find ?', 'सीधी रेखा पर कोण। ? ढूँढो'); steps = [['Angles on a straight line add to <b>180°</b>', 'सीधी रेखा पर कोणों का जोड़ <b>180°</b>'], [`180 − ${x} = <b>${a}</b>`, `180 − ${x} = <b>${a}</b>`]]; geo = ['line', x]; chk = 180 - x; }
+  else if (l === 2) { let p1, p2, p3; do { p1 = r(4, 14) * 10; p2 = r(4, 14) * 10; p3 = r(4, 14) * 10; a = 360 - p1 - p2 - p3; } while (a < 40 || a > 150); const O = [130, 85]; const angs = [0, p1, p1 + p2, p1 + p2 + p3]; svg = SVGW(angs.map(d => ray(O, d, 75)).join('') + arcLbl(O, 0, p1, `${p1}°`, 40) + arcLbl(O, p1, p1 + p2, `${p2}°`, 40) + arcLbl(O, p1 + p2, p1 + p2 + p3, `${p3}°`, 40) + arcLbl(O, p1 + p2 + p3, 360, '?', 40, 'unk'), 'Angles around a point'); txt = TX('Angles around a point. Find ?', 'एक बिंदु के चारों ओर कोण। ? ढूँढो'); steps = [['Angles all the way round a point add to <b>360°</b>', 'एक बिंदु के चारों ओर कोणों का जोड़ <b>360°</b>'], [`${p1} + ${p2} + ${p3} = ${p1 + p2 + p3}`, `${p1} + ${p2} + ${p3} = ${p1 + p2 + p3}`], [`360 − ${p1 + p2 + p3} = <b>${a}</b>`, `360 − ${p1 + p2 + p3} = <b>${a}</b>`]]; geo = ['point', p1, p2, p3]; chk = 360 - (p1 + p2 + p3); }
+  else if (l === 3) { let A, B; do { A = r(3, 9) * 10; B = r(3, 9) * 10; } while (A + B > 150); a = 180 - A - B; const [P, Q, T] = triPts(A, B); svg = SVGW(poly([P, Q, T]) + lbl(P[0] + 30, P[1] - 12, `${A}°`) + lbl(Q[0] - 30, Q[1] - 12, `${B}°`) + lbl(T[0], T[1] + 26, '?', 'unk'), 'Triangle'); txt = TX('Find the missing angle of the triangle', 'त्रिभुज का बचा कोण ढूँढो'); steps = [['The 3 angles of a triangle add to <b>180°</b>', 'त्रिभुज के 3 कोणों का जोड़ <b>180°</b>'], [`180 − ${A} − ${B} = <b>${a}</b>`, `180 − ${A} − ${B} = <b>${a}</b>`]]; geo = ['tri', A, B]; chk = 180 - (A + B); }
+  else if (l === 4) { const x = r(4, 14) * 10; const opp = Math.random() < 0.5; a = opp ? x : 180 - x; const O = [130, 85]; svg = SVGW(ray(O, x, 95) + ray(O, x + 180, 95) + ray(O, 0, 105) + ray(O, 180, 105) + arcLbl(O, 0, x, `${x}°`, 38) + (opp ? arcLbl(O, 180, 180 + x, '?', 38, 'unk') : arcLbl(O, x, 180, '?', 34, 'unk')), 'Two crossing lines'); txt = TX('Two straight lines cross. Find ?', 'दो सीधी रेखाएँ कटती हैं। ? ढूँढो'); steps = opp ? [['Angles opposite each other at a cross are <b>equal</b>', 'काटने पर आमने-सामने के कोण <b>बराबर</b>'], [`So ? = <b>${x}</b>`, `तो ? = <b>${x}</b>`]] : [['Next to each other on a straight line: they add to <b>180°</b>', 'सीधी रेखा पर पास-पास: जोड़ <b>180°</b>'], [`180 − ${x} = <b>${a}</b>`, `180 − ${x} = <b>${a}</b>`]]; geo = ['cross', x, opp]; chk = opp ? x : 180 - x; }
+  else if (l === 5) { const apexGiven = Math.random() < 0.5; let B, apex; if (apexGiven) { apex = r(2, 14) * 10; B = (180 - apex) / 2; a = B; } else { B = r(5, 8) * 10 + pick([0, 5]); apex = 180 - 2 * B; a = apex; } const [P, Q, T] = triPts(B, B); svg = SVGW(poly([P, Q, T]) + ln([(P[0] + T[0]) / 2 - 5, (P[1] + T[1]) / 2 - 5], [(P[0] + T[0]) / 2 + 5, (P[1] + T[1]) / 2 + 5], 'tick') + ln([(Q[0] + T[0]) / 2 - 5, (Q[1] + T[1]) / 2 + 5], [(Q[0] + T[0]) / 2 + 5, (Q[1] + T[1]) / 2 - 5], 'tick') + (apexGiven ? lbl(T[0], T[1] + 26, `${apex}°`) + lbl(P[0] + 30, P[1] - 12, '?', 'unk') + lbl(Q[0] - 30, Q[1] - 12, '?', 'unk') : lbl(P[0] + 30, P[1] - 12, `${B}°`) + lbl(T[0], T[1] + 26, '?', 'unk')), 'Isosceles triangle'); txt = TX('Two sides are equal (the tick marks). Find ?', 'दो भुजाएँ बराबर हैं (निशान)। ? ढूँढो'); steps = apexGiven ? [['Equal sides → the two bottom angles are equal', 'बराबर भुजाएँ → नीचे के दोनों कोण बराबर'], [`180 − ${apex} = ${180 - apex}, shared by 2: <b>${B}</b>`, `180 − ${apex} = ${180 - apex}, 2 में बाँटो: <b>${B}</b>`]] : [['Equal sides → both bottom angles are ' + B + '°', 'बराबर भुजाएँ → नीचे के दोनों कोण ' + B + '°'], [`180 − ${B} − ${B} = <b>${apex}</b>`, `180 − ${B} − ${B} = <b>${apex}</b>`]]; geo = ['iso', apexGiven, apexGiven ? apex : B]; chk = apexGiven ? 90 - apex / 2 : 180 - 2 * B; }
+  else { let A, T2; do { A = r(3, 8) * 10; T2 = r(3, 8) * 10; } while (A + T2 > 160); a = A + T2; const B = 180 - A - T2; const [P, Q, T] = triPts(A, B); svg = SVGW(poly([P, Q, T]) + ln(Q, [252, 140]) + lbl(P[0] + 30, P[1] - 12, `${A}°`) + lbl(T[0], T[1] + 26, `${T2}°`) + arcLbl(Q, 0, 180 - B, '?', 26, 'unk'), 'Triangle with outside angle'); txt = TX('Find the outside angle ?', 'बाहरी कोण ? ढूँढो'); steps = [['Trick: an outside angle = the two far inside angles added', 'तरकीब: बाहरी कोण = दूर के दो अंदर के कोणों का जोड़'], [`${A} + ${T2} = <b>${a}</b>`, `${A} + ${T2} = <b>${a}</b>`]]; geo = ['ext', A, T2]; chk = 180 - B; }
+  steps.push([`Answer: <b>${a}°</b>`, `जवाब: <b>${a}°</b>`]);
+  return { q: qQ(svg, txt + `<small class="gnote">${TX('Not drawn to scale', 'चित्र नाप से नहीं')}</small>`), a: String(a), kind: 'num', wordy: true, label: '? =', suffix: '°', steps, check: String(chk), geo };
+}
+
+TRICKS.push(
+  { id: 'quad', icon: '🔷', color: '#4c9be8', name: ['Four-sided shapes', 'चतुर्भुज'], sutra: '', gen: quadGen,
+    rule: l => l === 6 ? ['The 4 angles add to 360°', '4 कोणों का जोड़ 360°'] : ['Check the sides and the corners', 'भुजाएँ और कोने जाँचो'],
+    alt: [['look', ['It just looked like it', 'बस देखकर लगा'], '👀'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['tells a square from a rectangle', 'names squares, rectangles, rhombuses and parallelograms', 'names all six quadrilaterals', 'names quadrilaterals even when turned', 'matches each quadrilateral to its properties', 'finds a missing angle using the 360° rule'] },
+  { id: 'ap', icon: '📏', color: '#3fbf9a', name: ['Area and perimeter', 'क्षेत्रफल और परिमाप'], sutra: '', gen: apGen,
+    rule: l => [null, ['Perimeter: add all the way round', 'परिमाप: चारों ओर जोड़ो'], ['Area: length × width', 'क्षेत्रफल: लंबाई × चौड़ाई'], ['Square: side = perimeter ÷ 4', 'वर्ग: भुजा = परिमाप ÷ 4'], ['Parallelogram: base × straight-up height', 'समांतर चतुर्भुज: आधार × सीधी ऊँचाई'], ['Triangle: half of base × height', 'त्रिभुज: आधार × ऊँचाई का आधा'], ['Trapezium: half of (a + b) × height', 'समलंब: (a + b) × ऊँचाई का आधा']][l],
+    alt: [['count', ['Counted squares', 'खाने गिने'], '🔲'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['finds the perimeter of a rectangle', 'finds the area of a rectangle', 'finds a square’s area from its perimeter', 'finds the area of a parallelogram', 'finds the area of a triangle', 'finds the area of a trapezium'] },
+  { id: 'circ', icon: '⭕', color: '#f0698f', name: ['Circles', 'वृत्त'], sutra: '', gen: circGen,
+    rule: l => [null, ['Diameter = 2 × radius', 'व्यास = 2 × त्रिज्या'], ['Circumference = 2 × 22/7 × r. Cancel the 7 first!', 'परिधि = 2 × 22/7 × r। पहले 7 काटो!'], ['Area = 22/7 × r × r. Cancel the 7 first!', 'क्षेत्रफल = 22/7 × r × r। पहले 7 काटो!'], ['Semicircle: half the circle + the diameter', 'अर्धवृत्त: आधा वृत्त + व्यास'], ['Going backwards: r = C × 7 ÷ 44', 'उल्टा: r = C × 7 ÷ 44'], ['Halve the diameter first, then area', 'पहले व्यास आधा, फिर क्षेत्रफल']][l],
+    alt: [['long', ['Multiplied by 3.14 the long way', '3.14 से लंबा गुणा'], '🐢'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['knows diameter = 2 × radius', 'finds circumference with π = 22/7', 'finds the area of a circle', 'finds the perimeter of a semicircle', 'finds the radius from the circumference', 'finds the area from the diameter'] },
+  { id: 'solid', icon: '🧱', color: '#f08a3c', name: ['3D shapes', '3D आकृतियाँ'], sutra: '', gen: s3Gen,
+    rule: l => [null, ['Prism: 2 ends + the sides. Pyramid: 1 base + triangles', 'प्रिज़्म: 2 सिरे + बगल। पिरामिड: 1 आधार + त्रिभुज'], ['Count edges round the ends, then the ones joining them', 'सिरों के किनारे गिनो, फिर जोड़ने वाले'], ['Count the corners on each end (and the point)', 'हर सिरे के कोने गिनो (और नोक)'], ["Euler's rule: F + V − 2 = E", 'ऑयलर: F + V − 2 = E'], ['Volume = length × breadth × height', 'आयतन = लंबाई × चौड़ाई × ऊँचाई'], ['Surface area = 2 × (top + front + side)', 'पृष्ठीय क्षेत्रफल = 2 × (ऊपर + सामने + बगल)']][l],
+    alt: [['count', ['Counted one by one', 'एक-एक करके गिना'], '☝️'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['counts faces of prisms and pyramids', 'counts edges of prisms and pyramids', 'counts vertices of prisms and pyramids', "uses Euler's rule (F + V − 2 = E)", 'finds the volume of a cuboid', 'finds the surface area of a cuboid'] },
+  { id: 'cx', icon: '🧩', color: '#9b7be0', name: ['Tricky shapes', 'मुश्किल आकृतियाँ'], sutra: '', gen: cxGen,
+    rule: l => [null, ['Cut it into rectangles, then add', 'आयतों में काटो, फिर जोड़ो'], ['Whole shape − the hole', 'पूरी आकृति − छेद'], ['L-shape perimeter = the full rectangle’s perimeter', 'L-आकृति का परिमाप = पूरे आयत का परिमाप'], ['Rectangle + triangle roof', 'आयत + त्रिभुज छत'], ['Rectangle + half a circle', 'आयत + आधा वृत्त'], ['Square − quarter circle', 'वर्ग − चौथाई वृत्त']][l],
+    alt: [['count', ['Counted squares', 'खाने गिने'], '🔲'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['finds the area of an L-shape', 'finds the area left after cutting a hole', 'finds the perimeter of an L-shape with a shortcut', 'finds the area of a house shape', 'finds the area of a rectangle with a round end', 'finds a shaded area (square minus quarter circle)'] },
+  { id: 'ang', icon: '📐', color: '#f5b82e', name: ['Angles', 'कोण'], sutra: '', gen: angGen,
+    rule: l => [null, ['Straight line = 180°', 'सीधी रेखा = 180°'], ['All the way round = 360°', 'पूरा चक्कर = 360°'], ['Triangle = 180°', 'त्रिभुज = 180°'], ['Opposite angles are equal; neighbours add to 180°', 'आमने-सामने बराबर; पास वाले जोड़ 180°'], ['Equal sides → equal angles', 'बराबर भुजाएँ → बराबर कोण'], ['Outside angle = the two far inside angles added', 'बाहरी कोण = दूर के दो अंदर वाले कोणों का जोड़']][l],
+    alt: [['measure', ['Guessed from the picture', 'चित्र देखकर अंदाज़ा'], '👀'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['finds angles on a straight line', 'finds angles around a point', 'finds the third angle of a triangle', 'uses opposite and neighbouring angles at a cross', 'finds angles in an isosceles triangle', 'uses the exterior angle shortcut'] }
+);
+TSECTIONS.splice(3, 0, ['geo', ['Shapes', 'आकृतियाँ'], '📐']);
+['quad', 'ap', 'circ', 'solid', 'cx', 'ang'].forEach(id => { TORDER.push(id); TSEC[id] = 'geo'; });
 TRICKS.sort((x, y) => TORDER.indexOf(x.id) - TORDER.indexOf(y.id));
 TRICKS.forEach(t => { t.sec = TSEC[t.id]; });
 
