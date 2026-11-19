@@ -610,197 +610,6 @@ body.grownup .arrow{color:var(--violet)}
 .dopt.sil b{filter:brightness(0);font-weight:400}
 .dopt.sil.hit b{filter:none}
 @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}.fly{display:none}}
-/* v9 parent dashboard */
-body.grownup{--page:#f5f6fa;--surface:#fff;--surface-soft:#f7f7fb;--pink:#22243a;--muted:#6f7289;--pline:#e9eaf1;--accent:#6557d9;--accent-dark:#4e42bf;--accent-soft:#f0efff;--pshadow:0 12px 34px rgba(35,37,71,.055);--r:20px;--r-sm:14px;--pfont:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--page)}
-body.grownup[data-skin="bright"]{--page:#fff9f0;--surface:#fffefa;--surface-soft:#fff4e5;--pink:#352f3b;--muted:#7a6e7d;--pline:#f2e6da;--accent:#ea765a;--accent-dark:#c25440;--accent-soft:#ffede5;--pshadow:0 12px 32px rgba(119,76,51,.08);--r:24px;--r-sm:16px;--pfont:"Trebuchet MS",Inter,ui-sans-serif,system-ui,sans-serif}
-body.grownup .app{max-width:none;padding:0;gap:0}
-.pd{color:var(--pink);font-family:var(--pfont);font-size:15px;line-height:1.45;transition:color .25s}
-.pd h1,.pd h2,.pd h3{font-family:var(--pfont)}
-.pd :where(button){font:inherit;color:inherit}
-.pd button:focus-visible,.pd a:focus-visible,.pd summary:focus-visible,.pd textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.pd-muted{color:var(--muted);font-size:.87rem}
-.pd-muted.small{font-size:.8rem;display:block;margin-top:8px}
-.pd-eyebrow{display:block;color:var(--muted);text-transform:uppercase;font-size:.7rem;font-weight:800;letter-spacing:.12em}
-.pd-top{position:sticky;top:0;z-index:5;border-bottom:1px solid var(--pline);background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(8px)}
-.pd-top-in{width:min(1180px,calc(100% - 48px));margin:auto;min-height:68px;display:flex;align-items:center;gap:30px}
-.pd-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-.5px;white-space:nowrap}
-.pd-mark{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;color:#fff;background:var(--accent);font-size:17px;box-shadow:0 4px 10px color-mix(in srgb,var(--accent) 25%,transparent)}
-.pd-tag{padding:4px 8px;border-radius:999px;border:1px solid var(--pline);color:var(--muted);font-size:10px;font-weight:750;letter-spacing:.07em}
-.pd-nav{display:flex;gap:6px}
-.pd-nav button{border:0;background:none;color:var(--muted);font-size:14px;font-weight:650;padding:8px 10px;border-radius:10px;cursor:pointer}
-.pd-nav button:hover{color:var(--pink);background:var(--surface-soft)}
-.pd-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
-.pd-skin{display:flex;padding:3px;border:1px solid var(--pline);border-radius:999px;background:var(--surface)}
-.pd-skin button{border:0;padding:7px 11px;border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;font-size:12px;font-weight:700}
-.pd-skin button[aria-pressed="true"]{color:var(--accent-dark);background:var(--accent-soft)}
-.pd-kids{display:flex;gap:6px}
-.pd-avatar{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;border:2px solid transparent;background:var(--accent-soft);color:var(--accent-dark);font-weight:800;cursor:pointer;padding:0}
-.pd-avatar[aria-pressed="true"]{border-color:var(--accent)}
-.pd-avatar.add{background:transparent;border:1.5px dashed var(--pline);color:var(--muted)}
-.pd-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--pline);border-radius:999px;padding:9px 14px;background:var(--surface);color:var(--pink);font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;white-space:nowrap;min-height:38px}
-.pd-btn:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--pline))}
-.pd-btn.primary{border-color:var(--accent);background:var(--accent);color:#fff}
-.pd-btn.primary:hover{background:var(--accent-dark)}
-.pd-btn:disabled{opacity:.6}
-.pd-btns{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
-.pd-link{border:0;padding:0;background:none;color:var(--accent-dark);font-size:13px;font-weight:750;cursor:pointer;white-space:nowrap}
-.pd-main{width:min(1180px,calc(100% - 48px));margin:30px auto 64px}
-.pd-banner{margin-bottom:18px;padding:11px 16px;border-radius:var(--r-sm);background:var(--accent-soft);color:var(--accent-dark);font-size:13px;font-weight:600}
-.pd-welcome{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:22px}
-.pd-welcome h1{margin:4px 0 5px;font-size:clamp(26px,3.4vw,36px);line-height:1.12;letter-spacing:-1.1px;font-weight:800}
-.pd-welcome .pd-muted{font-size:15px}
-.pd-date{color:var(--muted);font-size:13px;font-weight:650;white-space:nowrap}
-.pd-layout{display:grid;grid-template-columns:minmax(0,1.62fr) minmax(300px,.9fr);gap:22px;align-items:start}
-.pd-col{display:grid;gap:18px;min-width:0}
-.pd-card{border:1px solid var(--pline);border-radius:var(--r);background:var(--surface);box-shadow:var(--pshadow);padding:20px 22px}
-.pd-card h2,.pd-sec-head h2{margin:0;font-size:18px;letter-spacing:-.35px;font-weight:750}
-.pd-card-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
-/* week */
-.pd-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:18px 0 16px}
-.pd-day{display:grid;justify-items:center;gap:7px;color:var(--muted);font-size:12px;font-weight:700}
-.pd-dot{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:var(--surface-soft);color:#b5b7c6;font-size:13px}
-.pd-day.done .pd-dot{color:#fff;background:var(--accent)}
-.pd-day.today .pd-dot{outline:2px solid color-mix(in srgb,var(--accent) 40%,transparent);outline-offset:2px}
-.pd-day.today{color:var(--pink)}
-.pd-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.pd-stat{display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--r-sm);background:var(--surface-soft)}
-.pd-stat-ico{font-size:18px}
-.pd-stat strong{display:block;font-size:18px;line-height:1.1;letter-spacing:-.4px}
-.pd-stat span:last-child{color:var(--muted);font-size:12px}
-/* tonight */
-.pd-card.pd-challenge{padding:0;background:linear-gradient(105deg,var(--accent-soft),var(--surface))}
-.pd-challenge summary,.pd-challenge.empty{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;list-style:none}
-.pd-challenge.empty{cursor:default}
-.pd-challenge summary::-webkit-details-marker{display:none}
-.pd-ch-ico{display:grid;flex:0 0 42px;place-items:center;width:42px;height:42px;border-radius:12px;background:var(--surface);font-size:21px}
-.pd-ch-copy{min-width:0;flex:1;display:flex;flex-direction:column}
-.pd-ch-copy .pd-eyebrow{color:var(--accent-dark);font-size:.68rem}
-.pd-ch-copy strong{margin:3px 0 1px;font-size:15px}
-.pd-ch-copy>span:last-child{color:var(--muted);font-size:13px}
-.pd-round{flex:0 0 36px;width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--pline);border-radius:50%;background:var(--surface);color:var(--accent-dark);transition:transform .2s}
-.pd-challenge[open] .pd-round{transform:rotate(90deg)}
-.pd-why{padding:0 18px 16px 74px;display:grid;gap:8px;font-size:14px;color:var(--pink)}
-/* skills */
-.pd-sec-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:6px 0 12px}
-.pd-sec-head p{margin-top:3px}
-.pd-key{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12px;white-space:nowrap}
-.pd-key i{width:10px;height:12px;border-radius:3px 3px 1px 1px;background:var(--accent)}
-.pd-skills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
-.pd-skill{border:1px solid var(--pline);border-radius:var(--r-sm);background:var(--surface);--skill-soft:color-mix(in srgb,var(--skill) 14%,var(--surface));transition:border-color .16s}
-.pd-skill:hover{border-color:color-mix(in srgb,var(--skill) 45%,var(--pline))}
-.pd-skill[open]{grid-column:1/-1;border-color:color-mix(in srgb,var(--skill) 55%,var(--pline))}
-.pd-skill summary{display:block;padding:15px;cursor:pointer;list-style:none}
-.pd-skill summary::-webkit-details-marker{display:none}
-.pd-sk-top{display:flex;align-items:center;gap:10px}
-.pd-sk-ico{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border-radius:11px;background:var(--skill-soft);font-size:18px}
-.pd-sk-name{min-width:0;flex:1;display:flex;flex-direction:column}
-.pd-sk-name strong{font-size:15px}
-.pd-sk-name span{color:var(--muted);font-size:12px}
-.pd-level{padding:4px 9px;border-radius:999px;background:var(--skill-soft);color:color-mix(in srgb,var(--skill) 70%,#000);font-size:11px;font-weight:800;white-space:nowrap}
-.pd-delta{font-size:11px;font-weight:800;white-space:nowrap}
-.pd-delta.up{color:#23866c}.pd-delta.down{color:#a8641a}
-.pd-progress{display:block;height:6px;margin:13px 0 10px;overflow:hidden;border-radius:10px;background:var(--surface-soft)}
-.pd-progress span{display:block;height:100%;border-radius:inherit;background:var(--skill)}
-.pd-insight{display:flex;gap:8px;color:var(--muted);font-size:12.5px;line-height:1.4}
-.pd-insight b{color:var(--pink);font-weight:650}
-.pd-spark{display:flex;align-items:end;gap:4px;height:26px;margin-top:12px}
-.pd-spark i{flex:1;height:var(--h);min-width:3px;border-radius:3px 3px 1px 1px;background:color-mix(in srgb,var(--skill) 32%,var(--surface))}
-.pd-spark i.last{background:var(--skill)}
-.pd-spark i.empty{background:var(--surface-soft)}
-.pd-more{display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-top:10px;color:var(--accent-dark);font-size:12px;font-weight:750}
-.pd-more .opened{display:none}
-.pd-skill[open] .pd-more .opened{display:inline}.pd-skill[open] .pd-more .closed{display:none}
-.pd-more .chev{width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
-.pd-skill[open] .pd-more .chev{transform:rotate(-135deg)}
-.pd-sk-detail{padding:0 15px 16px;display:grid;gap:14px;border-top:1px solid var(--pline);padding-top:14px;margin:0 15px;padding-left:0;padding-right:0}
-.pd-games{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
-.pd-games li{display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:12px;background:var(--surface-soft);font-size:13px;color:var(--muted)}
-.pd-games b{display:block;color:var(--pink);font-size:13.5px}
-.pd-gi{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border-radius:10px;background:var(--surface);font-size:18px}
-.pd-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
-.pd-facts>div{display:flex;gap:8px;font-size:13px;color:var(--muted)}
-.pd-facts b{display:block;color:var(--pink);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
-/* play together */
-.pd-library .pd-muted{margin:4px 0 14px}
-.pd-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.pd-act{position:relative;min-height:104px;display:flex;flex-direction:column;align-items:flex-start;padding:12px;border-radius:var(--r-sm);border:1px solid var(--pline);background:var(--surface);text-align:left;cursor:pointer;transition:transform .16s,border-color .16s}
-.pd-act:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent) 40%,var(--pline))}
-.pd-act.open{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
-.pd-act.is-tried{background:color-mix(in srgb,var(--skill) 8%,var(--surface))}
-.pd-act-ico{display:grid;place-items:center;width:32px;height:32px;margin-bottom:8px;border-radius:10px;background:color-mix(in srgb,var(--skill) 16%,var(--surface));font-size:17px}
-.pd-act strong{font-size:13px;line-height:1.25}
-.pd-act-meta{margin-top:auto;padding-top:6px;color:var(--muted);font-size:11.5px}
-.pd-tick{color:#23866c;font-weight:700}
-.pd-life-panel{margin-top:10px;padding:14px;border-radius:var(--r-sm);background:var(--surface-soft);display:grid;gap:8px;font-size:14px}
-.pd-lp-head{display:flex;align-items:center;gap:10px}
-.pd-lp-head strong{flex:1;font-size:15px}
-.pd-x{border:0;background:var(--surface);width:32px;height:32px;border-radius:50%;cursor:pointer;color:var(--muted)}
-.pd-tried{display:inline-flex;align-items:center;gap:8px;justify-self:start;padding:8px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--pline);font-weight:700;font-size:13px;cursor:pointer}
-.pd-tried input{width:18px;height:18px;accent-color:var(--accent)}
-.pd-lib-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;padding-top:12px;border-top:1px solid var(--pline);color:var(--muted);font-size:12px}
-.pd-minibar{flex:0 0 70px;height:6px;border-radius:6px;background:var(--surface-soft);overflow:hidden}
-.pd-minibar span{display:block;height:100%;background:var(--accent);border-radius:inherit;transition:width .3s}
-/* favourites */
-.pd-fav-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 6px}
-.pd-fav{display:inline-flex;align-items:center;gap:6px;padding:6px 12px 6px 8px;border-radius:999px;background:var(--surface-soft);font-size:13px;font-weight:650}
-/* feedback */
-.pd-feedback>.pd-muted{margin-top:4px}
-.pd-q{display:block;margin:15px 0 7px;color:var(--pink);font-size:13px;font-weight:700}
-.pd-ratings{display:flex;flex-wrap:wrap;gap:7px}
-.pd-rate{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--pline);border-radius:12px;background:var(--surface-soft);cursor:pointer;font-size:19px;transition:.15s}
-.pd-rate:hover,.pd-rate[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
-.pd-fb-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.pd-text{min-height:60px!important;width:100%;min-height:76px;border:1px solid var(--pline);border-radius:12px;background:var(--surface-soft);padding:10px 12px;font:inherit;color:var(--pink);resize:vertical}
-/* share */
-.pd-share{padding:15px 18px}
-.pd-share-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.pd-share-row>span{flex-basis:100%;font-size:15px;font-weight:750;margin-bottom:2px}
-.pd-share .pcard{margin-top:12px;width:100%;border-radius:var(--r-sm)}
-/* accordions */
-.pd-acc{border:1px solid var(--pline);border-radius:var(--r-sm);background:var(--surface);overflow:hidden}
-.pd-acc summary{padding:15px 16px;font-size:14px;font-weight:750;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
-.pd-acc summary::-webkit-details-marker{display:none}
-.pd-acc summary::after{content:"+";color:var(--accent);font-size:18px;line-height:18px}
-.pd-acc[open] summary::after{content:"−"}
-.pd-acc-body{padding:0 16px 16px;display:grid;gap:10px;font-size:14px}
-.pd-set .chips{display:flex;flex-wrap:wrap;gap:6px}
-.pd .chip{border:1px solid var(--pline);background:var(--surface);color:var(--pink);font:700 13px var(--pfont);padding:8px 12px;min-height:38px;border-radius:999px}
-.pd .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
-.pd .btn{background:var(--accent);color:#fff;font:700 13px var(--pfont);padding:9px 14px;min-height:38px;border-radius:999px}
-.pd .btn.ghost{background:transparent;color:var(--accent-dark);box-shadow:inset 0 0 0 1px var(--pline)}
-.pd .tablewrap table{font-size:13px}
-.pd .rules-pic .chg.up{color:#23866c}.pd .rules-pic .arrow{color:var(--accent)}
-.pd-foot{text-align:center;color:var(--muted);font-size:12px;margin-top:26px}
-@media (max-width:900px){.pd-layout{grid-template-columns:minmax(0,1.3fr) minmax(280px,.9fr)}.pd-nav{display:none}}
-@media (max-width:760px){
-  .pd-top-in,.pd-main{width:min(100% - 28px,560px)}
-  .pd-top-in{gap:10px;min-height:60px}
-  .pd-tag{display:none}
-  .pd-actions{gap:6px}
-  .pd-skin button{padding:6px 8px;font-size:11px}
-  .pd-play span{display:none}
-  .pd-play{padding:8px 12px}
-  .pd-main{margin:22px auto 40px}
-  .pd-welcome{margin-bottom:16px}
-  .pd-date{display:none}
-  .pd-layout{grid-template-columns:1fr;gap:15px}
-  .pd-col{gap:14px}
-  .pd-card{padding:18px}
-  .pd-days{gap:3px}
-  .pd-stat{gap:8px;padding:10px 9px}
-  .pd-stat strong{font-size:16px}
-  .pd-why{padding-left:18px}
-}
-@media (max-width:430px){
-  .pd-brand{font-size:16px;gap:8px}.pd-mark{width:28px;height:28px;font-size:15px}
-  .pd-avatar.add{display:none}
-  .pd-avatar{width:32px;height:32px}
-  .pd-skills{grid-template-columns:1fr}
-  .pd-stat{flex-direction:column;align-items:flex-start;gap:4px}
-  .pd-sec-head{flex-direction:column;align-items:flex-start;gap:6px}
-}
-@media (max-width:360px){.pd-skin button{padding:5px 7px}.pd-brand .pd-word{display:none}}
-@media (prefers-reduced-motion:reduce){.pd *{transition:none!important}}
 </style>
 </head>
 <body>
@@ -1519,196 +1328,50 @@ function settingsCard(p) {
     <div class="setrow"><span id="s-lang"><strong>Pip's language</strong></span><div class="chips" role="group" aria-labelledby="s-lang">${chip('set-lang', 'en', 'English', c.lang !== 'hi')}${chip('set-lang', 'hi', 'हिन्दी', c.lang === 'hi')}</div><p class="soft">Hindi covers Pip's voice, instructions and praise. Game names stay in English.</p></div>`);
 }
 
-/* ---------- v9: parent dashboard (Quiet / Bright skins) ---------- */
-const SKILL_EMOJI = { memory: '🧠', focus: '🎯', numbers: '🔢', noticing: '👀', logic: '🧩', words: '💬' };
-const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-function skinGet() { try { return localStorage.getItem('mindmint-skin') === 'bright' ? 'bright' : 'quiet'; } catch (e) { return S.skin || 'quiet'; } }
-function skinSet(v) { S.skin = v; try { localStorage.setItem('mindmint-skin', v); } catch (e) { /* in-memory only */ } }
-
-function tonight(p, todays) {
-  const name = esc(p.child.name);
-  const up = todays.filter(e => e.levelEnd > e.levelStart);
-  const hard = todays.filter(e => e.correct / e.trials < 0.6);
-  const weak = todays.find(e => e.strategy && isWeak(e.game, e.strategy));
-  let icon, head, body, say;
-  if (up.length) {
-    const e = up[0], g = GAMES[e.game];
-    icon = GAME_ICON[e.game]; head = `${SKILL_NAME[g.skill]} went up to level ${e.levelEnd}`;
-    body = `In ${g.name}, ${name} now ${g.meaning(e.levelEnd)}.` + (e.strategy && e.strategy !== 'none' ? ` They said they ${STRATS[e.game].name[e.strategy]}.` : '') + ' Naming the trick helps them use it again.';
-    say = `“What trick helped you with ${g.name.replace(/\?$/, '')}?”`;
-  } else if (hard.length) {
-    const e = hard[0], g = GAMES[e.game];
-    icon = GAME_ICON[e.game]; head = `${g.name.replace(/\?$/, '')} was a stretch`;
-    body = `${e.correct} of ${e.trials} right, so the game eased off to level ${e.levelEnd}. That's the plan working: practice should feel winnable.`;
-    say = '“I liked how you kept going on the hard ones.”';
-  } else {
-    const e = todays[0], a = LIFE[e.skill].find(x => x.game === e.game) || LIFE[e.skill][0];
-    icon = '🌱'; head = 'A steady session';
-    body = 'Levels held where they were. Steady days are how the next step gets built.';
-    say = a.ask;
-  }
-  const model = weak ? `<p><b>One thing to model:</b> in ${GAMES[weak.game].name}, ${name} ${STRATS[weak.game].name[weak.strategy]}. Show them: “${STRATS[weak.game].best}”.</p>` : '';
-  const t = p.today && p.today.date === dk(todays[0].ts) ? p.today : null;
-  const warm = t && t.warm && t.warm.answer ? `<p><b>Warm-up:</b> ${t.warm.answer === t.warm.correct ? '✅ remembered yesterday\'s trick.' : `💡 didn't recall “${t.warm.correct}”. Mention it before tomorrow.`}</p>` : '';
-  return `<details class="pd-card pd-challenge"><summary>
-      <span class="pd-ch-ico" aria-hidden="true">${icon}</span>
-      <span class="pd-ch-copy"><span class="pd-eyebrow">🌙 Tonight’s question</span><strong>${head}</strong><span>Ask: ${say}</span></span>
-      <span class="pd-round" aria-hidden="true">↗</span></summary>
-    <div class="pd-why"><p>${body}</p>${model}${warm}</div></details>`;
-}
-
-function skillStatus(w, last) {
-  if (!last) return 'Not started yet';
-  if (!w.played) return 'Resting this week';
-  const d = w.to - w.from;
-  if (d >= 2) return 'New levels unlocked';
-  if (d === 1) return 'Getting stronger';
-  if (d < 0) return 'Eased off to stay winnable';
-  return 'Steady this week';
-}
-function pdSkill(p, s, wk) {
-  const lv = p.skills[s].level, w = wk.skills.find(x => x.s === s), delta = w.played ? w.to - w.from : 0;
-  const hist = p.log.filter(e => e.skill === s), last = hist[hist.length - 1], recent = hist.slice(-7);
-  const inToday = p.today && p.today.date === todayKey() && p.today.plan.some(g => GAMES[g].skill === s);
-  const due = inToday ? { label: "in today's plan" } : nextDue(p, s);
-  const g = last ? last.game : SKILL_GAMES[s][0];
-  const insight = last
-    ? `<span aria-hidden="true">${delta > 0 ? '↗' : delta < 0 ? '↘' : '→'}</span><span><b>${cap(GAMES[g].meaning(lv))}</b> · ${GAMES[g].name}</span>`
-    : `<span aria-hidden="true">✦</span><span><b>Try ${GAMES[g].name}</b> together this week.</span>`;
-  const bars = recent.length ? recent.map((e, i) => `<i class="${i === recent.length - 1 ? 'last' : ''}" style="--h:${18 + e.levelEnd * 8.2}%"></i>`).join('') : Array.from({ length: 7 }, () => '<i class="empty" style="--h:12%"></i>').join('');
-  const chg = delta > 0 ? `<span class="pd-delta up">▲ ${delta}</span>` : delta < 0 ? `<span class="pd-delta down">▼ ${-delta}</span>` : '';
-  const lastIco = last ? (last.levelEnd > last.levelStart ? '📈' : last.levelEnd < last.levelStart ? '📉' : '➖') : '🌱';
-  return `<details class="pd-skill" style="--skill:${SKILL_COLOR[s]}"><summary>
-      <span class="pd-sk-top"><span class="pd-sk-ico" aria-hidden="true">${SKILL_EMOJI[s]}</span><span class="pd-sk-name"><strong>${SKILL_NAME[s]}</strong><span>${skillStatus(w, last)}</span></span>${chg}<span class="pd-level">Level ${lv}</span></span>
-      <span class="pd-progress" role="img" aria-label="Level ${lv} of 10"><span style="width:${lv * 10}%"></span></span>
-      <span class="pd-insight">${insight}</span>
-      <span class="pd-spark" role="img" aria-label="${recent.length ? `Level after each of the last ${recent.length} sessions: ${recent.map(e => e.levelEnd).join(', ')}` : 'No sessions yet'}">${bars}</span>
-      <span class="pd-more"><span class="closed">Details</span><span class="opened">Close</span> <span class="chev" aria-hidden="true"></span></span></summary>
-    <div class="pd-sk-detail">
-      <ul class="pd-games">${SKILL_GAMES[s].map(k => `<li><span class="pd-gi" aria-hidden="true">${GAME_ICON[k]}</span><span><b>${GAMES[k].name}</b>${esc(p.child.name)} ${GAMES[k].meaning(lv)}</span></li>`).join('')}</ul>
-      <div class="pd-facts">
-        <div><span aria-hidden="true">${lastIco}</span><span><b>Last session</b>${last ? changesText(last) : 'Not played yet'}</span></div>
-        ${last ? `<div><span aria-hidden="true">💡</span><span><b>Trick used</b>${last.strategy ? cap(STRATS[last.game].name[last.strategy]) : 'Not answered'}</span></div>` : ''}
-        <div><span aria-hidden="true">📅</span><span><b>Comes back</b>${cap(due.label)}</span></div>
-      </div>
-    </div></details>`;
-}
-
-function pdLife(p) {
-  const q = p.quests[weekKey()] || {}, tot = SKILLS.length * 2, n = Object.values(q).filter(Boolean).length;
-  const ids = SKILLS.flatMap(s => LIFE[s].map((a, i) => [s, i]));
-  const shown = S.lifeAll ? ids : ids.filter(([, i]) => i === 0);
-  const open = S.lifeOpen && ids.find(([s, i]) => `${s}-${i}` === S.lifeOpen);
-  let panel = '';
-  if (open) {
-    const [s, i] = open, a = LIFE[s][i], id = `${s}-${i}`;
-    panel = `<div class="pd-life-panel" style="--skill:${SKILL_COLOR[s]}"><div class="pd-lp-head"><span class="pd-gi" aria-hidden="true">${LIFE_META[s][i][0]}</span><strong>${LIFE_META[s][i][1]}</strong><button class="pd-x" data-act="pd-life" data-k="${id}" aria-label="Close">✕</button></div>
-      <p>${a.parent}</p><p><b>Ask:</b> ${a.ask}</p><p class="pd-muted">Uses the same skill as ${GAMES[a.game].name}.</p>
-      <label class="pd-tried" for="q-${id}"><input type="checkbox" id="q-${id}" data-act="quest" data-k="${id}" ${q[id] ? 'checked' : ''}><span>${q[id] ? '✓ Tried this week' : 'Mark as tried'}</span></label></div>`;
-  }
-  return `<section class="pd-card pd-library" id="pd-play">
-    <div class="pd-card-head"><h2>Play together</h2><button class="pd-link" data-act="pd-life-all">${S.lifeAll ? 'Show fewer' : `All ${tot} activities`}&nbsp; →</button></div>
-    <p class="pd-muted">Quick activities for a little screen-free practice. Tap one to see how.</p>
-    <div class="pd-acts">${shown.map(([s, i]) => {
-      const id = `${s}-${i}`, [ic, short] = LIFE_META[s][i];
-      return `<button class="pd-act ${q[id] ? 'is-tried' : ''} ${S.lifeOpen === id ? 'open' : ''}" id="lt-${id}" data-act="pd-life" data-k="${id}" style="--skill:${SKILL_COLOR[s]}" aria-expanded="${S.lifeOpen === id}">
-        <span class="pd-act-ico" aria-hidden="true">${ic}</span><strong>${short}</strong><span class="pd-act-meta">${SKILL_NAME[s]}<span class="pd-tick">${q[id] ? ' · ✓ tried' : ''}</span></span></button>`;
-    }).join('')}</div>
-    ${panel}
-    <div class="pd-lib-foot"><span id="tried-count"><b>${n}</b> of ${tot} tried this week · no prep needed</span><span class="pd-minibar"><span id="tried-bar" style="width:${Math.round(n / tot * 100)}%"></span></span></div>
-  </section>`;
-}
-
-function pdFeedback(p) {
-  const f = S.fb || (S.fb = { enjoy: null, useful: null, tried: null, pay: null, text: '' });
-  const btn = (k, v, face, label) => `<button type="button" class="pd-rate" data-act="fb" data-k="${k}" data-v="${v}" aria-pressed="${f[k] === v}" aria-label="${label}">${face}</button>`;
-  const five = (k, q) => `<p class="pd-q" id="fb-${k}-l">${q}</p><div class="pd-ratings" role="group" aria-labelledby="fb-${k}-l">${[[1, '😕'], [2, '🙁'], [3, '😐'], [4, '🙂'], [5, '😍']].map(([v, e]) => btn(k, v, e, v + ' out of 5')).join('')}</div>`;
-  return `<section class="pd-card pd-feedback" id="feedback"><h2>How is it going?</h2><p class="pd-muted">Your feedback helps us make Mindmint better for families.</p>
-    ${five('useful', 'Is this week’s progress easy to understand?')}
-    ${five('enjoy', `Did ${esc(p.child.name)} enjoy the games?`)}
-    <div class="pd-fb-pair"><div><p class="pd-q" id="fb-tried-l">Tried a play-together activity?</p><div class="pd-ratings" role="group" aria-labelledby="fb-tried-l">${btn('tried', 'yes', '✅', 'Yes')}${btn('tried', 'notyet', '⏳', 'Not yet')}</div></div>
-    <div><p class="pd-q" id="fb-pay-l">Would you pay ₹199 a month?</p><div class="pd-ratings" role="group" aria-labelledby="fb-pay-l">${btn('pay', 'yes', '👍', 'Yes')}${btn('pay', 'maybe', '🤔', 'Maybe')}${btn('pay', 'no', '👎', 'No')}</div></div></div>
-    <label class="pd-q" for="fb-text">Anything else?</label><textarea id="fb-text" class="pd-text" maxlength="800" placeholder="Loved, confusing, missing…">${esc(f.text)}</textarea>
-    <div class="pd-btns"><a class="pd-btn primary" id="fb-wa" href="${waLink(feedbackText(p))}" target="_blank" rel="noopener">Send on WhatsApp</a><button class="pd-btn" data-act="fb-copy">Copy</button></div>
-    <p class="pd-muted small" id="fb-status" role="status">Your child's name is never included.</p>
-    ${S.fbCopy ? `<label for="fb-box" class="pd-muted">Copying was blocked. Select this text and copy it.</label><textarea id="fb-box" class="pd-text" readonly>${esc(S.fbCopy)}</textarea>` : ''}
-  </section>`;
-}
-
-function pdSettings(p) {
-  const c = p.child;
-  const chip = (act, v, label, on) => `<button type="button" class="chip" data-act="${act}" data-v="${v}" aria-pressed="${on}">${label}</button>`;
-  return `<div class="pd-set"><p class="pd-q" id="s-focus">Focus skills (up to 2)</p><div class="chips" role="group" aria-labelledby="s-focus">${SKILLS.map(k => chip('set-focus', k, `${SKILL_EMOJI[k]} ${SKILL_NAME[k]}`, c.focus.includes(k))).join('')}</div></div>
-    <div class="pd-set"><p class="pd-q" id="s-min">Daily limit</p><div class="chips" role="group" aria-labelledby="s-min">${chip('set-min', 5, '5 min', c.minutes === 5)}${chip('set-min', 10, '10 min', c.minutes === 10)}${chip('set-min', 15, '15 min', c.minutes === 15)}</div></div>
-    <div class="pd-set"><p class="pd-q" id="s-help">Help</p><div class="chips" role="group" aria-labelledby="s-help">${chip('set-read', 1, '🔊 Pip speaks', !!c.readAloud)}${chip('set-timer', 1, '⏱️ No time limits', !!c.noTimer)}${chip('set-sound', 1, '🎵 Sounds', c.sounds !== false)}</div></div>
-    <div class="pd-set"><p class="pd-q" id="s-lang">Pip's language</p><div class="chips" role="group" aria-labelledby="s-lang">${chip('set-lang', 'en', 'English', c.lang !== 'hi')}${chip('set-lang', 'hi', 'हिन्दी', c.lang === 'hi')}</div><p class="pd-muted">Hindi covers Pip's voice, instructions and praise. Game names stay in English.</p></div>
-    <div class="pd-set"><p class="pd-q" id="s-kids">Children</p><div class="chips" role="group" aria-labelledby="s-kids">${profileList().map(k => chip('view-kid', k.id, esc(k.child.name), k.id === p.id).replace('data-v=', 'data-id=')).join('')}${profileList().length < MAX_KIDS ? '<button type="button" class="chip" data-act="add-kid">＋ Add child</button>' : ''}</div></div>`;
-}
-
 function vParent() {
-  const p = P(), name = esc(p.child.name), kids = profileList(), skin = S.skin || skinGet();
+  const p = P(), name = esc(p.child.name), kids = profileList();
   ensureToday(p);
-  const last = p.log[p.log.length - 1], wk = weekData(p), ws = weekStart();
+  const last = p.log[p.log.length - 1], wk = weekData(p);
   const todays = last ? p.log.filter(e => dk(e.ts) === dk(last.ts)) : [];
-  const played = new Set(p.log.map(e => dk(e.ts)));
+  const triedCount = Object.values(p.quests[weekKey()] || {}).filter(Boolean).length;
   const rows = p.log.slice(-20).reverse().map(e => {
     const d = e.levelEnd - e.levelStart;
-    return `<tr><td>${fmtDate(e.ts)}</td><td>${GAME_ICON[e.game]} ${GAMES[e.game].name}${e.free ? ' <span class="pd-muted">(free play)</span>' : ''}</td><td>${e.correct}/${e.trials}</td><td class="${d > 0 ? 'up-t' : d < 0 ? 'down-t' : ''}">${e.levelStart} → ${e.levelEnd}</td><td>${e.fun === 2 ? '😀' : e.fun === 1 ? '🙂' : e.fun === 0 ? '🙁' : '–'}</td></tr>`;
+    return `<tr><td>${fmtDate(e.ts)}</td><td>${GAME_ICON[e.game]} ${GAMES[e.game].name}</td><td>${e.correct}/${e.trials}</td><td class="${d > 0 ? 'up-t' : d < 0 ? 'down-t' : ''}">${e.levelStart} → ${e.levelEnd}</td><td>${e.fun === 2 ? '😀' : e.fun === 1 ? '🙂' : e.fun === 0 ? '🙁' : '–'}</td></tr>`;
   }).join('');
-  const f = funSummary(p), loved = f.filter(x => x.avg >= 1.5).slice(0, 4), meh = f.filter(x => x.avg < 1);
-  const acc = (id, title, inner) => `<details class="pd-acc" ${id ? `id="${id}"` : ''}><summary>${title}</summary><div class="pd-acc-body">${inner}</div></details>`;
-  return `<div class="pd">
-  <header class="pd-top"><div class="pd-top-in">
-    <div class="pd-brand"><span class="pd-mark" aria-hidden="true">m</span><span class="pd-word">mindmint</span><span class="pd-tag">PARENT</span></div>
-    <nav class="pd-nav" aria-label="Sections"><button data-act="pd-jump" data-to="pd-overview">Overview</button><button data-act="pd-jump" data-to="pd-skills">Skills</button><button data-act="pd-jump" data-to="pd-play">Play together</button></nav>
-    <div class="pd-actions">
-      <div class="pd-skin" role="group" aria-label="Choose a look"><button data-act="pd-skin" data-v="quiet" aria-pressed="${skin === 'quiet'}">Quiet</button><button data-act="pd-skin" data-v="bright" aria-pressed="${skin === 'bright'}">Bright</button></div>
-      <div class="pd-kids" role="group" aria-label="Children">${kids.map(k => `<button class="pd-avatar" data-act="view-kid" data-id="${k.id}" aria-pressed="${k.id === p.id}" aria-label="${esc(k.child.name)}" title="${esc(k.child.name)}">${esc(k.child.name.trim().charAt(0).toUpperCase() || '?')}</button>`).join('')}${kids.length < MAX_KIDS ? '<button class="pd-avatar add" data-act="add-kid" aria-label="Add a child" title="Add a child">＋</button>' : ''}</div>
-      <button class="pd-btn primary pd-play" data-act="child" aria-label="Back to ${name}'s games">▶<span> ${name}</span></button>
-    </div></div></header>
-  <main class="pd-main" id="pd-overview">
-    ${p.demo ? `<div class="pd-banner" role="note">Example data, made up to show how it looks. <button class="pd-link" data-act="clear-demo">Remove it</button></div>` : ''}
-    <div class="pd-welcome"><div><p class="pd-eyebrow">Parent dashboard</p><h1>${name}’s learning week</h1><p class="pd-muted">A little progress adds up. Here’s how the week is going.</p></div><span class="pd-date">Week of ${fmtDate(ws)}</span></div>
-    <div class="pd-layout">
-      <section class="pd-col" aria-label="Weekly progress and skills">
-        <article class="pd-card pd-week">
-          <div class="pd-card-head"><h2>This week</h2>${rows ? '<button class="pd-link" data-act="pd-sessions">View all sessions&nbsp; →</button>' : ''}</div>
-          <div class="pd-days" role="img" aria-label="${wk.days} of 7 days active">${DAY_NAMES.map((d, i) => {
-            const day = new Date(ws); day.setDate(day.getDate() + i); const k = dk(day.getTime()), on = played.has(k);
-            return `<div class="pd-day ${on ? 'done' : ''} ${k === todayKey() ? 'today' : ''}"><span class="pd-dot">${on ? '✓' : '·'}</span><span>${d}</span></div>`;
-          }).join('')}</div>
-          <div class="pd-stats">
-            <div class="pd-stat"><span class="pd-stat-ico" aria-hidden="true">✨</span><div><strong>${wk.days} / 7</strong><span>days active</span></div></div>
-            <div class="pd-stat"><span class="pd-stat-ico" aria-hidden="true">⏱️</span><div><strong>${wk.mins} min</strong><span>learning time</span></div></div>
-            <div class="pd-stat"><span class="pd-stat-ico" aria-hidden="true">🎯</span><div><strong>${wk.entries.length}</strong><span>games played</span></div></div>
-          </div>
-        </article>
-        ${last ? tonight(p, todays) : `<div class="pd-card pd-challenge empty"><span class="pd-ch-ico" aria-hidden="true">▶</span><span class="pd-ch-copy"><span class="pd-eyebrow">Getting started</span><strong>Hand the phone to ${name}</strong><span>Progress shows up here after the first game.</span></span></div>`}
-        <section id="pd-skills">
-          <div class="pd-sec-head"><div><h2>Skills</h2><p class="pd-muted">Small wins across the things ${name} is learning. Tap a skill for details.</p></div><span class="pd-key"><i></i>Level after each session</span></div>
-          <div class="pd-skills">${SKILLS.map(s => pdSkill(p, s, wk)).join('')}</div>
-        </section>
-        ${f.length ? `<section class="pd-card pd-favs"><h2>What ${name} enjoys</h2><div class="pd-fav-row">${loved.map(x => `<span class="pd-fav"><b aria-hidden="true">${GAME_ICON[x.g]}</b>${GAMES[x.g].name}</span>`).join('') || '<span class="pd-muted">No favourites yet</span>'}</div>${meh.length ? `<p class="pd-muted">Less keen: ${meh.map(x => `${GAME_ICON[x.g]} ${GAMES[x.g].name}`).join(', ')}</p>` : ''}</section>` : ''}
-      </section>
-      <aside class="pd-col">
-        ${pdLife(p)}
-        ${last ? `<section class="pd-card pd-share" id="share-card"><div class="pd-share-row"><span>Share this week</span><button class="pd-btn primary" data-act="card-make">🖼️ Picture card</button><a class="pd-btn" href="${waLink(weekText(p))}" target="_blank" rel="noopener">Send as text</a><button class="pd-btn" data-act="copy-week">Copy</button></div><span class="pd-muted small" id="copy-status" role="status"></span>
-          ${S.cardImg ? `<img class="pcard" src="${S.cardImg}" alt="Weekly progress card for ${name}"><div class="pd-btns"><button class="pd-btn primary" data-act="card-share">Share picture</button><a class="pd-btn" href="${S.cardImg}" download="mindmint-${esc(p.child.name)}-week.png">Download</a></div><span class="pd-muted small" id="card-status" role="status">On a phone, you can also press and hold the picture to save or forward it.</span>` : ''}${S.copyText ? `<label for="copy-box" class="pd-muted">Copying was blocked. Select this text and copy it.</label><textarea id="copy-box" class="pd-text" readonly>${esc(S.copyText)}</textarea>` : ''}</section>` : ''}
-        ${pdFeedback(p)}
-        ${acc('', 'How levels work', `<div class="rules-pic"><span class="rp">✓ ✓</span><span class="arrow">→</span><span class="chg up">⬆ harder</span><span class="rp">✗</span><span class="arrow">→</span><span class="chg down">⬇ easier</span></div><p class="pd-muted">That keeps practice at about 7 right out of 10. Skills that aren't a focus come back after 1, 2, 4, then 7 days. Levels describe these games only. They are not an IQ score or a school grade, and they don't diagnose anything.</p>`)}
-        ${rows ? acc('pd-sessions', 'All sessions', `<div class="tablewrap"><table><thead><tr><th scope="col">Date</th><th scope="col">Game</th><th scope="col">Right</th><th scope="col">Level</th><th scope="col">Fun</th></tr></thead><tbody>${rows}</tbody></table></div>`) : ''}
-        ${acc('', 'Settings', pdSettings(p))}
-        ${acc('', 'Data &amp; privacy', `<p class="pd-muted">Everything stays in this browser. No ads, no chat, no sharing. Your child’s name stays private when you send feedback.</p><div class="pd-btns" id="del-row"><button class="pd-btn" data-act="delete">Delete ${name}'s data</button></div>`)}
-      </aside>
+  return `
+  <header class="topbar">${brand('Parents')}<button class="btn ghost small" data-act="child">▶ ${name}</button></header>
+  ${p.demo ? `<div class="banner" role="note">Example data, made up to show how it looks. <button class="linkbtn" data-act="clear-demo">Remove it</button></div>` : ''}
+  <nav class="kids" aria-label="Children">${kids.map(k => `<button class="chip" data-act="view-kid" data-id="${k.id}" aria-pressed="${k.id === p.id}">${esc(k.child.name)}</button>`).join('')}${kids.length < MAX_KIDS ? '<button class="chip" data-act="add-kid">＋ Add child</button>' : ''}</nav>
+  <section class="card hero-card">
+    <h1>${name}'s week</h1>
+    ${weekStrip(p)}
+    <div class="tiles">
+      <div><b>${wk.days}/7</b><span>days</span></div>
+      <div><b>${wk.mins}</b><span>minutes</span></div>
+      <div><b>${wk.entries.length}</b><span>games</span></div>
+      <div><b>🌼 ${p.friends.length}</b><span>friends</span></div>
     </div>
-    <p class="pd-foot">A gentle way to see the little things your child is learning.</p>
-  </main></div>`;
+  </section>
+  ${last ? noteCard(p, todays) : `<section class="card"><p>▶ Hand the phone to ${name} to start. Progress shows up here.</p></section>`}
+  <section class="card"><div class="card-head"><h2>Skills</h2><span class="legend-line"><span class="segbar mini" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>Levels 1 to 10 <span class="chg-pill up">▲</span> this week</span></div>
+    <div class="skrows">${SKILLS.map(s => skillRow(p, s, wk)).join('')}</div>
+    <p class="soft hint">Tap a skill to see what its level means and why it changed.</p></section>
+  ${favRow(p)}
+  <section class="card"><div class="card-head"><div><h2>Off-screen play</h2><p class="soft">Everyday games that use the same skills.</p></div>
+    <div class="tried-meter"><span id="tried-count"><b>${triedCount}</b> of ${SKILLS.length * 2} tried this week</span><span class="minibar"><span id="tried-bar" style="width:${Math.round(triedCount / (SKILLS.length * 2) * 100)}%"></span></span></div></div>${lifeGrid(p)}</section>
+  ${last ? `<section class="card share" id="share-card"><h3>📤 Share this week</h3><div class="row"><button class="btn small" data-act="card-make">🖼️ Picture card</button><a class="btn small ghost" href="${waLink(weekText(p))}" target="_blank" rel="noopener">Send as text</a><button class="btn small ghost" data-act="copy-week">Copy</button><span class="soft" id="copy-status" role="status"></span></div>
+    ${S.cardImg ? `<img class="pcard" src="${S.cardImg}" alt="Weekly progress card for ${name}"><div class="row"><button class="btn small" data-act="card-share">Share picture</button><a class="btn small ghost" href="${S.cardImg}" download="mindmint-${esc(p.child.name)}-week.png">Download</a><span class="soft" id="card-status" role="status"></span></div><p class="soft">On a phone, you can also press and hold the picture to save or forward it.</p>` : ''}${S.copyText ? `<label for="copy-box" class="soft">Copying was blocked. Select this text and copy it.</label><textarea id="copy-box" readonly>${esc(S.copyText)}</textarea>` : ''}</section>` : ''}
+  ${feedbackCard(p)}
+  ${fold('📏 How levels work', `<div class="rules-pic"><span class="rp">✓ ✓</span><span class="arrow">→</span><span class="chg up">⬆ harder</span><span class="rp">✗</span><span class="arrow">→</span><span class="chg down">⬇ easier</span></div>
+    <p class="soft">That keeps practice at about 7 right out of 10. Skills that aren't a focus come back after 1, 2, 4, then 7 days. Levels describe these games only. They are not an IQ score or a school grade, and they don't diagnose anything.</p>`)}
+  ${rows ? fold('🗓️ All sessions', `<div class="tablewrap"><table><thead><tr><th scope="col">Date</th><th scope="col">Game</th><th scope="col">Right</th><th scope="col">Level</th><th scope="col">Fun</th></tr></thead><tbody>${rows}</tbody></table></div>`) : ''}
+  ${settingsCard(p)}
+  ${fold('🔐 Data and safety', `<p>Everything stays in this browser. No ads, no chat, no sharing.</p><div class="row" id="del-row"><button class="btn ghost small" data-act="delete">Delete ${name}'s data</button></div>`)}`;
 }
 
 /* ---------- Render ---------- */
 function render() {
   document.body.classList.toggle('grownup', S.screen === 'parent');
-  document.body.dataset.skin = S.skin || skinGet();
   const views = { welcome: vWelcome, setup: vSetup, home: vHome, game: () => vGameShell(S.playing), result: vResult, done: vDone, calm: vCalm, garden: vGarden, games: vGames, parent: vParent };
   app.innerHTML = (views[S.screen] || vWelcome)();
   if (S.screen !== 'game') { try { window.scrollTo(0, 0); } catch (e) { /* ignore */ } }
@@ -2702,14 +2365,6 @@ app.addEventListener('click', e => {
     case 'calm': S.screen = 'calm'; render(); runCalm(); break;
     case 'calm-done': token++; S.screen = 'done'; render(); break;
     case 'child': S.screen = 'home'; render(); break;
-    case 'pd-skin': skinSet(t.dataset.v); document.body.dataset.skin = t.dataset.v; setChipGroup(t, c => c === t); break;
-    case 'pd-jump': { const el = document.getElementById(t.dataset.to); if (el) try { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (err) { el.scrollIntoView(); } break; }
-    case 'pd-sessions': { const el = $('#pd-sessions'); if (el) { el.open = true; try { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (err) { el.scrollIntoView(); } } break; }
-    case 'pd-life': case 'pd-life-all': {
-      if (act === 'pd-life') S.lifeOpen = S.lifeOpen === t.dataset.k ? null : t.dataset.k; else { S.lifeAll = !S.lifeAll; if (!S.lifeAll && S.lifeOpen && !S.lifeOpen.endsWith('-0')) S.lifeOpen = null; }
-      const sec = $('#pd-play'); if (sec) { sec.outerHTML = pdLife(p); const btn = S.lifeOpen && act === 'pd-life' ? $('#lt-' + S.lifeOpen) : null; if (btn) btn.focus(); }
-      break;
-    }
     case 'view-kid': S.activeId = t.dataset.id; S.copyText = null; S.fbCopy = null; S.cardImg = null; save(); render(); break;
     case 'set-focus': { const v = t.dataset.v, f = p.child.focus; if (f.includes(v)) f.splice(f.indexOf(v), 1); else { f.push(v); if (f.length > 2) f.shift(); } setChipGroup(t, c => f.includes(c.dataset.v)); save(); break; }
     case 'set-min': p.child.minutes = +t.dataset.v; setChipGroup(t, c => c === t); save(); break;
@@ -2737,10 +2392,8 @@ app.addEventListener('change', e => {
   const t = e.target; if (t.dataset.act !== 'quest') return;
   const p = P(), wk = weekKey(); p.quests[wk] = p.quests[wk] || {}; p.quests[wk][t.dataset.k] = t.checked; save();
   const tile = t.closest('.lifetile'); if (tile) { tile.classList.toggle('done', t.checked); const lab = tile.querySelector('.tried span'); if (lab) lab.textContent = t.checked ? '✓ Tried' : 'Mark tried'; }
-  const act = $('#lt-' + t.dataset.k); if (act) { act.classList.toggle('is-tried', t.checked); const tk = act.querySelector('.pd-tick'); if (tk) tk.textContent = t.checked ? ' · ✓ tried' : ''; }
-  const lab2 = t.closest('.pd-tried'); if (lab2) lab2.querySelector('span').textContent = t.checked ? '✓ Tried this week' : 'Mark as tried';
   const n = Object.values(p.quests[wk]).filter(Boolean).length, tot = SKILLS.length * 2, tc = $('#tried-count'), tb = $('#tried-bar');
-  if (tc) tc.innerHTML = `<b>${n}</b> of ${tot} tried this week${$('.pd') ? ' · no prep needed' : ''}`; if (tb) tb.style.width = Math.round(n / tot * 100) + '%';
+  if (tc) tc.innerHTML = `<b>${n}</b> of ${tot} tried this week`; if (tb) tb.style.width = Math.round(n / tot * 100) + '%';
   if (t.checked) sfx('ok');
 });
 app.addEventListener('input', e => {
