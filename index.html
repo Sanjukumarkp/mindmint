@@ -459,6 +459,10 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .gq{font:700 1.15rem/1.35 var(--font-body)}
 .gnote{display:block;font:500 .8rem var(--font-body);color:var(--moon-soft);margin-top:4px}
 .opt-txt{font:800 1.05rem var(--font-display)}
+.place-banner{appearance:none;border:2px dashed rgba(255,207,92,.6);width:100%;display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:20px;cursor:pointer;color:inherit;background:rgba(255,207,92,.08);font:inherit;text-align:left;margin-top:6px}
+.place-banner .tb-ico{font-size:2rem}.place-banner .tb-txt{flex:1;display:flex;flex-direction:column}.place-banner b{font:800 1.15rem var(--font-display)}.place-banner small{color:var(--moon-soft)}.place-banner .tb-go{font:800 1.8rem var(--font-display)}
+.start-pill{margin-left:auto;background:var(--glow);color:#1f1c3f;font:800 .8rem var(--font-display);padding:4px 10px;border-radius:999px}
+.place-line{margin:10px 0 0;font-size:.95rem}
 /* v8 games library */
 .lib-open{align-self:center;min-height:52px;font-size:1.1rem}
 .lib-skill{margin-top:18px}
@@ -2925,12 +2929,46 @@ const tmeter = level => `<span class="meter" role="img" aria-label="Level ${leve
 const tui = my => ({ alive: () => my === token, say: t => { const el = $('#say'); if (el) el.innerHTML = t; speak(mathSpeak(t)); } });
 
 /* ---------- Views ---------- */
+const PLACE = [['add', 4], ['tbl', 2], ['nikhilam', 2], ['pct', 3], ['ap', 2], ['eq', 3], ['qeq', 3]];
+async function runPlacement() {
+  const my = ++token, p = P(); S.tmode = 'place'; S.screen = 'tplay'; render();
+  const ui = tui(my), board = $('#board'), results = []; let misses = 0, firstMiss = null;
+  ui.say(TX("No stress! Just try your best. Skip with any answer if you don't know.", 'घबराओ मत! बस कोशिश करो। न आए तो कुछ भी लिखकर आगे बढ़ो।'));
+  await wait(1600);
+  for (let i = 0; i < PLACE.length; i++) {
+    if (!ui.alive()) return;
+    dots(PLACE.length, results);
+    const [id, lv] = PLACE[i], t = TRK[id], q = t.gen(lv);
+    ui.say(`${TX('Question', 'सवाल')} ${i + 1}: ${TX(...t.name)}`);
+    const r = await askQuestion(board, q, ui, { hints: false, speed: true });
+    if (!ui.alive() || r.timeout) return;
+    results.push(r.correct); sfx(r.correct ? 'ok' : 'miss');
+    if (!r.correct) { misses++; if (firstMiss === null) firstMiss = i; if (misses >= 2) break; }
+    await wait(400);
+  }
+  if (!ui.alive()) return;
+  const sec = firstMiss === null ? 'hs' : t2sec(PLACE[firstMiss][0]);
+  p.tplace = { sec, ts: Date.now(), right: results.filter(Boolean).length, asked: results.length };
+  S.screen = 'tplace'; save(); render(); setTimeout(() => { sfx('done'); celebrate(); }, 200);
+}
+const t2sec = id => TSEC[id];
+function vPlaceResult() {
+  const p = P(), pl = p.tplace, sec = TSECTIONS.find(x => x[0] === pl.sec), first = TRICKS.find(t => t.sec === pl.sec);
+  return `
+  <header class="topbar">${brand()}</header>
+  <section class="card result-hero"><span class="game-ico xl" aria-hidden="true">${sec[2]}</span>
+    <p class="eyebrow">${TX('Your starting point', 'तुम्हारी शुरुआत')}</p><h2>${TX(...sec[1])}</h2>
+    <p class="soft">${TX(`You got ${pl.right} of ${pl.asked} right. Start with "${first.name[0]}" and work down.`, `${pl.asked} में से ${pl.right} सही। "${first.name[1]}" से शुरू करो और नीचे बढ़ो।`)}</p></section>
+  <div class="row tcenter-row"><button class="btn big play" data-tact="hub" data-id="${first.id}">▶ ${TX('Start', 'शुरू करो')}</button><button class="btn ghost" data-tact="tricks">🧮 ${TX('All tricks', 'सारी तरकीबें')}</button></div>`;
+}
+
 function vTricks() {
   const p = P(), T = TS(p);
   return `
   <header class="topbar">${brand()}<button class="btn ghost small" data-tact="tricks-back">${L('back')}</button></header>
   <section class="pip-say compact">${pipSvg(60, true)}<div class="bubble">${TX('Learn a maths trick! One at a time.', 'गणित की एक तरकीब सीखो! एक-एक करके।')}</div>${hearBtn()}</section>
-  ${TSECTIONS.map(([sec, nm, ic]) => `<h2 class="tsec-head"><span aria-hidden="true">${ic}</span> ${TX(...nm)}</h2><ol class="tpath" aria-label="${nm[0]}">${TRICKS.map((t, i) => [t, i]).filter(([t]) => t.sec === sec).map(([t, i]) => {
+  <button class="place-banner" data-tact="place"><span class="tb-ico" aria-hidden="true">🧭</span><span class="tb-txt"><b>${p.tplace ? TX('Check my starting point again', 'शुरुआत फिर से जाँचो') : TX('Where should I start?', 'कहाँ से शुरू करूँ?')}</b><small>${p.tplace ? `${TX('Last result', 'पिछला नतीजा')}: ${TX(...TSECTIONS.find(x => x[0] === p.tplace.sec)[1])}` : TX('A 2-minute check finds your level', '2 मिनट की जाँच तुम्हारा लेवल बताएगी')}</small></span><span class="tb-go" aria-hidden="true">›</span></button>
+  ${TSECTIONS.map(([sec, nm, ic]) => `<h2 class="tsec-head" id="sec-${sec}"><span aria-hidden="true">${ic}</span> ${TX(...nm)}${p.tplace && p.tplace.sec === sec ? `<span class="start-pill">⭐ ${TX('Start here', 'यहाँ से शुरू')}</span>` : ''}</h2><ol class="tpath" aria-label="${nm[0]}">${TRICKS.map((t, i) => [t, i]).filter(([t]) => t.sec === sec).map(([t, i]) => {
     const s = T[t.id], open = tunlocked(p, i);
     return `<li><button class="tnode ${open ? '' : 'locked'} ${s.mastered ? 'mastered' : ''}" style="--c:${t.color}" data-tact="hub" data-id="${t.id}" ${open ? '' : 'disabled'} aria-label="${t.name[0]}${open ? `, level ${s.level}` : ', locked'}">
       <span class="tn-num" aria-hidden="true">${i + 1}</span><span class="tn-ico" aria-hidden="true">${open ? t.icon : '🔒'}</span>
@@ -2958,6 +2996,11 @@ function vTrickHub() {
 }
 
 function vTrickShell() {
+  if (S.tmode === 'place') return `
+  <header class="topbar"><div class="brand"><span aria-hidden="true">🧭</span> ${TX('Starting point check', 'शुरुआत की जाँच')}</div><button class="btn ghost small" data-tact="tricks">${TX('Stop', 'रुको')}</button></header>
+  <div class="trialbar" id="dots" aria-hidden="true"></div>
+  <div class="pip-say compact">${pipSvg(52, true)}<div class="bubble" id="say" role="status" aria-live="polite">…</div>${hearBtn()}</div>
+  <div id="board" class="board tboard"></div>`;
   const t = TRK[S.tid], s = TS(P())[S.tid];
   return `
   <header class="topbar"><div class="brand"><span aria-hidden="true">${t.icon}</span> ${TX(...t.name)}</div><button class="btn ghost small" data-tact="tstop">${TX('Stop', 'रुको')}</button></header>
@@ -3195,6 +3238,7 @@ function tricksCard(p) {
         <span class="segbar six" role="img" aria-label="Level ${s.level} of ${TMAX}">${Array.from({ length: TMAX }, (_, j) => `<i class="${s.plays && j < s.level ? 'on' : ''}"></i>`).join('')}</span>
         <p class="soft tr-mean">${s.plays ? `${name} ${t.mean[s.level - 1]}.` : `${t.rule(1)[0]}.`}${s.best ? ` ⚡ Best: ${s.best} right in 60 s.` : ''}${t.sutra ? ` <i>${t.sutra}</i>` : ''}</p></div></div>`;
     }).join('')}</div>
+    <p class="place-line">🧭 ${p.tplace ? `Suggested start: <b>${TSECTIONS.find(x => x[0] === p.tplace.sec)[1][0]}</b> (starting-point check, ${p.tplace.right} of ${p.tplace.asked} right).` : `No starting-point check yet. Ask ${name} to tap "Where should I start?" in Maths tricks.`}</p>
     <p class="soft hint">${week.length ? `${week.length} trick session${week.length > 1 ? 's' : ''} this week.` : 'No trick sessions this week yet.'} The next trick opens after the one before it has been practised once.</p></section>`;
 }
 
@@ -3202,13 +3246,14 @@ function tricksCard(p) {
 app.addEventListener('click', e => {
   const b = e.target.closest('[data-tact]'); if (!b) return;
   const a = b.dataset.tact, p = P(); if (!p) return;
-  if (a === 'tricks') { token++; if (['home', 'games', 'done'].includes(S.screen)) S.tricksFrom = S.screen; S.screen = 'tricks'; render(); }
+  if (a === 'tricks') { const fromPlace = S.screen === 'tplace'; token++; if (['home', 'games', 'done'].includes(S.screen)) S.tricksFrom = S.screen; S.screen = 'tricks'; render(); if (fromPlace && p.tplace) { const h = $('#sec-' + p.tplace.sec); if (h) try { h.scrollIntoView({ block: 'start' }); } catch (e2) {} } }
   else if (a === 'tricks-back') { token++; S.screen = S.tricksFrom || 'home'; render(); }
   else if (a === 'hub') { const id = b.dataset.id; S.tid = id; if (!TS(p)[id].learned) runLesson(id); else { token++; S.screen = 'thub'; render(); } }
   else if (a === 'lesson') runLesson(S.tid);
   else if (a === 'practice') runPractice(S.tid);
   else if (a === 'speed') runSpeed(S.tid);
   else if (a === 'tstop') { token++; S.screen = 'thub'; render(); }
+  else if (a === 'place') runPlacement();
   else if (a === 'tstrat') {
     const e2 = S.tcur; e2.strategy = b.dataset.v; save();
     b.closest('.pick-col').querySelectorAll('.pick').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
@@ -3219,7 +3264,7 @@ app.addEventListener('click', e => {
 /* ---------- Render ---------- */
 function render() {
   document.body.classList.toggle('grownup', S.screen === 'parent');
-  const views = { welcome: vWelcome, setup: vSetup, home: vHome, game: () => vGameShell(S.playing), result: vResult, done: vDone, calm: vCalm, garden: vGarden, games: vGames, tricks: vTricks, thub: vTrickHub, tplay: vTrickShell, tresult: vTrickResult, parent: vParent };
+  const views = { welcome: vWelcome, setup: vSetup, home: vHome, game: () => vGameShell(S.playing), result: vResult, done: vDone, calm: vCalm, garden: vGarden, games: vGames, tricks: vTricks, thub: vTrickHub, tplay: vTrickShell, tresult: vTrickResult, tplace: vPlaceResult, parent: vParent };
   app.innerHTML = (views[S.screen] || vWelcome)();
   if (S.screen !== 'game') { try { window.scrollTo(0, 0); } catch (e) { /* ignore */ } }
   if (['home', 'done', 'games', 'tricks', 'thub'].includes(S.screen)) { const b = app.querySelector('.bubble'); if (b) speak(b.textContent); }

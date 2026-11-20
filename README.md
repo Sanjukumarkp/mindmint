@@ -25,3 +25,5 @@ A separate track of forty-six tricks in six sections (Starter, Vedic tricks, Mat
 Shapes (geometry, drawn on screen): four-sided shapes, area and perimeter, circles (π = 22/7), 3D shapes (faces, edges, vertices, volume, surface area), tricky composite shapes, and angles.
 
 High school (14+): quadratic equations, from x² = n² through factorising to Sridharacharya's b² − 4ac check; surds and indices, from the laws of powers to simplifying and multiplying surds; trigonometry (SOH CAH TOA, standard values with the finger trick, heights and distances); coordinates and conics (distance, midpoint, slope, circles, parabola focus, ellipse axis); simultaneous equations; logarithms; number patterns (AP and GP, including Gauss's trick); probability; simple and compound interest; counting ways (permutations and combinations).
+
+A 2-minute starting-point check (🧭 "Where should I start?") asks up to 7 questions of rising difficulty, stops after the second miss, and marks the section to start in, on the tricks path and on the parent card.
