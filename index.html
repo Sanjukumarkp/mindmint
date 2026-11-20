@@ -423,6 +423,8 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .tsteps .frac{font-size:.85em}
 .tsteps .frac>span:first-child{border-bottom-width:2px}
 .key.wide{grid-column:1/-1;height:54px}
+.key.wide2{grid-column:span 2}
+.nowrap{white-space:nowrap}
 .tq.wordy{font:700 1.25rem/1.4 var(--font-body);letter-spacing:0;display:block;text-align:center}
 .tq.wordy .frac{font:800 1.7rem var(--font-display);margin:0 4px}
 .tq2{margin-top:10px}
@@ -2528,6 +2530,56 @@ TSECTIONS.splice(3, 0, ['geo', ['Shapes', 'आकृतियाँ'], '📐']);
 TRICKS.sort((x, y) => TORDER.indexOf(x.id) - TORDER.indexOf(y.id));
 TRICKS.forEach(t => { t.sec = TSEC[t.id]; });
 
+/* ---------- v17: quadratic equations (High school section) ---------- */
+const term = (c, v, first) => { if (c === 0) return ''; const s = c < 0 ? (first ? '−' : ' − ') : (first ? '' : ' + '); const m = Math.abs(c); return s + (v ? (m === 1 ? '' : m) + v : m); };
+const polyStr = (a, b, c) => { let s = term(a, 'x²', true); s += term(b, 'x', !s); s += term(c, '', !s); return s || '0'; };
+const sgn = n => (n < 0 ? `−${-n}` : `${n}`);
+const rootsMatch = roots => g => { const v = g.split(',').filter(Boolean).map(Number); if (!v.length || v.some(n => !Number.isFinite(n))) return false; const A = [...new Set(v)].sort((x, y) => x - y).join(','), B = [...new Set(roots)].sort((x, y) => x - y).join(','); return A === B; };
+function qeqGen(l) {
+  const r = rand, nz2 = (lo, hi) => { let v; do { v = r(lo, hi); } while (v === 0); return v; };
+  let a = 1, b, c, roots, steps, q, extra = ['neg', 'comma'];
+  if (l === 1) {
+    const n = r(2, 15); roots = [n, -n]; q = `x² = ${n * n}`; b = 0; c = -n * n;
+    steps = [[`Square root of ${n * n} is <b>${n}</b>`, `${n * n} का वर्गमूल <b>${n}</b>`], [`${n} × ${n} = ${n * n} and (−${n}) × (−${n}) = ${n * n} too`, `${n} × ${n} = ${n * n} और (−${n}) × (−${n}) = ${n * n} भी`], [`So x = <b>${n}</b> or <b>−${n}</b>`, `तो x = <b>${n}</b> या <b>−${n}</b>`]];
+  } else if (l === 2) {
+    const p = nz2(-9, 9); let s; do { s = nz2(-9, 9); } while (s === p); roots = [p, s];
+    const f = v => (v < 0 ? `(x + ${-v})` : `(x − ${v})`); q = `${f(p)}${f(s)} = 0`; b = -(p + s); c = p * s;
+    steps = [['Two things multiply to 0, so one of them must be 0', 'दो चीज़ों का गुणा 0 है, तो उनमें से एक 0 होगी'], [`${f(p)} = 0 → x = <b>${sgn(p)}</b>`, `${f(p)} = 0 → x = <b>${sgn(p)}</b>`], [`${f(s)} = 0 → x = <b>${sgn(s)}</b>`, `${f(s)} = 0 → x = <b>${sgn(s)}</b>`]];
+  } else if (l === 3 || l === 4 || l === 5) {
+    let p, s; do { if (l === 3) { p = r(1, 9); s = r(1, 9); } else { p = nz2(-10, 10); s = nz2(-10, 10); } } while (l > 3 && p > 0 && s > 0);
+    if (l === 5) a = pick([2, 3, 4, 5]);
+    roots = [p, s]; b = -(p + s); c = p * s;
+    const m = -p, n = -s, fx = v => (v < 0 ? `(x − ${-v})` : `(x + ${v})`);
+    q = `${polyStr(a * 1, a * b, a * c)} = 0`;
+    steps = [];
+    if (l === 5) steps.push([`Divide everything by ${a} first: ${polyStr(1, b, c)} = 0`, `पहले सब को ${a} से भाग दो: ${polyStr(1, b, c)} = 0`]);
+    steps.push([`Find two numbers that multiply to ${sgn(c)} and add to ${sgn(b)}: <b>${sgn(m)}</b> and <b>${sgn(n)}</b>`, `दो संख्याएँ ढूँढो जिनका गुणा ${sgn(c)} और जोड़ ${sgn(b)} हो: <b>${sgn(m)}</b> और <b>${sgn(n)}</b>`],
+      [`So ${fx(m)}${fx(n)} = 0`, `तो ${fx(m)}${fx(n)} = 0`],
+      [`Each bracket can be 0: x = <b>${sgn(p)}</b> or x = <b>${sgn(s)}</b>`, `हर कोष्ठक 0 हो सकता है: x = <b>${sgn(p)}</b> या x = <b>${sgn(s)}</b>`]);
+    b = a * b; c = a * c;
+  } else {
+    const want = pick([0, 1, 2]); let D;
+    do { a = r(1, 4); b = r(-12, 12); c = nz2(-15, 15); D = b * b - 4 * a * c; } while ((want === 0 && D >= 0) || (want === 1 && D !== 0) || (want === 2 && D <= 0));
+    if (want === 1) { do { a = r(1, 3); const h = nz2(-6, 6); b = -2 * a * h; c = a * h * h; D = b * b - 4 * a * c; } while (D !== 0); }
+    q = `${polyStr(a, b, c)} = 0`;
+    const n = D > 0 ? 2 : D === 0 ? 1 : 0;
+    return { q: `${q}<span class="tq-l">${TX('How many solutions?', 'कितने हल?')}</span>`, a: String(n), kind: 'num', label: TX('Solutions:', 'हल:'),
+      steps: [["Sridharacharya's check: look at b² − 4ac", 'श्रीधराचार्य की जाँच: b² − 4ac देखो'], [`a = ${a}, b = ${sgn(b)}, c = ${sgn(c)}: ${b < 0 ? `(${sgn(b)})` : b}² − 4 × ${a} × ${c < 0 ? `(${sgn(c)})` : c} = <b>${sgn(D)}</b>`, `a = ${a}, b = ${sgn(b)}, c = ${sgn(c)}: ${b < 0 ? `(${sgn(b)})` : b}² − 4 × ${a} × ${c < 0 ? `(${sgn(c)})` : c} = <b>${sgn(D)}</b>`], [D > 0 ? 'More than 0 → <b>2</b> solutions' : D === 0 ? 'Exactly 0 → <b>1</b> solution' : 'Less than 0 → <b>0</b> real solutions', D > 0 ? '0 से ज़्यादा → <b>2</b> हल' : D === 0 ? 'ठीक 0 → <b>1</b> हल' : '0 से कम → <b>0</b> वास्तविक हल'], ANS(n)],
+      check: String(n), quadD: [a, b, c] };
+  }
+  const uniq = [...new Set(roots)].sort((x, y) => y - x), A = uniq.join(',');
+  steps.push([`Answer: <b>x = ${uniq.map(sgn).join(', ')}</b>`, `जवाब: <b>x = ${uniq.map(sgn).join(', ')}</b>`]);
+  return { q, a: A, kind: 'num', label: 'x =', extra, note: uniq.length > 1 ? ['Type both answers with a comma, like <span class="nowrap">3, −5</span>', 'दोनों जवाब कॉमा से लिखो, जैसे <span class="nowrap">3, −5</span>'] : null, match: rootsMatch(roots), steps, check: A, quad: [a, b, c, roots] };
+}
+TRICKS.push({ id: 'qeq', icon: '📈', color: '#4c9be8', name: ['Quadratic equations', 'द्विघात समीकरण'], sutra: "Sridharacharya's rule", gen: qeqGen,
+  rule: l => [null, ['x² = n² means x = n or −n', 'x² = n² मतलब x = n या −n'], ['If two brackets multiply to 0, one of them is 0', 'दो कोष्ठकों का गुणा 0 है, तो एक 0 है'], ['Find two numbers: they multiply to c and add to b', 'दो संख्याएँ ढूँढो: गुणा c, जोड़ b'], ['Same idea, but watch the minus signs', 'वही तरीका, पर ऋण चिह्न देखो'], ['Divide by the number in front of x² first', 'पहले x² के आगे वाली संख्या से भाग दो'], ['b² − 4ac: more than 0 → 2, zero → 1, less than 0 → none', 'b² − 4ac: 0 से ज़्यादा → 2, शून्य → 1, 0 से कम → कोई नहीं']][l],
+  alt: [['formula', ['Used the full formula', 'पूरा सूत्र लगाया'], '🧮'], ['guess', ['Guessed and checked', 'अंदाज़ा लगाकर जाँचा'], '🎲']],
+  mean: ['solves x² = n² (both answers)', 'solves equations already in brackets', 'factorises x² + bx + c with positive answers', 'factorises with negative answers', 'factorises when there is a number in front of x²', "uses Sridharacharya's b² − 4ac check to count solutions"] });
+TSECTIONS.push(['hs', ['High school (14+)', 'हाई स्कूल (14+)'], '🎓']);
+TORDER.push('qeq'); TSEC.qeq = 'hs';
+TRICKS.sort((x, y) => TORDER.indexOf(x.id) - TORDER.indexOf(y.id));
+TRICKS.forEach(t => { t.sec = TSEC[t.id]; });
+
 const TRK = Object.fromEntries(TRICKS.map(t => [t.id, t]));
 
 function TS(p) {
@@ -2622,9 +2674,9 @@ function vTrickResult() {
 
 /* ---------- Question input (keypad or yes/no) ---------- */
 const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'del', '0', 'ok'], KEYS_DOT = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'dot', '0', 'del', 'ok'];
-const keysFor = q => (q.dot ? KEYS_DOT : q.extra ? ['1', '2', '3', '4', '5', '6', '7', '8', '9', q.extra, '0', 'del', 'ok'] : KEYS);
-const fmtA = v => String(v).replace(/R/g, ' R ').replace(/×/g, ' × ');
-const KEY_LBL = { del: ['⌫', 'Delete'], ok: ['✓', 'Check'], dot: ['.', 'Decimal point'], rem: ['R', 'Remainder'], mul: ['×', 'Times'], slash: ['/', 'Fraction line'] };
+const keysFor = q => (Array.isArray(q.extra) ? ['1', '2', '3', '4', '5', '6', '7', '8', '9', q.extra[0], '0', q.extra[1], 'del', 'ok'] : q.dot ? KEYS_DOT : q.extra ? ['1', '2', '3', '4', '5', '6', '7', '8', '9', q.extra, '0', 'del', 'ok'] : KEYS);
+const fmtA = v => String(v).replace(/R/g, ' R ').replace(/×/g, ' × ').replace(/-/g, '−').replace(/,/g, ', ');
+const KEY_LBL = { del: ['⌫', 'Delete'], ok: ['✓', 'Check'], dot: ['.', 'Decimal point'], rem: ['R', 'Remainder'], mul: ['×', 'Times'], slash: ['/', 'Fraction line'], neg: ['−', 'Minus'], comma: [',', 'Comma'] };
 const qHead = (q, ansHtml) => q.label ? `<div class="tq ${q.wordy ? 'wordy' : ''}">${q.q}</div><div class="tq tq2"><span class="eq">${q.label}</span> ${ansHtml}${q.suffix ? ` <span class="eq">${q.suffix}</span>` : ''}</div>` : `<div class="tq">${q.q} <span class="eq">=</span> ${ansHtml}</div>`;
 async function askQuestion(board, q, ui, o) {
   if (q.memo) {
@@ -2643,7 +2695,7 @@ function askQuestion0(board, q, ui, o) {
     <ol class="tsteps" id="tsteps"></ol>
     <div id="tin">${yn
       ? (q.kind === 'opt' ? `<div class="yn opts4">${q.opts.map(x => `<button class="ynb" data-v="${x.v}" aria-label="${x.v}">${x.html}</button>`).join('')}</div>` : `<div class="yn"><button class="ynb" data-v="yes">✅ ${TX('Yes', 'हाँ')}</button><button class="ynb" data-v="no">❌ ${TX('No', 'नहीं')}</button></div>`)
-      : `<div class="keypad">${keysFor(q).map((k, i, all) => `<button class="key ${k}${all.length === 13 && k === 'ok' ? ' wide' : ''}" data-k="${k}" aria-label="${KEY_LBL[k] ? KEY_LBL[k][1] : k}">${KEY_LBL[k] ? KEY_LBL[k][0] : k}</button>`).join('')}</div>`}</div>
+      : `<div class="keypad">${keysFor(q).map((k, i, all) => `<button class="key ${k}${all.length === 13 && k === 'ok' ? ' wide' : all.length === 14 && k === 'ok' ? ' wide2' : ''}" data-k="${k}" aria-label="${KEY_LBL[k] ? KEY_LBL[k][1] : k}">${KEY_LBL[k] ? KEY_LBL[k][0] : k}</button>`).join('')}</div>`}</div>
     ${o.hints ? `<button class="btn ghost small thint" id="thint">💡 ${TX('Show me a step', 'एक कदम दिखाओ')}</button>` : ''}`;
   const tans = board.querySelector('#tans'), list = board.querySelector('#tsteps'), hintB = board.querySelector('#thint');
   let val = '', shown = 0, hinted = false, over = false;
@@ -2678,6 +2730,8 @@ function askQuestion0(board, q, ui, o) {
       if (yn) return;
       if (k === 'del') val = val.slice(0, -1);
       else if (k === 'rem') { if (val && !val.includes('R') && val.length < max) val += 'R'; }
+      else if (k === 'neg') { if ((val === '' || val.endsWith(',')) && val.length < max) val += '-'; }
+      else if (k === 'comma') { if (val && !/[,-]$/.test(val) && !val.includes(',') && val.length < max) val += ','; }
       else if (k === 'slash') { if (val && !val.includes('/') && val.length < max) val += '/'; }
       else if (k === 'mul') { if (val && !val.endsWith('×') && val.length < max) val += '×'; }
       else if (k === 'dot') { if (!val.includes('.') && val.length < max) val += val ? '.' : '0.'; }
@@ -2694,7 +2748,7 @@ function askQuestion0(board, q, ui, o) {
       if (!ui.alive()) { window.removeEventListener('keydown', onKey); return; }
       if (q.kind === 'opt') return;
       if (yn) { if (/^[yY]$/.test(e.key)) finish('yes'); else if (/^[nN]$/.test(e.key)) finish('no'); return; }
-      if (/^[0-9]$/.test(e.key)) press(e.key); else if (e.key === '.' && q.dot) press('dot'); else if (/^[rR]$/.test(e.key) && q.extra === 'rem') press('rem'); else if (/^[*xX]$/.test(e.key) && q.extra === 'mul') press('mul'); else if (e.key === '/' && q.extra === 'slash') { e.preventDefault(); press('slash'); } else if (e.key === 'Backspace') press('del'); else if (e.key === 'Enter') { e.preventDefault(); press('ok'); }
+      if (/^[0-9]$/.test(e.key)) press(e.key); else if (e.key === '.' && q.dot) press('dot'); else if (/^[rR]$/.test(e.key) && q.extra === 'rem') press('rem'); else if (/^[*xX]$/.test(e.key) && q.extra === 'mul') press('mul'); else if (e.key === '/' && q.extra === 'slash') { e.preventDefault(); press('slash'); } else if (e.key === '-' && Array.isArray(q.extra)) press('neg'); else if (e.key === ',' && Array.isArray(q.extra)) press('comma'); else if (e.key === 'Backspace') press('del'); else if (e.key === 'Enter') { e.preventDefault(); press('ok'); }
     };
     window.addEventListener('keydown', onKey);
   });
