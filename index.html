@@ -2821,6 +2821,97 @@ TRICKS.push(
 TRICKS.sort((x, y) => TORDER.indexOf(x.id) - TORDER.indexOf(y.id));
 TRICKS.forEach(t => { t.sec = TSEC[t.id]; });
 
+/* ---------- v21: probability, interest, counting (High school) ---------- */
+const fracValMatch = (n, d) => g => { const [p, q2] = g.split('/'); const v = q2 === undefined ? +p : +p / +q2; return g !== '' && !/\/$/.test(g) && Number.isFinite(v) && Math.abs(v - n / d) < 1e-9; };
+function probGen(l) {
+  const r = rand; let q, n, d, steps;
+  if (l === 1) {
+    if (Math.random() < 0.5) { const k = r(1, 6); n = 1; d = 6; q = TX(`Roll a dice. Chance of getting a ${k}?`, `पासा फेंको। ${k} आने की संभावना?`); steps = [['A dice has 6 equal sides', 'पासे के 6 बराबर फलक'], [`Only one of them is ${k}: <b>1/6</b>`, `उनमें से सिर्फ़ एक ${k} है: <b>1/6</b>`]]; }
+    else { const t = pick([['an even number', 'सम संख्या', 3], ['a number bigger than 4', '4 से बड़ी संख्या', 2], ['a 1 or a 2', '1 या 2', 2], ['less than 4', '4 से कम', 3]]); n = t[2]; d = 6; q = TX(`Roll a dice. Chance of ${t[0]}?`, `पासा फेंको। ${t[1]} आने की संभावना?`); steps = [[`Good outcomes: ${n} out of 6`, `अच्छे परिणाम: 6 में से ${n}`], [`${n}/6 = <b>${redF(n, 6)}</b>`, `${n}/6 = <b>${redF(n, 6)}</b>`]]; }
+  } else if (l === 2 || l === 3) {
+    const red = r(1, 9), blue = r(1, 9), tot = red + blue, not = l === 3;
+    n = not ? blue : red; d = tot;
+    q = TX(`A bag has ${red} red and ${blue} blue balls. Chance of picking ${not ? 'a ball that is NOT red' : 'red'}?`, `थैले में ${red} लाल और ${blue} नीली गेंदें। ${not ? 'लाल न होने' : 'लाल आने'} की संभावना?`);
+    steps = not ? [[`P(red) = ${red}/${tot}`, `P(लाल) = ${red}/${tot}`], [`P(not red) = 1 − ${red}/${tot} = <b>${redF(n, d)}</b>`, `P(लाल नहीं) = 1 − ${red}/${tot} = <b>${redF(n, d)}</b>`]] : [[`Chance = good ÷ total = ${red} ÷ ${tot}`, `संभावना = अच्छे ÷ कुल = ${red} ÷ ${tot}`], [`= <b>${redF(n, d)}</b>`, `= <b>${redF(n, d)}</b>`]];
+  } else if (l === 4) {
+    const t = pick(['hh', 'atleast', 'same']); d = 4; n = t === 'hh' ? 1 : t === 'atleast' ? 3 : 2;
+    q = TX(`Toss two coins. Chance of ${t === 'hh' ? 'two heads' : t === 'atleast' ? 'at least one head' : 'both the same'}?`, `दो सिक्के उछालो। ${t === 'hh' ? 'दोनों चित' : t === 'atleast' ? 'कम से कम एक चित' : 'दोनों एक जैसे'} आने की संभावना?`);
+    steps = [['List them: HH, HT, TH, TT (4 ways)', 'सूची: HH, HT, TH, TT (4 तरीके)'], [`Good ones: ${t === 'hh' ? 'HH' : t === 'atleast' ? 'HH, HT, TH' : 'HH, TT'} → ${n}/4 = <b>${redF(n, 4)}</b>`, `अच्छे: ${t === 'hh' ? 'HH' : t === 'atleast' ? 'HH, HT, TH' : 'HH, TT'} → ${n}/4 = <b>${redF(n, 4)}</b>`]];
+  } else if (l === 5) {
+    const s = r(2, 12); n = 6 - Math.abs(7 - s); d = 36;
+    const ways = []; for (let a = 1; a <= 6; a++) for (let b = 1; b <= 6; b++) if (a + b === s) ways.push(`${a}+${b}`);
+    q = TX(`Roll two dice. Chance the total is ${s}?`, `दो पासे फेंको। जोड़ ${s} आने की संभावना?`);
+    steps = [['Two dice: 6 × 6 = 36 ways', 'दो पासे: 6 × 6 = 36 तरीके'], [`Ways to make ${s}: ${ways.join(', ')} → ${n}`, `${s} बनाने के तरीके: ${ways.join(', ')} → ${n}`], [`${n}/36 = <b>${redF(n, 36)}</b>`, `${n}/36 = <b>${redF(n, 36)}</b>`]];
+  } else {
+    const red = r(2, 7), other = r(2, 7), tot = red + other; n = red * (red - 1); d = tot * (tot - 1);
+    q = TX(`A box has ${red} red and ${other} green sweets. You take two without looking. Chance both are red?`, `डिब्बे में ${red} लाल और ${other} हरी मिठाइयाँ। बिना देखे दो उठाओ। दोनों लाल होने की संभावना?`);
+    steps = [[`First red: ${red}/${tot}`, `पहली लाल: ${red}/${tot}`], [`Then one red is gone: ${red - 1}/${tot - 1}`, `फिर एक लाल कम: ${red - 1}/${tot - 1}`], [`Multiply: ${red}/${tot} × ${red - 1}/${tot - 1} = ${n}/${d} = <b>${redF(n, d)}</b>`, `गुणा: ${red}/${tot} × ${red - 1}/${tot - 1} = ${n}/${d} = <b>${redF(n, d)}</b>`]];
+  }
+  const a = redF(n, d);
+  return { q, a, kind: 'num', wordy: true, label: 'P =', extra: 'slash', note: ['A fraction like 3/8', 'भिन्न जैसे 3/8'], match: fracValMatch(n, d), steps: [...steps, [`Answer: <b>${a}</b>`, `जवाब: <b>${a}</b>`]], check: a, pr: [n, d] };
+}
+
+function intGen(l) {
+  const r = rand; let q, a, steps, chk;
+  if (l === 1 || l === 2) {
+    const P = r(2, 50) * 100, R = pick([2, 4, 5, 6, 8, 10, 12]), T = r(1, 5), SI = P * R * T / 100;
+    a = l === 1 ? SI : P + SI;
+    q = TX(`₹${P} at ${R}% simple interest for ${T} year${T > 1 ? 's' : ''}. ${l === 1 ? 'Interest?' : 'Total amount?'}`, `₹${P}, ${R}% साधारण ब्याज पर ${T} साल। ${l === 1 ? 'ब्याज?' : 'कुल राशि?'}`);
+    steps = [['Simple interest = P × R × T ÷ 100', 'साधारण ब्याज = P × R × T ÷ 100'], [`${P} × ${R} × ${T} ÷ 100 = <b>${SI}</b>`, `${P} × ${R} × ${T} ÷ 100 = <b>${SI}</b>`]];
+    if (l === 2) steps.push([`Amount = ${P} + ${SI} = <b>${a}</b>`, `राशि = ${P} + ${SI} = <b>${a}</b>`]);
+    chk = l === 1 ? P * (R / 100) * T : P * (1 + R * T / 100);
+  } else if (l === 3) {
+    const P = r(2, 40) * 100, R = pick([2, 4, 5, 6, 8, 10, 12, 15]), T = r(2, 5), SI = P * R * T / 100; a = R;
+    q = TX(`₹${P} earns ₹${SI} simple interest in ${T} years. What is the rate?`, `₹${P} पर ${T} साल में ₹${SI} साधारण ब्याज। दर कितनी?`);
+    steps = [['Rate = Interest × 100 ÷ (P × T)', 'दर = ब्याज × 100 ÷ (P × T)'], [`${SI} × 100 ÷ (${P} × ${T}) = <b>${R}</b>%`, `${SI} × 100 ÷ (${P} × ${T}) = <b>${R}</b>%`]];
+    chk = SI * 100 / (P * T);
+    return { q, a: String(a), kind: 'num', wordy: true, label: TX('Rate =', 'दर ='), suffix: '%', steps: [...steps, [`Answer: <b>${a}%</b>`, `जवाब: <b>${a}%</b>`]], check: String(chk) };
+  } else {
+    const R = pick([5, 10, 20]), T = l === 6 ? pick([2, 3]) : 2, unit = { 5: T === 3 ? 8000 : 400, 10: T === 3 ? 1000 : 100, 20: T === 3 ? 125 : 25 }[R], P = unit * r(1, 20);
+    let amt = P; const yearly = [];
+    for (let i = 0; i < T; i++) { const gain = amt * R / 100; yearly.push([amt, gain]); amt += gain; }
+    if (l === 4) { a = amt; q = TX(`₹${P} at ${R}% compound interest for ${T} years. Total amount?`, `₹${P}, ${R}% चक्रवृद्धि ब्याज पर ${T} साल। कुल राशि?`); }
+    else if (l === 5) { a = amt - P; q = TX(`₹${P} at ${R}% compound interest for ${T} years. How much interest?`, `₹${P}, ${R}% चक्रवृद्धि ब्याज पर ${T} साल। ब्याज कितना?`); }
+    else { a = amt; q = TX(`A town of ${P} people grows by ${R}% every year. How many after ${T} years?`, `${P} लोगों का कस्बा हर साल ${R}% बढ़ता है। ${T} साल बाद कितने?`); }
+    steps = [['Compound: each year earns interest on the new total', 'चक्रवृद्धि: हर साल नई राशि पर ब्याज'], ...yearly.map(([s, g], i) => [`Year ${i + 1}: ${s} + ${R}% of ${s} (${g}) = <b>${s + g}</b>`, `साल ${i + 1}: ${s} + ${s} का ${R}% (${g}) = <b>${s + g}</b>`])];
+    if (l === 5) steps.push([`Interest = ${amt} − ${P} = <b>${a}</b>`, `ब्याज = ${amt} − ${P} = <b>${a}</b>`]);
+    chk = l === 5 ? P * ((1 + R / 100) ** T - 1) : P * (1 + R / 100) ** T;
+    return { q, a: String(a), kind: 'num', wordy: true, label: l === 6 ? '=' : '₹', suffix: '', steps: [...steps, ANS(a)], check: String(Math.round(chk * 1e6) / 1e6) };
+  }
+  return { q, a: String(a), kind: 'num', wordy: true, label: '₹', steps: [...steps, ANS(a)], check: String(Math.round(chk * 1e6) / 1e6) };
+}
+
+const fact = n => (n <= 1 ? 1 : n * fact(n - 1));
+const nPr = (n, k) => fact(n) / fact(n - k), nCr = (n, k) => fact(n) / (fact(k) * fact(n - k));
+function countGen(l) {
+  const r = rand; let q, a, steps;
+  if (l === 1) { const s = r(2, 6), p = r(2, 6), sh = r(1, 4); const three = Math.random() < 0.5; a = s * p * (three ? sh : 1); q = TX(`${s} shirts, ${p} trousers${three ? ` and ${sh} pairs of shoes` : ''}. How many different outfits?`, `${s} कमीज़, ${p} पतलून${three ? ` और ${sh} जोड़ी जूते` : ''}। कितने अलग पहनावे?`); steps = [['Each choice multiplies the ways', 'हर चुनाव तरीकों को गुणा करता है'], [`${s} × ${p}${three ? ` × ${sh}` : ''} = <b>${a}</b>`, `${s} × ${p}${three ? ` × ${sh}` : ''} = <b>${a}</b>`]]; }
+  else if (l === 2) { const n = r(3, 6); a = fact(n); q = TX(`In how many ways can ${n} friends stand in a line?`, `${n} दोस्त कितने तरीकों से लाइन में खड़े हो सकते हैं?`); steps = [[`First place: ${n} choices, then ${n - 1}, then ${n - 2}…`, `पहली जगह: ${n} विकल्प, फिर ${n - 1}, फिर ${n - 2}…`], [`${Array.from({ length: n }, (_, i) => n - i).join(' × ')} = <b>${a}</b>`, `${Array.from({ length: n }, (_, i) => n - i).join(' × ')} = <b>${a}</b>`]]; }
+  else if (l === 3) { const n = r(5, 10), k = r(2, 3); a = nPr(n, k); q = TX(`${n} runners. In how many ways can 1st${k === 3 ? ', 2nd and 3rd' : ' and 2nd'} prize be given?`, `${n} धावक। पहला${k === 3 ? ', दूसरा और तीसरा' : ' और दूसरा'} इनाम कितने तरीकों से दिया जा सकता है?`); steps = [['Order matters, so multiply the falling choices', 'क्रम मायने रखता है, तो घटते विकल्पों का गुणा'], [`${Array.from({ length: k }, (_, i) => n - i).join(' × ')} = <b>${a}</b>`, `${Array.from({ length: k }, (_, i) => n - i).join(' × ')} = <b>${a}</b>`]]; }
+  else if (l === 4) { const n = r(5, 10), k = r(2, 3); a = nCr(n, k); q = TX(`Choose ${k} children from ${n} for a team. How many ways? (order does not matter)`, `${n} बच्चों में से ${k} टीम के लिए चुनो। कितने तरीके? (क्रम मायने नहीं रखता)`); steps = [[`If order mattered: ${Array.from({ length: k }, (_, i) => n - i).join(' × ')} = ${nPr(n, k)}`, `अगर क्रम मायने रखता: ${Array.from({ length: k }, (_, i) => n - i).join(' × ')} = ${nPr(n, k)}`], [`Each team was counted ${fact(k)} times (${k}!), so ${nPr(n, k)} ÷ ${fact(k)} = <b>${a}</b>`, `हर टीम ${fact(k)} बार गिनी गई (${k}!), तो ${nPr(n, k)} ÷ ${fact(k)} = <b>${a}</b>`]]; }
+  else if (l === 5) { if (Math.random() < 0.5) { const n = r(4, 20); a = n * (n - 1) / 2; q = TX(`${n} people each shake hands once with everyone else. How many handshakes?`, `${n} लोग हर किसी से एक बार हाथ मिलाते हैं। कुल कितने?`); steps = [[`Each person shakes ${n - 1} hands: ${n} × ${n - 1} = ${n * (n - 1)}`, `हर व्यक्ति ${n - 1} हाथ मिलाता है: ${n} × ${n - 1} = ${n * (n - 1)}`], [`Each handshake was counted twice: ÷ 2 = <b>${a}</b>`, `हर हाथ मिलाना दो बार गिना: ÷ 2 = <b>${a}</b>`]]; } else { const n = r(5, 12); a = n * (n - 3) / 2; q = TX(`How many diagonals does a ${n}-sided shape have?`, `${n} भुजाओं वाली आकृति के कितने विकर्ण?`); steps = [[`Each corner joins ${n - 3} others (not itself or its 2 neighbours)`, `हर कोना ${n - 3} कोनों से जुड़ता है (ख़ुद और 2 पड़ोसी नहीं)`], [`${n} × ${n - 3} ÷ 2 = <b>${a}</b>`, `${n} × ${n - 3} ÷ 2 = <b>${a}</b>`]]; } }
+  else { const b = r(3, 7), g = r(3, 7), kb = r(1, 3), kg = r(1, 3); a = nCr(b, kb) * nCr(g, kg); q = TX(`Pick ${kb} boy${kb > 1 ? 's' : ''} from ${b} and ${kg} girl${kg > 1 ? 's' : ''} from ${g}. How many ways?`, `${b} लड़कों में से ${kb} और ${g} लड़कियों में से ${kg} चुनो। कितने तरीके?`); steps = [[`Boys: choose ${kb} of ${b} = <b>${nCr(b, kb)}</b>`, `लड़के: ${b} में से ${kb} = <b>${nCr(b, kb)}</b>`], [`Girls: choose ${kg} of ${g} = <b>${nCr(g, kg)}</b>`, `लड़कियाँ: ${g} में से ${kg} = <b>${nCr(g, kg)}</b>`], [`Multiply: ${nCr(b, kb)} × ${nCr(g, kg)} = <b>${a}</b>`, `गुणा: ${nCr(b, kb)} × ${nCr(g, kg)} = <b>${a}</b>`]]; }
+  return { q, a: String(a), kind: 'num', wordy: true, label: '=', steps: [...steps, ANS(a)], check: String(a), cnt: [l, q] };
+}
+
+TRICKS.push(
+  { id: 'prob', icon: '🎲', color: '#f0698f', name: ['Probability', 'प्रायिकता'], sutra: '', gen: probGen,
+    rule: l => [null, ['Chance = good outcomes ÷ all outcomes', 'संभावना = अच्छे परिणाम ÷ सारे परिणाम'], ['Chance = good outcomes ÷ all outcomes', 'संभावना = अच्छे परिणाम ÷ सारे परिणाम'], ['P(not) = 1 − P(it)', 'P(नहीं) = 1 − P(हाँ)'], ['List every outcome first', 'पहले सारे परिणाम लिखो'], ['Two dice: 36 ways, count the good ones', 'दो पासे: 36 तरीके, अच्छे गिनो'], ['One after another: multiply, and remember one is gone', 'एक के बाद एक: गुणा करो, और एक कम हो गया']][l],
+    alt: [['feel', ['Went by feel', 'अंदाज़े से'], '🤞'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['finds chances with one dice', 'finds chances from a bag of balls', 'uses P(not) = 1 − P', 'lists outcomes for two coins', 'finds chances for the total of two dice', 'finds the chance of two picks in a row'] },
+  { id: 'intr', icon: '🏦', color: '#3fbf9a', name: ['Interest (simple and compound)', 'ब्याज (साधारण और चक्रवृद्धि)'], sutra: '', gen: intGen,
+    rule: l => l <= 3 ? ['Simple interest = P × R × T ÷ 100', 'साधारण ब्याज = P × R × T ÷ 100'] : ['Compound: interest on the new total, year after year', 'चक्रवृद्धि: हर साल नई राशि पर ब्याज'],
+    alt: [['formula', ['Used A = P(1 + R/100)ⁿ', 'A = P(1 + R/100)ⁿ लगाया'], '🧮'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['finds simple interest', 'finds the total amount with simple interest', 'finds the rate from the interest', 'finds the amount with compound interest', 'finds compound interest earned', 'uses compound growth for populations'] },
+  { id: 'cnt', icon: '🔢', color: '#9b7be0', name: ['Counting ways (P and C)', 'तरीके गिनना (P और C)'], sutra: '', gen: countGen,
+    rule: l => [null, ['Choices multiply', 'विकल्प गुणा होते हैं'], ['Lining up n things: n × (n − 1) × … × 1', 'n चीज़ें लाइन में: n × (n − 1) × … × 1'], ['Order matters: multiply the falling choices', 'क्रम मायने रखता है: घटते विकल्पों का गुणा'], ['Order does not matter: divide by the repeats', 'क्रम मायने नहीं: दोहराव से भाग'], ['Count each pair once: n × (n − 1) ÷ 2', 'हर जोड़ा एक बार: n × (n − 1) ÷ 2'], ['Choose each group, then multiply', 'हर समूह चुनो, फिर गुणा']][l],
+    alt: [['list', ['Listed them all', 'सब लिख डाले'], '📝'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['counts outfits by multiplying choices', 'counts ways to line people up (n!)', 'counts prize orders (permutations)', 'counts teams (combinations)', 'counts handshakes and diagonals', 'counts mixed teams of boys and girls'] }
+);
+['prob', 'intr', 'cnt'].forEach(id => { TORDER.push(id); TSEC[id] = 'hs'; });
+TRICKS.sort((x, y) => TORDER.indexOf(x.id) - TORDER.indexOf(y.id));
+TRICKS.forEach(t => { t.sec = TSEC[t.id]; });
+
 const TRK = Object.fromEntries(TRICKS.map(t => [t.id, t]));
 
 function TS(p) {
