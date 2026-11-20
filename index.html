@@ -1286,13 +1286,14 @@ function lifeCard(p, s) {
 }
 
 function weekData(p) {
-  const ws = weekStart(), entries = p.log.filter(e => e.ts >= ws);
-  const days = new Set(entries.map(e => dk(e.ts))).size;
-  const mins = Math.round(entries.reduce((a, e) => a + durOf(e), 0) / 60000);
+  const ws = weekStart(), entries = p.log.filter(e => e.ts >= ws), T = TS(p), tentries = p.tlog.filter(e => e.ts >= ws);
+  const days = new Set([...entries, ...tentries].map(e => dk(e.ts))).size;
+  const mins = Math.round((entries.reduce((a, e) => a + durOf(e), 0) + tentries.reduce((a, e) => a + (e.durMs || 0), 0)) / 60000);
+  const tricks = [...new Set(tentries.map(e => e.trick))].map(id => { const es = tentries.filter(e => e.trick === id && e.mode === 'practice'); return { id, from: es.length ? es[0].levelStart : T[id].level, to: T[id].level, sessions: tentries.filter(e => e.trick === id).length, mastered: T[id].mastered }; });
   const skills = SKILLS.map(s => { const es = entries.filter(e => e.skill === s); return { s, from: es.length ? es[0].levelStart : null, to: p.skills[s].level, played: es.length }; });
   const q = p.quests[weekKey()] || {}, tried = Object.values(q).filter(Boolean).length;
   const weakest = skills.filter(x => x.played).sort((a, b) => (a.to - (a.from || a.to)) - (b.to - (b.from || b.to)))[0];
-  return { entries, days, mins, skills, tried, weakest };
+  return { entries, days, mins, skills, tried, weakest, tentries, tricks };
 }
 function weekText(p) {
   const w = weekData(p), name = p.child.name;
@@ -1303,6 +1304,10 @@ function weekText(p) {
     else lines.push(`${SKILL_NAME[x.s]}: not practised this week (level ${x.to}).`);
   });
   lines.push(`Everyday activities tried: ${w.tried} of ${SKILLS.length * 2}.`);
+  if (w.tentries.length) {
+    lines.push('', `Maths tricks: ${w.tentries.length} session${w.tentries.length > 1 ? 's' : ''} this week.`);
+    w.tricks.slice(0, 5).forEach(x => { const t = TRK[x.id]; lines.push(`${t.name[0]}: level ${x.from} → ${x.to}${x.mastered ? ' (mastered 🏅)' : ''}. Now ${t.mean[x.to - 1]}.`); });
+  }
   if (w.weakest) { const a = LIFE[w.weakest.s][0]; lines.push('', `Idea for next week (${SKILL_NAME[w.weakest.s]}): ${a.parent}`); }
   lines.push('', 'Levels describe these exact activities only. They are not an IQ score or a school grade.');
   return lines.join('\n');
@@ -1315,6 +1320,7 @@ function weekCard(p) {
       <div><b>about ${w.mins} min</b><span class="soft">in total</span></div>
       ${w.skills.map(x => `<div><b>${SKILL_NAME[x.s]}: ${x.played ? `${x.from} → ${x.to}` : `${x.to}, not played`}</b><span class="soft">level this week</span></div>`).join('')}
       <div><b>${w.tried} of ${SKILLS.length * 2}</b><span class="soft">everyday activities tried</span></div>
+      <div><b>🧮 ${w.tentries.length} session${w.tentries.length === 1 ? '' : 's'}</b><span class="soft">maths tricks${w.tricks.length ? `: ${w.tricks.slice(0, 3).map(x => `${TRK[x.id].name[0]} ${x.from} → ${x.to}`).join(', ')}` : ''}</span></div>
     </div>
     <div class="row"><a class="btn small" href="${waLink(weekText(p))}" target="_blank" rel="noopener">Send on WhatsApp</a><button class="btn small ghost" data-act="copy-week">Copy summary</button><span class="soft" id="copy-status" role="status"></span></div>
     ${S.copyText ? `<label for="copy-box" class="soft">Your browser blocked copying. Select the text below and copy it yourself.</label><textarea id="copy-box" readonly>${esc(S.copyText)}</textarea>` : ''}
@@ -1374,7 +1380,7 @@ function noteCard(p, todays) {
 }
 
 function weekStrip(p) {
-  const ws = weekStart(), names = ['M', 'T', 'W', 'T', 'F', 'S', 'S'], played = new Set(p.log.map(e => dk(e.ts)));
+  const ws = weekStart(), names = ['M', 'T', 'W', 'T', 'F', 'S', 'S'], played = new Set([...p.log, ...TS(p) && p.tlog].map(e => dk(e.ts)));
   return `<div class="weekstrip" role="img" aria-label="Days practised this week: ${weekData(p).days} of 7">${names.map((d, i) => {
     const day = new Date(ws); day.setDate(day.getDate() + i); const k = dk(day.getTime());
     return `<span class="day ${played.has(k) ? 'on' : ''} ${k === todayKey() ? 'today' : ''}"><i></i>${d}</span>`;
@@ -4027,9 +4033,9 @@ async function makeCard(p) {
   [[120, 80], [930, 140], [980, 620], [60, 900], [880, 1240], [420, 60], [640, 1290]].forEach(([x, y], i) => { const r = 5 + (i % 3) * 2; const gl = g.createRadialGradient(x, y, 0, x, y, r * 5); gl.addColorStop(0, 'rgba(255,207,92,.9)'); gl.addColorStop(1, 'rgba(255,207,92,0)'); g.fillStyle = gl; g.beginPath(); g.arc(x, y, r * 5, 0, Math.PI * 2); g.fill(); });
   g.fillStyle = '#ffcf5c'; g.font = B(700, 32); g.fillText('MINDMINT · THIS WEEK', 80, 120);
   g.fillStyle = '#ece9ff'; g.font = D(800, 86); g.fillText(`${p.child.name}'s week`, 80, 215);
-  const names = ['M', 'T', 'W', 'T', 'F', 'S', 'S'], played = new Set(p.log.map(e => dk(e.ts))), ws = weekStart();
+  const names = ['M', 'T', 'W', 'T', 'F', 'S', 'S'], played = new Set([...p.log, ...wk.tentries].map(e => dk(e.ts))), ws = weekStart();
   names.forEach((d, i) => { const day = new Date(ws); day.setDate(day.getDate() + i); const on = played.has(dk(day.getTime())); const x = 80 + 46 + i * 132; g.beginPath(); g.arc(x, 310, 44, 0, Math.PI * 2); g.fillStyle = on ? '#ffcf5c' : 'rgba(236,233,255,.13)'; g.fill(); g.fillStyle = on ? '#1b1938' : '#b9b5e6'; g.font = D(800, 34); g.textAlign = 'center'; g.fillText(on ? '✓' : d, x, 322); g.textAlign = 'left'; });
-  g.fillStyle = '#ece9ff'; g.font = D(700, 44); g.fillText(`${wk.days} of 7 days   ·   ${wk.mins} min   ·   🌼 ${p.friends.length}`, 80, 440);
+  g.fillStyle = '#ece9ff'; g.font = D(700, 40); g.fillText(`${wk.days} of 7 days  ·  ${wk.mins} min  ·  🌼 ${p.friends.length}  ·  🧮 ${wk.tentries.length}`, 80, 440);
   let y = 530;
   SKILLS.forEach(s => {
     const x = wk.skills.find(q => q.s === s), lv = p.skills[s].level, d = x.played ? x.to - x.from : 0;
@@ -4169,7 +4175,7 @@ function loadDemo() {
   Object.keys(S.profiles).forEach(id => { if (S.profiles[id].demo) delete S.profiles[id]; });
   const id = 'demo-asha';
   const p = { id, created: Date.now(), demo: true, child: { name: 'Asha', band: '7-9', focus: ['memory', 'numbers'], minutes: 10, readAloud: false, noTimer: false, sounds: true }, skills: freshSkills(2), log: [], quests: {}, today: null, friends: [] };
-  p.tricks = { nikhilam: { level: 4, streak: 0, learned: true, mastered: false, plays: 3, best: 9 }, sq5: { level: 2, streak: 1, learned: true, mastered: false, plays: 1, best: 0 } }; p.tlog = [];
+  p.tricks = { nikhilam: { level: 4, streak: 0, learned: true, mastered: false, plays: 3, best: 9 }, sq5: { level: 2, streak: 1, learned: true, mastered: false, plays: 1, best: 0 } }; p.tlog = [[2, 'nikhilam', 3, 4, 300000], [1, 'nikhilam', 4, 4, 240000], [1, 'sq5', 1, 2, 280000]].map(([dAgo, trick, a, b, ms]) => ({ ts: Date.now() - dAgo * 3600000, trick, mode: 'practice', total: 6, correct: 5, results: [true, true, false, true, true, true], levelStart: a, levelEnd: b, newRule: null, strategy: 'trick', durMs: ms }));
   const r = mulberry32(11), ability = { memory: 1.6, focus: 2.4, numbers: 2, noticing: 3, logic: 2.2, words: 2.6 };
   const daysAgo = [14, 13, 11, 10, 9, 7, 6, 4, 3, 2, 1];
   const base = new Date(); base.setHours(18, 30, 0, 0);
