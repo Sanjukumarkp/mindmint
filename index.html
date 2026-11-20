@@ -425,6 +425,7 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .key.wide{grid-column:1/-1;height:54px}
 .key.wide2{grid-column:span 2}
 .nowrap{white-space:nowrap}
+.opt-txt.big{font-size:1.5rem}
 .tq sup,.tsteps sup{font-size:.55em;margin-left:1px;vertical-align:super;line-height:0}
 .pwline{white-space:nowrap}
 .tq.wordy{font:700 1.25rem/1.4 var(--font-body);letter-spacing:0;display:block;text-align:center}
@@ -2632,6 +2633,118 @@ TORDER.push('surd'); TSEC.surd = 'hs';
 TRICKS.sort((x, y) => TORDER.indexOf(x.id) - TORDER.indexOf(y.id));
 TRICKS.forEach(t => { t.sec = TSEC[t.id]; });
 
+/* ---------- v19: trigonometry and coordinates & conics (High school) ---------- */
+const TRIPLES = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29]];
+const TV = { 0: [0, 1, 0], 30: [1 / 4, 3 / 4, 1 / 3], 45: [1 / 2, 1 / 2, 1], 60: [3 / 4, 1 / 4, 3], 90: [1, 0, null] }; // squares of sin, cos, tan
+const TV_TXT = { sin: { 0: '0', 30: '1/2', 45: '1/√2', 60: '√3/2', 90: '1' }, cos: { 0: '1', 30: '√3/2', 45: '1/√2', 60: '1/2', 90: '0' }, tan: { 0: '0', 30: '1/√3', 45: '1', 60: '√3' } };
+const OPTS_TRIG = ['0', '1/2', '1/√2', '√3/2', '1', '√3', '1/√3'];
+const toFrac = x => { for (let d = 1; d <= 64; d++) { const n = Math.round(x * d); if (Math.abs(n / d - x) < 1e-9) return redF(n, d); } return null; };
+function trigGen(l) {
+  const r = rand; let q, a, steps, extra = null, kind = 'num', opts, aHtml, label = '=', match, suffix = '';
+  if (l === 1) {
+    const [p, b, h] = pick(TRIPLES), k = r(1, 3), O = p * k, Aj = b * k, H = h * k, fn = pick(['sin', 'cos', 'tan']);
+    const svg = SVGW(poly([[30, 145], [220, 145], [220, 30]]) + rmark([220, 145], -1, -1, 12) + lbl(125, 160, `${Aj}`) + lbl(238, 88, `${O}`) + lbl(112, 76, `${H}`) + lbl(52, 135, 'A', 'unk'), 'Right-angled triangle');
+    const top = fn === 'sin' ? O : fn === 'cos' ? Aj : O, bot = fn === 'sin' ? H : fn === 'cos' ? H : Aj; a = redF(top, bot);
+    q = qQ(svg, `${TX('Find', 'ढूँढो')} ${fn} A`); extra = 'slash';
+    const nm = { sin: ['opposite ÷ hypotenuse', 'सामने ÷ कर्ण'], cos: ['adjacent ÷ hypotenuse', 'पास ÷ कर्ण'], tan: ['opposite ÷ adjacent', 'सामने ÷ पास'] }[fn];
+    steps = [['SOH CAH TOA: sin = opposite ÷ hypotenuse, cos = adjacent ÷ hypotenuse, tan = opposite ÷ adjacent', 'SOH CAH TOA: sin = सामने ÷ कर्ण, cos = पास ÷ कर्ण, tan = सामने ÷ पास'], [`${fn} A = ${nm[0]} = ${top}/${bot}`, `${fn} A = ${nm[1]} = ${top}/${bot}`]];
+    if (a !== `${top}/${bot}`) steps.push([`Cut it down: <b>${a}</b>`, `काटो: <b>${a}</b>`]);
+    steps.push([`Answer: <b>${a}</b>`, `जवाब: <b>${a}</b>`]);
+    return { q, a, kind, extra, wordy: true, label: `${fn} A =`, note: ['Type it like 3/5', 'ऐसे लिखो: 3/5'], steps, check: toFrac(top / bot), trig: ['ratio', top, bot] };
+  }
+  if (l <= 4) {
+    const fn = l === 2 ? 'sin' : l === 3 ? 'cos' : 'tan', ang = pick(fn === 'tan' ? [0, 30, 45, 60] : [0, 30, 45, 60, 90]), val = TV_TXT[fn][ang];
+    const others = shuffle(OPTS_TRIG.filter(v => v !== val)).slice(0, 3), all = shuffle([val, ...others]);
+    opts = all.map((v, i) => ({ v: `o${OPTS_TRIG.indexOf(v)}`, html: `<span class="opt-txt big">${v}</span>` })); a = `o${OPTS_TRIG.indexOf(val)}`; aHtml = val;
+    const finger = ['Finger trick: for 0°, 30°, 45°, 60°, 90°, sin = √0/2, √1/2, √2/2, √3/2, √4/2', 'उँगली की तरकीब: 0°, 30°, 45°, 60°, 90° पर sin = √0/2, √1/2, √2/2, √3/2, √4/2'];
+    const i = [0, 30, 45, 60, 90].indexOf(ang);
+    steps = fn === 'sin' ? [finger, [`${ang}° is number ${i}: √${i}/2 = <b>${val}</b>`, `${ang}° का नंबर ${i}: √${i}/2 = <b>${val}</b>`]]
+      : fn === 'cos' ? [['cos is sin backwards: cos 0° = sin 90°, cos 30° = sin 60°…', 'cos उल्टा sin है: cos 0° = sin 90°, cos 30° = sin 60°…'], [`cos ${ang}° = sin ${90 - ang}° = <b>${val}</b>`, `cos ${ang}° = sin ${90 - ang}° = <b>${val}</b>`]]
+        : [['tan = sin ÷ cos', 'tan = sin ÷ cos'], [`${TV_TXT.sin[ang]} ÷ ${TV_TXT.cos[ang]} = <b>${val}</b>`, `${TV_TXT.sin[ang]} ÷ ${TV_TXT.cos[ang]} = <b>${val}</b>`]];
+    steps.push([`Answer: <b>${val}</b>`, `जवाब: <b>${val}</b>`]);
+    return { q: `${fn} ${ang}°`, a, kind: 'opt', opts, aHtml, ask: ['Pick the value', 'मान चुनो'], steps, check: a, trig: ['val', fn, ang, val] };
+  }
+  if (l === 5) {
+    const T = [
+      ['sin²30° + cos²30°', () => TV[30][0] + TV[30][1], 'sin² + cos² is always 1'], ['sin²60° + cos²60°', () => TV[60][0] + TV[60][1], 'sin² + cos² is always 1'],
+      ['4 sin²30°', () => 4 * TV[30][0], `sin²30° = 1/4`], ['2 cos²45°', () => 2 * TV[45][1], 'cos²45° = 1/2'], ['tan²60°', () => TV[60][2], 'tan 60° = √3, squared = 3'], ['3 tan²30°', () => 3 * TV[30][2], 'tan²30° = 1/3'],
+      ['sin 30° × cos 60°', () => 0.25, 'sin 30° = 1/2, cos 60° = 1/2'], ['cos²30°', () => TV[30][1], 'cos 30° = √3/2, squared = 3/4'], ['sin²45°', () => TV[45][0], 'sin 45° = 1/√2, squared = 1/2'],
+      ['tan²45° + sin²30°', () => 1 + TV[30][0], 'tan²45° = 1, sin²30° = 1/4'], ['sin 90° + cos 0°', () => 2, 'both are 1'], ['2 sin 30° + tan 45°', () => 2, 'sin 30° = 1/2, tan 45° = 1'], ['4 cos²60° + tan²60°', () => 4 * TV[60][1] + TV[60][2], 'cos²60° = 1/4, tan²60° = 3'], ['sin²60° − cos²60°', () => TV[60][0] - TV[60][1], 'sin²60° = 3/4, cos²60° = 1/4']
+    ];
+    const [e, f, why] = pick(T), v = f(); a = toFrac(v);
+    return { q: e, a, kind: 'num', extra: 'slash', note: ['Fractions like 3/4', 'भिन्न ऐसे: 3/4'], steps: [[`Use the table values: ${why}`, `तालिका के मान लगाओ: ${why}`], [`= <b>${a}</b>`, `= <b>${a}</b>`], [`Answer: <b>${a}</b>`, `जवाब: <b>${a}</b>`]], check: a, trig: ['expr', e, v] };
+  }
+  const kindH = pick(['tan45', 'sin30', 'cos60']); let svg, txt, chk;
+  if (kindH === 'tan45') { const d = r(2, 30) * 5; a = String(d); chk = d * Math.tan(Math.PI / 4); txt = TX(`From ${d} m away, the top of a tower is at 45°. How tall is it?`, `${d} मी. दूर से मीनार का शिखर 45° पर दिखता है। ऊँचाई कितनी?`); steps = [['tan = height ÷ distance', 'tan = ऊँचाई ÷ दूरी'], [`tan 45° = 1, so height = distance = <b>${d}</b>`, `tan 45° = 1, तो ऊँचाई = दूरी = <b>${d}</b>`]]; svg = SVGW(ln([30, 145], [200, 145]) + ln([200, 145], [200, 25], 'edge') + ln([30, 145], [200, 25], 'dim') + lbl(115, 160, `${d} m`) + lbl(62, 133, '45°') + lbl(222, 85, '?', 'unk'), 'Tower'); }
+  else if (kindH === 'sin30') { const L = r(2, 20) * 2; a = String(L / 2); chk = L * Math.sin(Math.PI / 6); txt = TX(`A ${L} m ladder leans at 30° to the ground. How high up the wall does it reach?`, `${L} मी. की सीढ़ी ज़मीन से 30° पर टिकी है। दीवार पर कितनी ऊँचाई तक?`); steps = [['sin = height ÷ ladder (hypotenuse)', 'sin = ऊँचाई ÷ सीढ़ी (कर्ण)'], [`height = ${L} × sin 30° = ${L} × 1/2 = <b>${L / 2}</b>`, `ऊँचाई = ${L} × sin 30° = ${L} × 1/2 = <b>${L / 2}</b>`]]; svg = SVGW(ln([20, 145], [230, 145]) + ln([210, 145], [210, 25], 'edge') + ln([40, 145], [210, 50], 'sh') + lbl(115, 85, `${L} m`) + lbl(72, 136, '30°') + lbl(228, 95, '?', 'unk'), 'Ladder'); }
+  else { const L = r(2, 20) * 2; a = String(L / 2); chk = L * Math.cos(Math.PI / 3); txt = TX(`A ${L} m ladder makes 60° with the ground. How far is its foot from the wall?`, `${L} मी. की सीढ़ी ज़मीन से 60° बनाती है। उसका पैर दीवार से कितना दूर?`); steps = [['cos = distance ÷ ladder (hypotenuse)', 'cos = दूरी ÷ सीढ़ी (कर्ण)'], [`distance = ${L} × cos 60° = ${L} × 1/2 = <b>${L / 2}</b>`, `दूरी = ${L} × cos 60° = ${L} × 1/2 = <b>${L / 2}</b>`]]; svg = SVGW(ln([20, 145], [230, 145]) + ln([210, 145], [210, 25], 'edge') + ln([130, 145], [210, 30], 'sh') + lbl(155, 80, `${L} m`) + lbl(150, 135, '60°') + lbl(170, 160, '?', 'unk'), 'Ladder'); }
+  steps.push([`Answer: <b>${a} m</b>`, `जवाब: <b>${a} m</b>`]);
+  return { q: qQ(svg, txt), a, kind: 'num', wordy: true, label: '=', suffix: 'm', steps, check: String(Math.round(chk * 1e6) / 1e6), trig: ['height'] };
+}
+
+const pairMatch = (x, y) => g => { const v = g.split(','); return v.length === 2 && v.every(s => s !== '' && s !== '-') && +v[0] === x && +v[1] === y; };
+const P2 = (x, y) => `(${sgn(x)}, ${sgn(y)})`;
+function conGen(l) {
+  const r = rand, nz3 = (lo, hi) => { let v; do { v = r(lo, hi); } while (v === 0); return v; };
+  if (l === 1) {
+    const [p, b, h] = pick(TRIPLES.slice(0, 3)), k = r(1, 2), x1 = r(-6, 6), y1 = r(-6, 6), sx = pick([1, -1]), sy = pick([1, -1]), x2 = x1 + sx * p * k, y2 = y1 + sy * b * k, d = h * k;
+    return { q: `<span class="tq-l">${TX('Distance between', 'दूरी')}</span> ${P2(x1, y1)} ${TX('and', 'और')} ${P2(x2, y2)}`, a: String(d), kind: 'num', wordy: true, label: '=',
+      steps: [[`Across: ${sgn(x2)} − ${x1 < 0 ? `(${sgn(x1)})` : x1} = ${sgn(x2 - x1)}. Up: ${sgn(y2)} − ${y1 < 0 ? `(${sgn(y1)})` : y1} = ${sgn(y2 - y1)}`, `आड़ा: ${sgn(x2)} − ${x1 < 0 ? `(${sgn(x1)})` : x1} = ${sgn(x2 - x1)}। खड़ा: ${sgn(y2)} − ${y1 < 0 ? `(${sgn(y1)})` : y1} = ${sgn(y2 - y1)}`], [`√(${(x2 - x1) ** 2} + ${(y2 - y1) ** 2}) = √${d * d} = <b>${d}</b>`, `√(${(x2 - x1) ** 2} + ${(y2 - y1) ** 2}) = √${d * d} = <b>${d}</b>`], ANS(d)], check: String(Math.hypot(x2 - x1, y2 - y1)), con: ['dist'] };
+  }
+  if (l === 2) {
+    let x1, x2, y1, y2; do { x1 = r(-10, 10); x2 = r(-10, 10); y1 = r(-10, 10); y2 = r(-10, 10); } while ((x1 + x2) % 2 || (y1 + y2) % 2 || (x1 === x2 && y1 === y2));
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, A = `${mx},${my}`;
+    return { q: `<span class="tq-l">${TX('Midpoint of', 'मध्य-बिंदु')}</span> ${P2(x1, y1)} ${TX('and', 'और')} ${P2(x2, y2)}`, a: A, kind: 'num', wordy: true, label: '(x, y) =', extra: ['neg', 'comma'], note: ['Type it like 3, −2', 'ऐसे लिखो: 3, −2'], match: pairMatch(mx, my),
+      steps: [['Midpoint = halfway: add and halve each', 'मध्य-बिंदु = बीच: जोड़ो और आधा करो'], [`x: (${sgn(x1)} + ${x2 < 0 ? `(${sgn(x2)})` : x2}) ÷ 2 = <b>${sgn(mx)}</b>`, `x: (${sgn(x1)} + ${x2 < 0 ? `(${sgn(x2)})` : x2}) ÷ 2 = <b>${sgn(mx)}</b>`], [`y: (${sgn(y1)} + ${y2 < 0 ? `(${sgn(y2)})` : y2}) ÷ 2 = <b>${sgn(my)}</b>`, `y: (${sgn(y1)} + ${y2 < 0 ? `(${sgn(y2)})` : y2}) ÷ 2 = <b>${sgn(my)}</b>`], [`Answer: <b>${P2(mx, my)}</b>`, `जवाब: <b>${P2(mx, my)}</b>`]], check: `${(x1 + x2) / 2},${(y1 + y2) / 2}`, con: ['mid'] };
+  }
+  if (l === 3) {
+    let x1, x2, y1, y2; do { x1 = r(-8, 8); x2 = r(-8, 8); y1 = r(-8, 8); y2 = r(-8, 8); } while (x1 === x2);
+    const dy = y2 - y1, dx = x2 - x1, g = gcd(dy, dx) || 1; let n = dy / g, d = dx / g; if (d < 0) { n = -n; d = -d; }
+    const A = d === 1 ? String(n) : `${n}/${d}`;
+    return { q: `<span class="tq-l">${TX('Slope of the line through', 'रेखा की ढलान, जो गुज़रे')}</span> ${P2(x1, y1)} ${TX('and', 'और')} ${P2(x2, y2)}`, a: A, kind: 'num', wordy: true, label: 'm =', extra: ['neg', 'slash'], note: ['Fractions like −3/4', 'भिन्न ऐसे: −3/4'],
+      match: gv => { const [p, qq] = gv.split('/'); const val = qq === undefined ? +p : +p / +qq; return gv !== '' && Number.isFinite(val) && Math.abs(val - dy / dx) < 1e-9; },
+      steps: [['Slope = rise ÷ run = (y₂ − y₁) ÷ (x₂ − x₁)', 'ढलान = ऊपर ÷ आगे = (y₂ − y₁) ÷ (x₂ − x₁)'], [`(${sgn(y2)} − ${y1 < 0 ? `(${sgn(y1)})` : y1}) ÷ (${sgn(x2)} − ${x1 < 0 ? `(${sgn(x1)})` : x1}) = ${sgn(dy)} ÷ ${sgn(dx)}`, `(${sgn(y2)} − ${y1 < 0 ? `(${sgn(y1)})` : y1}) ÷ (${sgn(x2)} − ${x1 < 0 ? `(${sgn(x1)})` : x1}) = ${sgn(dy)} ÷ ${sgn(dx)}`], [`= <b>${fmtA(A)}</b>`, `= <b>${fmtA(A)}</b>`], [`Answer: <b>${fmtA(A)}</b>`, `जवाब: <b>${fmtA(A)}</b>`]], check: A, con: ['slope', dy, dx] };
+  }
+  if (l === 4) {
+    const h = r(-9, 9), k = r(-9, 9), rr = r(1, 12), askC = h !== 0 && k !== 0 && Math.random() < 0.5;
+    const bx = h === 0 ? 'x²' : `(x ${h < 0 ? '+' : '−'} ${Math.abs(h)})²`, by = k === 0 ? 'y²' : `(y ${k < 0 ? '+' : '−'} ${Math.abs(k)})²`;
+    const q = `${bx} + ${by} = ${rr * rr}`;
+    if (askC) return { q: `<span class="pwline">${q}</span><span class="tq-l">${TX('Centre of the circle?', 'वृत्त का केंद्र?')}</span>`, a: `${h},${k}`, kind: 'num', label: '(x, y) =', extra: ['neg', 'comma'], note: ['Type it like 3, −2', 'ऐसे लिखो: 3, −2'], match: pairMatch(h, k),
+      steps: [['(x − h)² + (y − k)² = r² has centre (h, k)', '(x − h)² + (y − k)² = r² का केंद्र (h, k)'], ['Flip the signs inside the brackets', 'कोष्ठक के अंदर का चिह्न उलटो'], [`Answer: <b>${P2(h, k)}</b>`, `जवाब: <b>${P2(h, k)}</b>`]], check: `${h},${k}`, con: ['centre'] };
+    return { q: `<span class="pwline">${q}</span><span class="tq-l">${TX('Radius of the circle?', 'वृत्त की त्रिज्या?')}</span>`, a: String(rr), kind: 'num', label: 'r =', steps: [['The number on the right is r²', 'दाईं ओर की संख्या r² है'], [`r = √${rr * rr} = <b>${rr}</b>`, `r = √${rr * rr} = <b>${rr}</b>`], ANS(rr)], check: String(Math.sqrt(rr * rr)), con: ['radius'] };
+  }
+  if (l === 5) {
+    let h, k, rr, c; do { h = r(-8, 8); k = r(-8, 8); rr = r(1, 10); c = h * h + k * k - rr * rr; } while (h === 0 || k === 0);
+    const q = `x² + y² ${term(-2 * h, 'x', false)}${term(-2 * k, 'y', false)}${term(c, '', false)} = 0`;
+    return { q: `<span class="pwline">${q}</span><span class="tq-l">${TX('Radius of the circle?', 'वृत्त की त्रिज्या?')}</span>`, a: String(rr), kind: 'num', label: 'r =',
+      steps: [[`Centre = (half of x's number, flipped; same for y) = ${P2(h, k)}`, `केंद्र = (x वाली संख्या का आधा, चिह्न उलटा; y का भी) = ${P2(h, k)}`], [`r² = ${sgn(h)}² + ${sgn(k)}² − (${sgn(c)}) = ${h * h} + ${k * k} ${c < 0 ? '+' : '−'} ${Math.abs(c)} = <b>${rr * rr}</b>`, `r² = ${sgn(h)}² + ${sgn(k)}² − (${sgn(c)}) = ${h * h} + ${k * k} ${c < 0 ? '+' : '−'} ${Math.abs(c)} = <b>${rr * rr}</b>`], [`r = √${rr * rr} = <b>${rr}</b>`, `r = √${rr * rr} = <b>${rr}</b>`], ANS(rr)], check: String(Math.sqrt(h * h + k * k - c)), con: ['gen', h, k, c] };
+  }
+  const t = pick(['py', 'px', 'el']);
+  if (t === 'el') {
+    let A, B; do { A = r(2, 12); B = r(1, 11); } while (B >= A);
+    return { q: `<span class="pwline"><span class="frac"><span>x²</span><span>${A * A}</span></span> + <span class="frac"><span>y²</span><span>${B * B}</span></span> = 1</span><span class="tq-l">${TX('Ellipse: length of the long (major) axis?', 'दीर्घवृत्त: लंबे (दीर्घ) अक्ष की लंबाई?')}</span>`, a: String(2 * A), kind: 'num', label: '=',
+      steps: [[`The bigger number under x² or y² is a²: a² = ${A * A}, so a = ${A}`, `x² या y² के नीचे बड़ी संख्या a² है: a² = ${A * A}, तो a = ${A}`], [`Major axis = 2a = <b>${2 * A}</b>`, `दीर्घ अक्ष = 2a = <b>${2 * A}</b>`], ANS(2 * A)], check: String(2 * Math.sqrt(A * A)), con: ['ell'] };
+  }
+  const aa = nz3(-6, 6), coef = 4 * aa, fx = t === 'py' ? aa : 0, fy = t === 'py' ? 0 : aa;
+  const q = t === 'py' ? `y² = ${coef < 0 ? '−' : ''}${Math.abs(coef)}x` : `x² = ${coef < 0 ? '−' : ''}${Math.abs(coef)}y`;
+  return { q: `<span class="pwline">${q}</span><span class="tq-l">${TX('Parabola: where is the focus?', 'परवलय: नाभि कहाँ है?')}</span>`, a: `${fx},${fy}`, kind: 'num', label: '(x, y) =', extra: ['neg', 'comma'], note: ['Type it like 3, 0', 'ऐसे लिखो: 3, 0'], match: pairMatch(fx, fy),
+    steps: [[t === 'py' ? 'y² = 4ax has its focus at (a, 0)' : 'x² = 4ay has its focus at (0, a)', t === 'py' ? 'y² = 4ax की नाभि (a, 0) पर' : 'x² = 4ay की नाभि (0, a) पर'], [`4a = ${sgn(coef)}, so a = ${sgn(coef)} ÷ 4 = <b>${sgn(aa)}</b>`, `4a = ${sgn(coef)}, तो a = ${sgn(coef)} ÷ 4 = <b>${sgn(aa)}</b>`], [`Answer: <b>${P2(fx, fy)}</b>`, `जवाब: <b>${P2(fx, fy)}</b>`]], check: `${t === 'py' ? coef / 4 : 0},${t === 'py' ? 0 : coef / 4}`, con: ['par'] };
+}
+
+TRICKS.push(
+  { id: 'trig', icon: '📐', color: '#3fbf9a', name: ['Trigonometry', 'त्रिकोणमिति'], sutra: '', gen: trigGen,
+    rule: l => [null, ['SOH CAH TOA', 'SOH CAH TOA'], ['Finger trick: sin = √0/2, √1/2, √2/2, √3/2, √4/2', 'उँगली की तरकीब: sin = √0/2, √1/2, √2/2, √3/2, √4/2'], ['cos is sin read backwards', 'cos, sin को उल्टा पढ़ना है'], ['tan = sin ÷ cos', 'tan = sin ÷ cos'], ['Put in the table values, then work it out', 'तालिका के मान रखो, फिर हल करो'], ['Heights and distances: pick sin, cos or tan by the sides you know', 'ऊँचाई और दूरी: जानी भुजाओं से sin, cos या tan चुनो']][l],
+    alt: [['calc', ['Used a calculator in my head', 'मन में हिसाब लगाया'], '🧮'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['finds sin, cos and tan from a right-angled triangle', 'knows sin of 0°, 30°, 45°, 60°, 90°', 'knows cos of the standard angles', 'knows tan of the standard angles', 'works out expressions like 4 sin²30° + tan²60°', 'solves height and distance problems'] },
+  { id: 'con', icon: '🛰️', color: '#9b7be0', name: ['Coordinates and conics', 'निर्देशांक और शंकु'], sutra: '', gen: conGen,
+    rule: l => [null, ['Distance = √(across² + up²)', 'दूरी = √(आड़ा² + खड़ा²)'], ['Midpoint: add and halve each', 'मध्य-बिंदु: हर एक को जोड़ो और आधा करो'], ['Slope = rise ÷ run', 'ढलान = ऊपर ÷ आगे'], ['Circle (x − h)² + (y − k)² = r²: centre (h, k), radius r', 'वृत्त (x − h)² + (y − k)² = r²: केंद्र (h, k), त्रिज्या r'], ['Long form: centre = half the x and y numbers, flipped', 'लंबा रूप: केंद्र = x और y की संख्याओं का आधा, चिह्न उलटा'], ['Parabola y² = 4ax: focus (a, 0). Ellipse: major axis = 2a', 'परवलय y² = 4ax: नाभि (a, 0)। दीर्घवृत्त: दीर्घ अक्ष = 2a']][l],
+    alt: [['draw', ['Drew a graph', 'ग्राफ़ बनाया'], '📈'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+    mean: ['finds the distance between two points', 'finds the midpoint of two points', 'finds the slope of a line', 'reads the centre and radius of a circle', 'finds the radius from the long form of a circle', 'finds a parabola’s focus and an ellipse’s major axis'] }
+);
+['trig', 'con'].forEach(id => { TORDER.push(id); TSEC[id] = 'hs'; });
+TRICKS.sort((x, y) => TORDER.indexOf(x.id) - TORDER.indexOf(y.id));
+TRICKS.forEach(t => { t.sec = TSEC[t.id]; });
+
 const TRK = Object.fromEntries(TRICKS.map(t => [t.id, t]));
 
 function TS(p) {
@@ -2800,7 +2913,7 @@ function askQuestion0(board, q, ui, o) {
       if (!ui.alive()) { window.removeEventListener('keydown', onKey); return; }
       if (q.kind === 'opt') return;
       if (yn) { if (/^[yY]$/.test(e.key)) finish('yes'); else if (/^[nN]$/.test(e.key)) finish('no'); return; }
-      if (/^[0-9]$/.test(e.key)) press(e.key); else if (e.key === '.' && q.dot) press('dot'); else if (/^[rR]$/.test(e.key) && q.extra === 'rem') press('rem'); else if (/^[*xX]$/.test(e.key) && q.extra === 'mul') press('mul'); else if (e.key === '/' && q.extra === 'slash') { e.preventDefault(); press('slash'); } else if (e.key === '-' && Array.isArray(q.extra)) press('neg'); else if (e.key === ',' && Array.isArray(q.extra)) press('comma'); else if (e.key === 'Backspace') press('del'); else if (e.key === 'Enter') { e.preventDefault(); press('ok'); }
+      if (/^[0-9]$/.test(e.key)) press(e.key); else if (e.key === '.' && q.dot) press('dot'); else if (/^[rR]$/.test(e.key) && q.extra === 'rem') press('rem'); else if (/^[*xX]$/.test(e.key) && q.extra === 'mul') press('mul'); else if (e.key === '/' && (q.extra === 'slash' || (Array.isArray(q.extra) && q.extra.includes('slash')))) { e.preventDefault(); press('slash'); } else if (e.key === '-' && Array.isArray(q.extra) && q.extra.includes('neg')) press('neg'); else if (e.key === ',' && Array.isArray(q.extra) && q.extra.includes('comma')) press('comma'); else if (e.key === 'Backspace') press('del'); else if (e.key === 'Enter') { e.preventDefault(); press('ok'); }
     };
     window.addEventListener('keydown', onKey);
   });
