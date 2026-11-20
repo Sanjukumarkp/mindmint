@@ -425,6 +425,8 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .key.wide{grid-column:1/-1;height:54px}
 .key.wide2{grid-column:span 2}
 .nowrap{white-space:nowrap}
+.tq sup,.tsteps sup{font-size:.55em;margin-left:1px;vertical-align:super;line-height:0}
+.pwline{white-space:nowrap}
 .tq.wordy{font:700 1.25rem/1.4 var(--font-body);letter-spacing:0;display:block;text-align:center}
 .tq.wordy .frac{font:800 1.7rem var(--font-display);margin:0 4px}
 .tq2{margin-top:10px}
@@ -2577,6 +2579,56 @@ TRICKS.push({ id: 'qeq', icon: '📈', color: '#4c9be8', name: ['Quadratic equat
   mean: ['solves x² = n² (both answers)', 'solves equations already in brackets', 'factorises x² + bx + c with positive answers', 'factorises with negative answers', 'factorises when there is a number in front of x²', "uses Sridharacharya's b² − 4ac check to count solutions"] });
 TSECTIONS.push(['hs', ['High school (14+)', 'हाई स्कूल (14+)'], '🎓']);
 TORDER.push('qeq'); TSEC.qeq = 'hs';
+TRICKS.sort((x, y) => TORDER.indexOf(x.id) - TORDER.indexOf(y.id));
+TRICKS.forEach(t => { t.sec = TSEC[t.id]; });
+
+/* ---------- v18: surds and indices (High school) ---------- */
+const sup = (b, e) => `${b}<sup>${e}</sup>`;
+const SQ_FREE = [2, 3, 5, 6, 7, 10, 11];
+function surdGen(l) {
+  const r = rand; let q, a, steps, label = '=', suffix = '', vf;
+  if (l === 1) {
+    const b = r(2, 9), m = r(2, 9), n = r(2, 9); a = m + n; q = `${sup(b, m)} × ${sup(b, n)} = ${sup(b, '?')}`; label = TX('Power:', 'घात:');
+    steps = [['Same base, multiplying → add the powers', 'एक ही आधार, गुणा → घात जोड़ो'], [`${m} + ${n} = <b>${a}</b>`, `${m} + ${n} = <b>${a}</b>`]]; vf = () => m + n === a;
+  } else if (l === 2) {
+    const b = r(2, 9);
+    if (Math.random() < 0.5) { const m = r(2, 6), n = r(2, 5); a = m * n; q = `(${sup(b, m)})${'<sup>' + n + '</sup>'} = ${sup(b, '?')}`; steps = [['A power of a power → multiply the powers', 'घात की घात → घात का गुणा'], [`${m} × ${n} = <b>${a}</b>`, `${m} × ${n} = <b>${a}</b>`]]; vf = () => m * n === a; }
+    else { const n = r(2, 8), m = n + r(1, 9); a = m - n; q = `${sup(b, m)} ÷ ${sup(b, n)} = ${sup(b, '?')}`; steps = [['Same base, dividing → take away the powers', 'एक ही आधार, भाग → घात घटाओ'], [`${m} − ${n} = <b>${a}</b>`, `${m} − ${n} = <b>${a}</b>`]]; vf = () => m - n === a; }
+    label = TX('Power:', 'घात:');
+  } else if (l === 3) {
+    if (Math.random() < 0.25) { const b = r(2, 99); a = 1; q = sup(b, 0); steps = [['Anything (except 0) to the power 0 is <b>1</b>', '0 को छोड़कर किसी भी संख्या की घात 0 = <b>1</b>']]; vf = () => Math.pow(b, 0) === 1; }
+    else { const root = pick([2, 3]), p = r(1, 3), base = r(2, root === 2 ? 9 : 5), N = base ** root; a = base ** p; q = sup(N, p === 1 ? `1/${root}` : `${p}/${root}`);
+      steps = [[`The bottom of the fraction is the root: ${root === 2 ? 'square' : 'cube'} root of ${N} = <b>${base}</b>`, `भिन्न का नीचे वाला = मूल: ${N} का ${root === 2 ? 'वर्ग' : 'घन'}मूल = <b>${base}</b>`]];
+      if (p > 1) steps.push([`The top is the power: ${sup(base, p)} = <b>${a}</b>`, `ऊपर वाला = घात: ${sup(base, p)} = <b>${a}</b>`]);
+      vf = () => Math.abs(Math.pow(N, p / root) - a) < 1e-9; }
+  } else if (l === 4) {
+    const k = r(2, 10), f = pick(SQ_FREE), N = k * k * f; a = k; q = `√${N}`; suffix = `√${f}`;
+    steps = [[`Biggest square that goes into ${N}: <b>${k * k}</b> (${N} = ${k * k} × ${f})`, `${N} में जाने वाला सबसे बड़ा वर्ग: <b>${k * k}</b> (${N} = ${k * k} × ${f})`], [`√${N} = √${k * k} × √${f} = <b>${k}√${f}</b>`, `√${N} = √${k * k} × √${f} = <b>${k}√${f}</b>`]];
+    vf = () => Math.abs(Math.sqrt(N) - a * Math.sqrt(f)) < 1e-9;
+  } else if (l === 5) {
+    const f = pick([2, 3, 5]), p = r(1, 9), k = r(2, 4), m = r(1, 5), sign = Math.random() < 0.5 ? 1 : -1, inner = k * k * f;
+    a = p + sign * m * k; if (a <= 0) return surdGen(l);
+    const cp = p === 1 ? '' : p, cm = m === 1 ? '' : m;
+    q = `${cp}√${f} ${sign > 0 ? '+' : '−'} ${cm}√${inner}`; suffix = `√${f}`;
+    steps = [[`Make them the same surd: √${inner} = √${k * k} × √${f} = ${k}√${f}`, `एक जैसी करणी बनाओ: √${inner} = √${k * k} × √${f} = ${k}√${f}`], [`So ${cm}√${inner} = ${m * k}√${f}`, `तो ${cm}√${inner} = ${m * k}√${f}`], [`${p} ${sign > 0 ? '+' : '−'} ${m * k} = <b>${a}</b>, so <b>${a}√${f}</b>`, `${p} ${sign > 0 ? '+' : '−'} ${m * k} = <b>${a}</b>, तो <b>${a}√${f}</b>`]];
+    vf = () => Math.abs(p * Math.sqrt(f) + sign * m * Math.sqrt(inner) - a * Math.sqrt(f)) < 1e-9;
+  } else if (Math.random() < 0.5) {
+    const f = pick(SQ_FREE), x = r(1, 6), y = r(1, 6), A = x * x * f, B = y * y * f; a = x * y * f; q = `√${A} × √${B}`;
+    steps = [[`Multiply under one root: √(${A} × ${B}) = √${A * B}`, `एक ही मूल में गुणा: √(${A} × ${B}) = √${A * B}`], [`${A * B} = ${a} × ${a}, so the answer is <b>${a}</b>`, `${A * B} = ${a} × ${a}, तो जवाब <b>${a}</b>`]];
+    vf = () => Math.abs(Math.sqrt(A) * Math.sqrt(B) - a) < 1e-9;
+  } else {
+    let p, f; do { p = r(2, 9); f = pick(SQ_FREE); } while (p * p - f <= 0); a = p * p - f; q = `(${p} + √${f})(${p} − √${f})`;
+    steps = [['Trick: (a + b)(a − b) = a² − b²', 'तरकीब: (a + b)(a − b) = a² − b²'], [`${p}² − (√${f})² = ${p * p} − ${f} = <b>${a}</b>`, `${p}² − (√${f})² = ${p * p} − ${f} = <b>${a}</b>`]];
+    vf = () => Math.abs((p + Math.sqrt(f)) * (p - Math.sqrt(f)) - a) < 1e-9;
+  }
+  steps.push([`Answer: <b>${a}${suffix}</b>`, `जवाब: <b>${a}${suffix}</b>`]);
+  return { q: `<span class="pwline">${q}</span>`, a: String(a), kind: 'num', label, suffix, steps, check: String(a), vf };
+}
+TRICKS.push({ id: 'surd', icon: '🔼', color: '#f0698f', name: ['Surds and indices', 'करणी और घातांक'], sutra: '', gen: surdGen,
+  rule: l => [null, ['Same base, × → add the powers', 'एक आधार, × → घात जोड़ो'], ['Power of a power → multiply; ÷ → take away', 'घात की घात → गुणा; ÷ → घटाओ'], ['Power 0 → 1. Fraction power: bottom = root, top = power', 'घात 0 → 1। भिन्न घात: नीचे = मूल, ऊपर = घात'], ['Pull out the biggest square: √72 = 6√2', 'सबसे बड़ा वर्ग बाहर: √72 = 6√2'], ['Make the surds match, then add', 'करणी एक जैसी करो, फिर जोड़ो'], ['√a × √b = √(ab); (a + √b)(a − √b) = a² − b', '√a × √b = √(ab); (a + √b)(a − √b) = a² − b']][l],
+  alt: [['calc', ['Worked out the big numbers', 'बड़ी संख्याएँ निकालीं'], '🧮'], ['guess', ['Guessed', 'अंदाज़ा लगाया'], '🎲']],
+  mean: ['multiplies powers with the same base', 'divides powers and takes powers of powers', 'works out zero and fraction powers, like 27^(2/3)', 'simplifies surds, like √72 = 6√2', 'adds and takes away surds', 'multiplies surds and uses (a + √b)(a − √b)'] });
+TORDER.push('surd'); TSEC.surd = 'hs';
 TRICKS.sort((x, y) => TORDER.indexOf(x.id) - TORDER.indexOf(y.id));
 TRICKS.forEach(t => { t.sec = TSEC[t.id]; });
 
